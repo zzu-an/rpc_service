@@ -1,0 +1,27 @@
+Name: store-api
+Host: 127.0.0.1
+Port: 8888
+Mode: dev
+MySQL:
+  DataSource: service_rpc:service_rpc_dev@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC&multiStatements=true
+  MaxOpenConns: 10
+  MaxIdleConns: 5
+  ConnMaxLifetimeSeconds: 300
+Auth:
+  AccessSecret: local-development-secret-change-me-2026
+  AccessTTLSeconds: 900
+
+#  Mysql:
+#  容器名：service-rpc-mysql
+#  地址：127.0.0.1
+#  端口：3307
+#  数据库：service_rpc
+#  用户名：service_rpc
+#  密码：service_rpc_dev
+
+#  root账户:
+#  用户名：root
+#  密码：service_rpc_root
+
+#  测试数据库:
+#  service_rpc_test

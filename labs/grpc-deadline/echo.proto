@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package lab.echo.v1;
+
+option go_package = "service_rpc/labs/grpc-deadline";
+
+import "google/protobuf/wrappers.proto";
+
+// Wrappers keep this lab focused on RPC behavior. A production schema should
+// use domain-specific request/response messages.
+service EchoService {
+  rpc UnaryEcho(google.protobuf.StringValue) returns (google.protobuf.StringValue);
+  rpc ServerStream(google.protobuf.StringValue) returns (stream google.protobuf.StringValue);
+  rpc ClientStream(stream google.protobuf.StringValue) returns (google.protobuf.StringValue);
+}
