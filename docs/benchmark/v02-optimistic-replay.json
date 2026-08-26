@@ -1,0 +1,7048 @@
+{
+  "generated_at": "2026-08-26T14:39:03.765461Z",
+  "base_url": "http://127.0.0.1:8888",
+  "strategy_label": "optimistic",
+  "scenario": "replay",
+  "item_id": 33,
+  "concurrency": 100,
+  "requests": 1000,
+  "configured_stock": 1000,
+  "setup_duration_ms": 430.359875,
+  "benchmark_duration_ms": 7796.82775,
+  "throughput_qps": 128.2572902806529,
+  "counts": {
+    "http_200": 996,
+    "created": 1,
+    "replayed": 995,
+    "out_of_stock": 0,
+    "unavailable": 0,
+    "inventory_busy": 0,
+    "server_timeout": 4,
+    "server_rejected": 0,
+    "network_error": 0,
+    "other_error": 0,
+    "by_http_status": {
+      "200": 996,
+      "503": 4
+    },
+    "by_business_code": {
+      "OK": 996,
+      "SERVER_TIMEOUT": 4
+    }
+  },
+  "latency": {
+    "min_ms": 57.750333,
+    "avg_ms": 767.257475,
+    "p50_ms": 570.285584,
+    "p90_ms": 1715.924208,
+    "p95_ms": 2264.219,
+    "p99_ms": 2829.863292,
+    "max_ms": 3004.083875
+  },
+  "samples": [
+    {
+      "sequence": 0,
+      "http_status": 503,
+      "business_code": "SERVER_TIMEOUT",
+      "response_body": "Request Timeout",
+      "replayed": false,
+      "latency_ms": 3000.428459
+    },
+    {
+      "sequence": 1,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2278.941541
+    },
+    {
+      "sequence": 2,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2829.863292
+    },
+    {
+      "sequence": 3,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1758.405334
+    },
+    {
+      "sequence": 4,
+      "http_status": 503,
+      "business_code": "SERVER_TIMEOUT",
+      "response_body": "Request Timeout",
+      "replayed": false,
+      "latency_ms": 3004.083875
+    },
+    {
+      "sequence": 5,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2038.300666
+    },
+    {
+      "sequence": 6,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2439.568375
+    },
+    {
+      "sequence": 7,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2532.875209
+    },
+    {
+      "sequence": 8,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2971.327083
+    },
+    {
+      "sequence": 9,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2124.093125
+    },
+    {
+      "sequence": 10,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2814.793292
+    },
+    {
+      "sequence": 11,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2997.346125
+    },
+    {
+      "sequence": 12,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2436.509209
+    },
+    {
+      "sequence": 13,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1901.69725
+    },
+    {
+      "sequence": 14,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1532.482375
+    },
+    {
+      "sequence": 15,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1547.346792
+    },
+    {
+      "sequence": 16,
+      "http_status": 503,
+      "business_code": "SERVER_TIMEOUT",
+      "response_body": "Request Timeout",
+      "replayed": false,
+      "latency_ms": 3002.923375
+    },
+    {
+      "sequence": 17,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1514.976334
+    },
+    {
+      "sequence": 18,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2425.198458
+    },
+    {
+      "sequence": 19,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1834.754125
+    },
+    {
+      "sequence": 20,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2234.435083
+    },
+    {
+      "sequence": 21,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2424.856
+    },
+    {
+      "sequence": 22,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2312.684083
+    },
+    {
+      "sequence": 23,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2123.348708
+    },
+    {
+      "sequence": 24,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2243.402334
+    },
+    {
+      "sequence": 25,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2038.000209
+    },
+    {
+      "sequence": 26,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2545.847667
+    },
+    {
+      "sequence": 27,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2038.480458
+    },
+    {
+      "sequence": 28,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2038.555292
+    },
+    {
+      "sequence": 29,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1846.132
+    },
+    {
+      "sequence": 30,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2235.562916
+    },
+    {
+      "sequence": 31,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2065.794
+    },
+    {
+      "sequence": 32,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2038.469416
+    },
+    {
+      "sequence": 33,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1895.478958
+    },
+    {
+      "sequence": 34,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2558.928625
+    },
+    {
+      "sequence": 35,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2799.413458
+    },
+    {
+      "sequence": 36,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1806.618375
+    },
+    {
+      "sequence": 37,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1781.960667
+    },
+    {
+      "sequence": 38,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2783.457667
+    },
+    {
+      "sequence": 39,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2564.385291
+    },
+    {
+      "sequence": 40,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2643.14175
+    },
+    {
+      "sequence": 41,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1769.124791
+    },
+    {
+      "sequence": 42,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2410.3795
+    },
+    {
+      "sequence": 43,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2037.677458
+    },
+    {
+      "sequence": 44,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2471.116208
+    },
+    {
+      "sequence": 45,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1913.670708
+    },
+    {
+      "sequence": 46,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1920.670125
+    },
+    {
+      "sequence": 47,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2037.711625
+    },
+    {
+      "sequence": 48,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2438.757041
+    },
+    {
+      "sequence": 49,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2249.978875
+    },
+    {
+      "sequence": 50,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2942.821625
+    },
+    {
+      "sequence": 51,
+      "http_status": 503,
+      "business_code": "SERVER_TIMEOUT",
+      "response_body": "Request Timeout",
+      "replayed": false,
+      "latency_ms": 3002.720375
+    },
+    {
+      "sequence": 52,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1901.943667
+    },
+    {
+      "sequence": 53,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1206.206125
+    },
+    {
+      "sequence": 54,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2038.234542
+    },
+    {
+      "sequence": 55,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1505.82575
+    },
+    {
+      "sequence": 56,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1834.105792
+    },
+    {
+      "sequence": 57,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2123.479584
+    },
+    {
+      "sequence": 58,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2367.12725
+    },
+    {
+      "sequence": 59,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2258.249125
+    },
+    {
+      "sequence": 60,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2479.802208
+    },
+    {
+      "sequence": 61,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2626.873625
+    },
+    {
+      "sequence": 62,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2443.74375
+    },
+    {
+      "sequence": 63,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1795.371291
+    },
+    {
+      "sequence": 64,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2550.3105
+    },
+    {
+      "sequence": 65,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1782.064042
+    },
+    {
+      "sequence": 66,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2264.219
+    },
+    {
+      "sequence": 67,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2599.148375
+    },
+    {
+      "sequence": 68,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2439.490333
+    },
+    {
+      "sequence": 69,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1863.12925
+    },
+    {
+      "sequence": 70,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2278.488042
+    },
+    {
+      "sequence": 71,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1501.350292
+    },
+    {
+      "sequence": 72,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1858.267041
+    },
+    {
+      "sequence": 73,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2285.303958
+    },
+    {
+      "sequence": 74,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1585.945084
+    },
+    {
+      "sequence": 75,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2875.44375
+    },
+    {
+      "sequence": 76,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2659.054709
+    },
+    {
+      "sequence": 77,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2539.2645
+    },
+    {
+      "sequence": 78,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2328.121584
+    },
+    {
+      "sequence": 79,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1901.901541
+    },
+    {
+      "sequence": 80,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2432.069833
+    },
+    {
+      "sequence": 81,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2394.807917
+    },
+    {
+      "sequence": 82,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2122.9675
+    },
+    {
+      "sequence": 83,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2520.802667
+    },
+    {
+      "sequence": 84,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2911.769125
+    },
+    {
+      "sequence": 85,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2038.029458
+    },
+    {
+      "sequence": 86,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2597.571125
+    },
+    {
+      "sequence": 87,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2424.648958
+    },
+    {
+      "sequence": 88,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2347.085459
+    },
+    {
+      "sequence": 89,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2658.468125
+    },
+    {
+      "sequence": 90,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1247.971792
+    },
+    {
+      "sequence": 91,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2814.598084
+    },
+    {
+      "sequence": 92,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1768.987584
+    },
+    {
+      "sequence": 93,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2418.284667
+    },
+    {
+      "sequence": 94,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2122.845459
+    },
+    {
+      "sequence": 95,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2037.757667
+    },
+    {
+      "sequence": 96,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2386.967458
+    },
+    {
+      "sequence": 97,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2122.798834
+    },
+    {
+      "sequence": 98,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "latency_ms": 211.616167
+    },
+    {
+      "sequence": 99,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2971.702458
+    },
+    {
+      "sequence": 100,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2023.8955
+    },
+    {
+      "sequence": 101,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1315.075375
+    },
+    {
+      "sequence": 102,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1015.709041
+    },
+    {
+      "sequence": 103,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 633.534958
+    },
+    {
+      "sequence": 104,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1383.952542
+    },
+    {
+      "sequence": 105,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1143.776583
+    },
+    {
+      "sequence": 106,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1267.176583
+    },
+    {
+      "sequence": 107,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 587.752833
+    },
+    {
+      "sequence": 108,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 999.637875
+    },
+    {
+      "sequence": 109,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 780.73575
+    },
+    {
+      "sequence": 110,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 701.914625
+    },
+    {
+      "sequence": 111,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 551.07425
+    },
+    {
+      "sequence": 112,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 689.33575
+    },
+    {
+      "sequence": 113,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1063.394959
+    },
+    {
+      "sequence": 114,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 546.104666
+    },
+    {
+      "sequence": 115,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 322.8075
+    },
+    {
+      "sequence": 116,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 568.316167
+    },
+    {
+      "sequence": 117,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 763.048166
+    },
+    {
+      "sequence": 118,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 784.573875
+    },
+    {
+      "sequence": 119,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 192.553667
+    },
+    {
+      "sequence": 120,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 792.851291
+    },
+    {
+      "sequence": 121,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 471.582417
+    },
+    {
+      "sequence": 122,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2141.625917
+    },
+    {
+      "sequence": 123,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 445.752542
+    },
+    {
+      "sequence": 124,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 493.422083
+    },
+    {
+      "sequence": 125,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 946.281167
+    },
+    {
+      "sequence": 126,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1217.54225
+    },
+    {
+      "sequence": 127,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 401.318291
+    },
+    {
+      "sequence": 128,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 377.324125
+    },
+    {
+      "sequence": 129,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 761.484583
+    },
+    {
+      "sequence": 130,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 490.939875
+    },
+    {
+      "sequence": 131,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 419.547792
+    },
+    {
+      "sequence": 132,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 315.68525
+    },
+    {
+      "sequence": 133,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1414.462625
+    },
+    {
+      "sequence": 134,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 482.941541
+    },
+    {
+      "sequence": 135,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 500.642416
+    },
+    {
+      "sequence": 136,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 791.158958
+    },
+    {
+      "sequence": 137,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 520.04025
+    },
+    {
+      "sequence": 138,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 525.923208
+    },
+    {
+      "sequence": 139,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 250.366208
+    },
+    {
+      "sequence": 140,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 362.795917
+    },
+    {
+      "sequence": 141,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 512.731458
+    },
+    {
+      "sequence": 142,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 520.6075
+    },
+    {
+      "sequence": 143,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 415.417125
+    },
+    {
+      "sequence": 144,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 867.323292
+    },
+    {
+      "sequence": 145,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1009.228208
+    },
+    {
+      "sequence": 146,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 275.866042
+    },
+    {
+      "sequence": 147,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 648.292
+    },
+    {
+      "sequence": 148,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 527.856
+    },
+    {
+      "sequence": 149,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1217.569041
+    },
+    {
+      "sequence": 150,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 218.94775
+    },
+    {
+      "sequence": 151,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1066.504041
+    },
+    {
+      "sequence": 152,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 549.162417
+    },
+    {
+      "sequence": 153,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 556.688
+    },
+    {
+      "sequence": 154,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 339.989417
+    },
+    {
+      "sequence": 155,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 865.730416
+    },
+    {
+      "sequence": 156,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1932.201167
+    },
+    {
+      "sequence": 157,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 566.630833
+    },
+    {
+      "sequence": 158,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 333.740542
+    },
+    {
+      "sequence": 159,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 532.570875
+    },
+    {
+      "sequence": 160,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 598.928417
+    },
+    {
+      "sequence": 161,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 486.857
+    },
+    {
+      "sequence": 162,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1250.196792
+    },
+    {
+      "sequence": 163,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 782.233167
+    },
+    {
+      "sequence": 164,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1506.112792
+    },
+    {
+      "sequence": 165,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 602.459209
+    },
+    {
+      "sequence": 166,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 154.321583
+    },
+    {
+      "sequence": 167,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1044.388333
+    },
+    {
+      "sequence": 168,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 652.224458
+    },
+    {
+      "sequence": 169,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 529.431875
+    },
+    {
+      "sequence": 170,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 507.9585
+    },
+    {
+      "sequence": 171,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 896.273084
+    },
+    {
+      "sequence": 172,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 458.026083
+    },
+    {
+      "sequence": 173,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 141.50025
+    },
+    {
+      "sequence": 174,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 475.821375
+    },
+    {
+      "sequence": 175,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 211.292291
+    },
+    {
+      "sequence": 176,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 354.076333
+    },
+    {
+      "sequence": 177,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 358.449791
+    },
+    {
+      "sequence": 178,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 651.563416
+    },
+    {
+      "sequence": 179,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 681.977333
+    },
+    {
+      "sequence": 180,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 502.563125
+    },
+    {
+      "sequence": 181,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 663.184375
+    },
+    {
+      "sequence": 182,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 472.930042
+    },
+    {
+      "sequence": 183,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1167.701792
+    },
+    {
+      "sequence": 184,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1013.570166
+    },
+    {
+      "sequence": 185,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 576.575041
+    },
+    {
+      "sequence": 186,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 866.488875
+    },
+    {
+      "sequence": 187,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 405.920458
+    },
+    {
+      "sequence": 188,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 833.810875
+    },
+    {
+      "sequence": 189,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 74.353667
+    },
+    {
+      "sequence": 190,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 628.399709
+    },
+    {
+      "sequence": 191,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 343.47175
+    },
+    {
+      "sequence": 192,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 697.295834
+    },
+    {
+      "sequence": 193,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1215.08925
+    },
+    {
+      "sequence": 194,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 398.245167
+    },
+    {
+      "sequence": 195,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1054.511833
+    },
+    {
+      "sequence": 196,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1482.957
+    },
+    {
+      "sequence": 197,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 470.038667
+    },
+    {
+      "sequence": 198,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 270.548083
+    },
+    {
+      "sequence": 199,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 386.772167
+    },
+    {
+      "sequence": 200,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1382.034833
+    },
+    {
+      "sequence": 201,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 513.353584
+    },
+    {
+      "sequence": 202,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 432.3435
+    },
+    {
+      "sequence": 203,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 906.699584
+    },
+    {
+      "sequence": 204,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1155.508292
+    },
+    {
+      "sequence": 205,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 336.808292
+    },
+    {
+      "sequence": 206,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1370.687125
+    },
+    {
+      "sequence": 207,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 609.13725
+    },
+    {
+      "sequence": 208,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 316.291709
+    },
+    {
+      "sequence": 209,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 542.251708
+    },
+    {
+      "sequence": 210,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1267.954084
+    },
+    {
+      "sequence": 211,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 378.249208
+    },
+    {
+      "sequence": 212,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 350.706084
+    },
+    {
+      "sequence": 213,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 336.838875
+    },
+    {
+      "sequence": 214,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1001.145708
+    },
+    {
+      "sequence": 215,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1020.533708
+    },
+    {
+      "sequence": 216,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1089.610833
+    },
+    {
+      "sequence": 217,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 928.768208
+    },
+    {
+      "sequence": 218,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 344.372125
+    },
+    {
+      "sequence": 219,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 300.425667
+    },
+    {
+      "sequence": 220,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 464.259125
+    },
+    {
+      "sequence": 221,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 673.963167
+    },
+    {
+      "sequence": 222,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 666.066916
+    },
+    {
+      "sequence": 223,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 517.631584
+    },
+    {
+      "sequence": 224,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 963.424792
+    },
+    {
+      "sequence": 225,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 700.272375
+    },
+    {
+      "sequence": 226,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 268.494709
+    },
+    {
+      "sequence": 227,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 401.296584
+    },
+    {
+      "sequence": 228,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 263.269458
+    },
+    {
+      "sequence": 229,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 608.106084
+    },
+    {
+      "sequence": 230,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1163.63575
+    },
+    {
+      "sequence": 231,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 669.403833
+    },
+    {
+      "sequence": 232,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 218.814708
+    },
+    {
+      "sequence": 233,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 682.291917
+    },
+    {
+      "sequence": 234,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 535.755791
+    },
+    {
+      "sequence": 235,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 224.397875
+    },
+    {
+      "sequence": 236,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 782.17725
+    },
+    {
+      "sequence": 237,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 321.817416
+    },
+    {
+      "sequence": 238,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 750.243708
+    },
+    {
+      "sequence": 239,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 269.526958
+    },
+    {
+      "sequence": 240,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 227.763042
+    },
+    {
+      "sequence": 241,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1087.76775
+    },
+    {
+      "sequence": 242,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 251.906542
+    },
+    {
+      "sequence": 243,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 230.671625
+    },
+    {
+      "sequence": 244,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 691.684209
+    },
+    {
+      "sequence": 245,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1101.654125
+    },
+    {
+      "sequence": 246,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 842.38625
+    },
+    {
+      "sequence": 247,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 542.744584
+    },
+    {
+      "sequence": 248,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1284.173042
+    },
+    {
+      "sequence": 249,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 746.5745
+    },
+    {
+      "sequence": 250,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 136.931833
+    },
+    {
+      "sequence": 251,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 496.652875
+    },
+    {
+      "sequence": 252,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 150.724792
+    },
+    {
+      "sequence": 253,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 990.789167
+    },
+    {
+      "sequence": 254,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 669.124292
+    },
+    {
+      "sequence": 255,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1336.036084
+    },
+    {
+      "sequence": 256,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 235.484875
+    },
+    {
+      "sequence": 257,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1194.165708
+    },
+    {
+      "sequence": 258,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 910.028959
+    },
+    {
+      "sequence": 259,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 482.111833
+    },
+    {
+      "sequence": 260,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 903.423458
+    },
+    {
+      "sequence": 261,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 648.775458
+    },
+    {
+      "sequence": 262,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 934.365917
+    },
+    {
+      "sequence": 263,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 975.561167
+    },
+    {
+      "sequence": 264,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 386.764
+    },
+    {
+      "sequence": 265,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 656.495667
+    },
+    {
+      "sequence": 266,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 375.204166
+    },
+    {
+      "sequence": 267,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 656.373125
+    },
+    {
+      "sequence": 268,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 745.402125
+    },
+    {
+      "sequence": 269,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 551.013041
+    },
+    {
+      "sequence": 270,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 611.665541
+    },
+    {
+      "sequence": 271,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 584.782292
+    },
+    {
+      "sequence": 272,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 496.843625
+    },
+    {
+      "sequence": 273,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 537.8415
+    },
+    {
+      "sequence": 274,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1173.135959
+    },
+    {
+      "sequence": 275,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 628.217417
+    },
+    {
+      "sequence": 276,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 895.004625
+    },
+    {
+      "sequence": 277,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 300.54
+    },
+    {
+      "sequence": 278,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 541.593834
+    },
+    {
+      "sequence": 279,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 886.368917
+    },
+    {
+      "sequence": 280,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1146.281583
+    },
+    {
+      "sequence": 281,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 476.014542
+    },
+    {
+      "sequence": 282,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 690.825167
+    },
+    {
+      "sequence": 283,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 627.229167
+    },
+    {
+      "sequence": 284,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 160.829583
+    },
+    {
+      "sequence": 285,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 669.629167
+    },
+    {
+      "sequence": 286,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 467.621167
+    },
+    {
+      "sequence": 287,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 985.636917
+    },
+    {
+      "sequence": 288,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 684.307125
+    },
+    {
+      "sequence": 289,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 764.001667
+    },
+    {
+      "sequence": 290,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 596.987042
+    },
+    {
+      "sequence": 291,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 886.852875
+    },
+    {
+      "sequence": 292,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 263.447833
+    },
+    {
+      "sequence": 293,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1302.023375
+    },
+    {
+      "sequence": 294,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 844.168375
+    },
+    {
+      "sequence": 295,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 722.149208
+    },
+    {
+      "sequence": 296,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 766.680709
+    },
+    {
+      "sequence": 297,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 475.435791
+    },
+    {
+      "sequence": 298,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 421.4185
+    },
+    {
+      "sequence": 299,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 491.482958
+    },
+    {
+      "sequence": 300,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 419.776167
+    },
+    {
+      "sequence": 301,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1007.142666
+    },
+    {
+      "sequence": 302,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 731.668334
+    },
+    {
+      "sequence": 303,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 523.856375
+    },
+    {
+      "sequence": 304,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 963.400167
+    },
+    {
+      "sequence": 305,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 510.617042
+    },
+    {
+      "sequence": 306,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1802.894542
+    },
+    {
+      "sequence": 307,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 386.492041
+    },
+    {
+      "sequence": 308,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 371.662167
+    },
+    {
+      "sequence": 309,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1199.240958
+    },
+    {
+      "sequence": 310,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 810.9235
+    },
+    {
+      "sequence": 311,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 290.416542
+    },
+    {
+      "sequence": 312,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 781.487208
+    },
+    {
+      "sequence": 313,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 412.269459
+    },
+    {
+      "sequence": 314,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 551.554833
+    },
+    {
+      "sequence": 315,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 182.060334
+    },
+    {
+      "sequence": 316,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1096.604209
+    },
+    {
+      "sequence": 317,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 592.676
+    },
+    {
+      "sequence": 318,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1081.250166
+    },
+    {
+      "sequence": 319,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 200.056125
+    },
+    {
+      "sequence": 320,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 354.714375
+    },
+    {
+      "sequence": 321,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1071.399542
+    },
+    {
+      "sequence": 322,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 335.675958
+    },
+    {
+      "sequence": 323,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1210.241209
+    },
+    {
+      "sequence": 324,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 505.559958
+    },
+    {
+      "sequence": 325,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 465.695333
+    },
+    {
+      "sequence": 326,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 480.009959
+    },
+    {
+      "sequence": 327,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 195.378875
+    },
+    {
+      "sequence": 328,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 433.408375
+    },
+    {
+      "sequence": 329,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 378.894333
+    },
+    {
+      "sequence": 330,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 699.317292
+    },
+    {
+      "sequence": 331,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1004.649958
+    },
+    {
+      "sequence": 332,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 566.36525
+    },
+    {
+      "sequence": 333,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 498.249375
+    },
+    {
+      "sequence": 334,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 390.237167
+    },
+    {
+      "sequence": 335,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 847.567
+    },
+    {
+      "sequence": 336,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 495.7
+    },
+    {
+      "sequence": 337,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 635.126291
+    },
+    {
+      "sequence": 338,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 480.31275
+    },
+    {
+      "sequence": 339,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 359.605167
+    },
+    {
+      "sequence": 340,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 473.711666
+    },
+    {
+      "sequence": 341,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 600.04775
+    },
+    {
+      "sequence": 342,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 285.338125
+    },
+    {
+      "sequence": 343,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 849.105125
+    },
+    {
+      "sequence": 344,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 628.8865
+    },
+    {
+      "sequence": 345,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 540.497875
+    },
+    {
+      "sequence": 346,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 456.215292
+    },
+    {
+      "sequence": 347,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 567.348291
+    },
+    {
+      "sequence": 348,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 503.299583
+    },
+    {
+      "sequence": 349,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 416.741084
+    },
+    {
+      "sequence": 350,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1653.453583
+    },
+    {
+      "sequence": 351,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 657.536375
+    },
+    {
+      "sequence": 352,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 860.75975
+    },
+    {
+      "sequence": 353,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 364.97025
+    },
+    {
+      "sequence": 354,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 379.632625
+    },
+    {
+      "sequence": 355,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 539.477292
+    },
+    {
+      "sequence": 356,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 389.34225
+    },
+    {
+      "sequence": 357,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 303.368458
+    },
+    {
+      "sequence": 358,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 363.821375
+    },
+    {
+      "sequence": 359,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 313.142458
+    },
+    {
+      "sequence": 360,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 591.177917
+    },
+    {
+      "sequence": 361,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 740.275833
+    },
+    {
+      "sequence": 362,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 466.321291
+    },
+    {
+      "sequence": 363,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 359.534792
+    },
+    {
+      "sequence": 364,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 419.228958
+    },
+    {
+      "sequence": 365,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 431.312084
+    },
+    {
+      "sequence": 366,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1899.179917
+    },
+    {
+      "sequence": 367,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 346.832209
+    },
+    {
+      "sequence": 368,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 791.236375
+    },
+    {
+      "sequence": 369,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 742.00375
+    },
+    {
+      "sequence": 370,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 384.772667
+    },
+    {
+      "sequence": 371,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 552.078125
+    },
+    {
+      "sequence": 372,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 364.833125
+    },
+    {
+      "sequence": 373,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 525.939167
+    },
+    {
+      "sequence": 374,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 665.772708
+    },
+    {
+      "sequence": 375,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 325.63125
+    },
+    {
+      "sequence": 376,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1029.603458
+    },
+    {
+      "sequence": 377,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 679.592875
+    },
+    {
+      "sequence": 378,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 741.106584
+    },
+    {
+      "sequence": 379,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 385.606333
+    },
+    {
+      "sequence": 380,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 641.138541
+    },
+    {
+      "sequence": 381,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 411.216416
+    },
+    {
+      "sequence": 382,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 618.887459
+    },
+    {
+      "sequence": 383,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 314.682625
+    },
+    {
+      "sequence": 384,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 399.318916
+    },
+    {
+      "sequence": 385,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 364.418958
+    },
+    {
+      "sequence": 386,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1095.2435
+    },
+    {
+      "sequence": 387,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 591.745416
+    },
+    {
+      "sequence": 388,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 358.268208
+    },
+    {
+      "sequence": 389,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 208.710166
+    },
+    {
+      "sequence": 390,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 522.396584
+    },
+    {
+      "sequence": 391,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 661.741917
+    },
+    {
+      "sequence": 392,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1690.734041
+    },
+    {
+      "sequence": 393,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 786.886209
+    },
+    {
+      "sequence": 394,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1255.0695
+    },
+    {
+      "sequence": 395,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 764.124292
+    },
+    {
+      "sequence": 396,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 870.418833
+    },
+    {
+      "sequence": 397,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 336.9955
+    },
+    {
+      "sequence": 398,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 541.306792
+    },
+    {
+      "sequence": 399,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 669.921208
+    },
+    {
+      "sequence": 400,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 310.746166
+    },
+    {
+      "sequence": 401,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 156.842333
+    },
+    {
+      "sequence": 402,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 736.051791
+    },
+    {
+      "sequence": 403,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1567.264542
+    },
+    {
+      "sequence": 404,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 636.236375
+    },
+    {
+      "sequence": 405,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1210.214875
+    },
+    {
+      "sequence": 406,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 804.966
+    },
+    {
+      "sequence": 407,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 488.433125
+    },
+    {
+      "sequence": 408,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 773.323834
+    },
+    {
+      "sequence": 409,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1750.065333
+    },
+    {
+      "sequence": 410,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 664.848458
+    },
+    {
+      "sequence": 411,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 478.316334
+    },
+    {
+      "sequence": 412,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 495.5545
+    },
+    {
+      "sequence": 413,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 503.636958
+    },
+    {
+      "sequence": 414,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 965.70275
+    },
+    {
+      "sequence": 415,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 798.314292
+    },
+    {
+      "sequence": 416,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 589.209458
+    },
+    {
+      "sequence": 417,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 131.393959
+    },
+    {
+      "sequence": 418,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 379.987709
+    },
+    {
+      "sequence": 419,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 135.527958
+    },
+    {
+      "sequence": 420,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 725.733875
+    },
+    {
+      "sequence": 421,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 205.758917
+    },
+    {
+      "sequence": 422,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 582.287917
+    },
+    {
+      "sequence": 423,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 722.056083
+    },
+    {
+      "sequence": 424,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 946.896083
+    },
+    {
+      "sequence": 425,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 476.052
+    },
+    {
+      "sequence": 426,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 476.044667
+    },
+    {
+      "sequence": 427,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 402.400042
+    },
+    {
+      "sequence": 428,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 179.478375
+    },
+    {
+      "sequence": 429,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 223.33375
+    },
+    {
+      "sequence": 430,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1058.130417
+    },
+    {
+      "sequence": 431,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 309.813916
+    },
+    {
+      "sequence": 432,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 915.2335
+    },
+    {
+      "sequence": 433,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 620.128792
+    },
+    {
+      "sequence": 434,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 843.946709
+    },
+    {
+      "sequence": 435,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 717.329709
+    },
+    {
+      "sequence": 436,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 318.405084
+    },
+    {
+      "sequence": 437,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 557.855625
+    },
+    {
+      "sequence": 438,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 442.016708
+    },
+    {
+      "sequence": 439,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 75.046833
+    },
+    {
+      "sequence": 440,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 303.102417
+    },
+    {
+      "sequence": 441,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 636.630833
+    },
+    {
+      "sequence": 442,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 399.725042
+    },
+    {
+      "sequence": 443,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 282.076625
+    },
+    {
+      "sequence": 444,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 766.30625
+    },
+    {
+      "sequence": 445,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 289.248667
+    },
+    {
+      "sequence": 446,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 428.844375
+    },
+    {
+      "sequence": 447,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 372.786125
+    },
+    {
+      "sequence": 448,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 370.720291
+    },
+    {
+      "sequence": 449,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 452.469042
+    },
+    {
+      "sequence": 450,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 617.554916
+    },
+    {
+      "sequence": 451,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 401.688792
+    },
+    {
+      "sequence": 452,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 467.2795
+    },
+    {
+      "sequence": 453,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 445.0315
+    },
+    {
+      "sequence": 454,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 915.026959
+    },
+    {
+      "sequence": 455,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 381.096292
+    },
+    {
+      "sequence": 456,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 968.363625
+    },
+    {
+      "sequence": 457,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 742.703125
+    },
+    {
+      "sequence": 458,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 461.223584
+    },
+    {
+      "sequence": 459,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1507.529834
+    },
+    {
+      "sequence": 460,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 463.45575
+    },
+    {
+      "sequence": 461,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 378.028417
+    },
+    {
+      "sequence": 462,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1240.289083
+    },
+    {
+      "sequence": 463,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 945.39825
+    },
+    {
+      "sequence": 464,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 539.609
+    },
+    {
+      "sequence": 465,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 350.520958
+    },
+    {
+      "sequence": 466,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1227.469667
+    },
+    {
+      "sequence": 467,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 688.515708
+    },
+    {
+      "sequence": 468,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 968.292958
+    },
+    {
+      "sequence": 469,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 750.201875
+    },
+    {
+      "sequence": 470,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 282.200584
+    },
+    {
+      "sequence": 471,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 703.792917
+    },
+    {
+      "sequence": 472,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 490.073
+    },
+    {
+      "sequence": 473,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 497.383
+    },
+    {
+      "sequence": 474,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 685.896
+    },
+    {
+      "sequence": 475,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 860.200166
+    },
+    {
+      "sequence": 476,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 912.970792
+    },
+    {
+      "sequence": 477,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 423.349792
+    },
+    {
+      "sequence": 478,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 616.442417
+    },
+    {
+      "sequence": 479,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 544.83025
+    },
+    {
+      "sequence": 480,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 398.97225
+    },
+    {
+      "sequence": 481,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 284.996792
+    },
+    {
+      "sequence": 482,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 729.660959
+    },
+    {
+      "sequence": 483,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1180.921375
+    },
+    {
+      "sequence": 484,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 262.46825
+    },
+    {
+      "sequence": 485,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 780.017
+    },
+    {
+      "sequence": 486,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 689.040958
+    },
+    {
+      "sequence": 487,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 297.568042
+    },
+    {
+      "sequence": 488,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 671.948417
+    },
+    {
+      "sequence": 489,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 278.011667
+    },
+    {
+      "sequence": 490,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 518.837833
+    },
+    {
+      "sequence": 491,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1037.727
+    },
+    {
+      "sequence": 492,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 205.3
+    },
+    {
+      "sequence": 493,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 556.6755
+    },
+    {
+      "sequence": 494,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 481.0395
+    },
+    {
+      "sequence": 495,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 338.794458
+    },
+    {
+      "sequence": 496,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 182.158417
+    },
+    {
+      "sequence": 497,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 109.06625
+    },
+    {
+      "sequence": 498,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 2188.62525
+    },
+    {
+      "sequence": 499,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 576.031
+    },
+    {
+      "sequence": 500,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1370.693875
+    },
+    {
+      "sequence": 501,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 498.808375
+    },
+    {
+      "sequence": 502,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1475.691167
+    },
+    {
+      "sequence": 503,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 436.856208
+    },
+    {
+      "sequence": 504,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 937.911666
+    },
+    {
+      "sequence": 505,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1163.723709
+    },
+    {
+      "sequence": 506,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1066.328292
+    },
+    {
+      "sequence": 507,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 456.962041
+    },
+    {
+      "sequence": 508,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 605.251917
+    },
+    {
+      "sequence": 509,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 380.613041
+    },
+    {
+      "sequence": 510,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 642.948917
+    },
+    {
+      "sequence": 511,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 267.648875
+    },
+    {
+      "sequence": 512,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 960.749792
+    },
+    {
+      "sequence": 513,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 570.568125
+    },
+    {
+      "sequence": 514,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 950.044625
+    },
+    {
+      "sequence": 515,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 401.761875
+    },
+    {
+      "sequence": 516,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 342.951833
+    },
+    {
+      "sequence": 517,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 173.716834
+    },
+    {
+      "sequence": 518,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 759.132458
+    },
+    {
+      "sequence": 519,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1104.701833
+    },
+    {
+      "sequence": 520,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 536.996583
+    },
+    {
+      "sequence": 521,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 616.729875
+    },
+    {
+      "sequence": 522,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 567.360625
+    },
+    {
+      "sequence": 523,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 928.670917
+    },
+    {
+      "sequence": 524,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 165.207209
+    },
+    {
+      "sequence": 525,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 360.931125
+    },
+    {
+      "sequence": 526,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 283.907291
+    },
+    {
+      "sequence": 527,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 315.898709
+    },
+    {
+      "sequence": 528,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 540.550833
+    },
+    {
+      "sequence": 529,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 964.968792
+    },
+    {
+      "sequence": 530,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 344.897625
+    },
+    {
+      "sequence": 531,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1008.107917
+    },
+    {
+      "sequence": 532,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 317.465084
+    },
+    {
+      "sequence": 533,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1371.036959
+    },
+    {
+      "sequence": 534,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 548.543667
+    },
+    {
+      "sequence": 535,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 527.684041
+    },
+    {
+      "sequence": 536,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 958.190708
+    },
+    {
+      "sequence": 537,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 474.283666
+    },
+    {
+      "sequence": 538,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 342.380916
+    },
+    {
+      "sequence": 539,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1096.240125
+    },
+    {
+      "sequence": 540,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 762.999083
+    },
+    {
+      "sequence": 541,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1090.430041
+    },
+    {
+      "sequence": 542,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 592.9095
+    },
+    {
+      "sequence": 543,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 242.516083
+    },
+    {
+      "sequence": 544,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1884.796209
+    },
+    {
+      "sequence": 545,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 680.853458
+    },
+    {
+      "sequence": 546,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 688.868375
+    },
+    {
+      "sequence": 547,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 797.702416
+    },
+    {
+      "sequence": 548,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 888.989792
+    },
+    {
+      "sequence": 549,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1575.006917
+    },
+    {
+      "sequence": 550,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1597.09075
+    },
+    {
+      "sequence": 551,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 824.048042
+    },
+    {
+      "sequence": 552,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 450.416917
+    },
+    {
+      "sequence": 553,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1313.399083
+    },
+    {
+      "sequence": 554,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 670.323208
+    },
+    {
+      "sequence": 555,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 179.165334
+    },
+    {
+      "sequence": 556,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1407.473792
+    },
+    {
+      "sequence": 557,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1018.846667
+    },
+    {
+      "sequence": 558,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 471.396875
+    },
+    {
+      "sequence": 559,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 735.444792
+    },
+    {
+      "sequence": 560,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 634.204292
+    },
+    {
+      "sequence": 561,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1299.768083
+    },
+    {
+      "sequence": 562,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 269.403584
+    },
+    {
+      "sequence": 563,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 535.036
+    },
+    {
+      "sequence": 564,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 797.421042
+    },
+    {
+      "sequence": 565,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 380.990292
+    },
+    {
+      "sequence": 566,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 265.1325
+    },
+    {
+      "sequence": 567,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1187.545542
+    },
+    {
+      "sequence": 568,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 839.630291
+    },
+    {
+      "sequence": 569,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 857.7685
+    },
+    {
+      "sequence": 570,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 234.895834
+    },
+    {
+      "sequence": 571,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 904.563958
+    },
+    {
+      "sequence": 572,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 490.930542
+    },
+    {
+      "sequence": 573,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 684.053625
+    },
+    {
+      "sequence": 574,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 650.563792
+    },
+    {
+      "sequence": 575,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 787.623375
+    },
+    {
+      "sequence": 576,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 758.71375
+    },
+    {
+      "sequence": 577,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1561.018833
+    },
+    {
+      "sequence": 578,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 345.634125
+    },
+    {
+      "sequence": 579,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 613.176583
+    },
+    {
+      "sequence": 580,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 542.403333
+    },
+    {
+      "sequence": 581,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 765.219541
+    },
+    {
+      "sequence": 582,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 568.294542
+    },
+    {
+      "sequence": 583,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 482.605416
+    },
+    {
+      "sequence": 584,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 289.266833
+    },
+    {
+      "sequence": 585,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1003.63475
+    },
+    {
+      "sequence": 586,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 969.782042
+    },
+    {
+      "sequence": 587,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 639.233917
+    },
+    {
+      "sequence": 588,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 197.453583
+    },
+    {
+      "sequence": 589,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 491.390541
+    },
+    {
+      "sequence": 590,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 843.509709
+    },
+    {
+      "sequence": 591,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 654.519792
+    },
+    {
+      "sequence": 592,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1263.527041
+    },
+    {
+      "sequence": 593,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 509.982917
+    },
+    {
+      "sequence": 594,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 697.504375
+    },
+    {
+      "sequence": 595,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1048.564667
+    },
+    {
+      "sequence": 596,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 460.18725
+    },
+    {
+      "sequence": 597,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 578.024334
+    },
+    {
+      "sequence": 598,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 818.844292
+    },
+    {
+      "sequence": 599,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 866.223
+    },
+    {
+      "sequence": 600,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 309.65025
+    },
+    {
+      "sequence": 601,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 613.045416
+    },
+    {
+      "sequence": 602,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 805.07825
+    },
+    {
+      "sequence": 603,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 570.285584
+    },
+    {
+      "sequence": 604,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 640.718958
+    },
+    {
+      "sequence": 605,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 786.810792
+    },
+    {
+      "sequence": 606,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 663.915
+    },
+    {
+      "sequence": 607,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1819.324333
+    },
+    {
+      "sequence": 608,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 360.682708
+    },
+    {
+      "sequence": 609,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 837.521708
+    },
+    {
+      "sequence": 610,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 467.348041
+    },
+    {
+      "sequence": 611,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 483.458916
+    },
+    {
+      "sequence": 612,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 858.462041
+    },
+    {
+      "sequence": 613,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 572.515458
+    },
+    {
+      "sequence": 614,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 999.507833
+    },
+    {
+      "sequence": 615,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 455.472542
+    },
+    {
+      "sequence": 616,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 770.958208
+    },
+    {
+      "sequence": 617,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 339.164625
+    },
+    {
+      "sequence": 618,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 851.366875
+    },
+    {
+      "sequence": 619,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 799.41525
+    },
+    {
+      "sequence": 620,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 955.331166
+    },
+    {
+      "sequence": 621,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1456.04
+    },
+    {
+      "sequence": 622,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 412.615875
+    },
+    {
+      "sequence": 623,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 410.7605
+    },
+    {
+      "sequence": 624,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 415.072083
+    },
+    {
+      "sequence": 625,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 539.589167
+    },
+    {
+      "sequence": 626,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 454.640333
+    },
+    {
+      "sequence": 627,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 703.293833
+    },
+    {
+      "sequence": 628,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 628.033083
+    },
+    {
+      "sequence": 629,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1315.235292
+    },
+    {
+      "sequence": 630,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 587.725792
+    },
+    {
+      "sequence": 631,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 198.024042
+    },
+    {
+      "sequence": 632,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 876.656416
+    },
+    {
+      "sequence": 633,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 565.66
+    },
+    {
+      "sequence": 634,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 411.608542
+    },
+    {
+      "sequence": 635,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 235.668417
+    },
+    {
+      "sequence": 636,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 626.934792
+    },
+    {
+      "sequence": 637,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 793.942542
+    },
+    {
+      "sequence": 638,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 219.259
+    },
+    {
+      "sequence": 639,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 309.361041
+    },
+    {
+      "sequence": 640,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 325.150583
+    },
+    {
+      "sequence": 641,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 541.431917
+    },
+    {
+      "sequence": 642,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 586.873541
+    },
+    {
+      "sequence": 643,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 485.355459
+    },
+    {
+      "sequence": 644,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 298.567083
+    },
+    {
+      "sequence": 645,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 696.981583
+    },
+    {
+      "sequence": 646,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 844.817875
+    },
+    {
+      "sequence": 647,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 434.953
+    },
+    {
+      "sequence": 648,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 810.636917
+    },
+    {
+      "sequence": 649,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 575.992667
+    },
+    {
+      "sequence": 650,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 205.093167
+    },
+    {
+      "sequence": 651,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 100.314542
+    },
+    {
+      "sequence": 652,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1042.641667
+    },
+    {
+      "sequence": 653,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 776.315833
+    },
+    {
+      "sequence": 654,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 174.930416
+    },
+    {
+      "sequence": 655,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 421.741167
+    },
+    {
+      "sequence": 656,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 899.300125
+    },
+    {
+      "sequence": 657,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 457.024791
+    },
+    {
+      "sequence": 658,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1035.5925
+    },
+    {
+      "sequence": 659,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 566.857208
+    },
+    {
+      "sequence": 660,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 521.012208
+    },
+    {
+      "sequence": 661,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 356.76175
+    },
+    {
+      "sequence": 662,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 585.949083
+    },
+    {
+      "sequence": 663,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 328.452333
+    },
+    {
+      "sequence": 664,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 856.159583
+    },
+    {
+      "sequence": 665,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 668.504417
+    },
+    {
+      "sequence": 666,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 391.918666
+    },
+    {
+      "sequence": 667,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 435.824709
+    },
+    {
+      "sequence": 668,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 172.395917
+    },
+    {
+      "sequence": 669,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 427.194125
+    },
+    {
+      "sequence": 670,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 178.343917
+    },
+    {
+      "sequence": 671,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 184.912458
+    },
+    {
+      "sequence": 672,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 477.797
+    },
+    {
+      "sequence": 673,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 513.081625
+    },
+    {
+      "sequence": 674,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 470.055125
+    },
+    {
+      "sequence": 675,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 329.554667
+    },
+    {
+      "sequence": 676,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 475.235792
+    },
+    {
+      "sequence": 677,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 411.431333
+    },
+    {
+      "sequence": 678,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 286.18525
+    },
+    {
+      "sequence": 679,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 997.385083
+    },
+    {
+      "sequence": 680,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 594.556375
+    },
+    {
+      "sequence": 681,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 111.71875
+    },
+    {
+      "sequence": 682,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 319.7995
+    },
+    {
+      "sequence": 683,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 261.229709
+    },
+    {
+      "sequence": 684,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 235.007208
+    },
+    {
+      "sequence": 685,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 122.974459
+    },
+    {
+      "sequence": 686,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 429.0415
+    },
+    {
+      "sequence": 687,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 476.004417
+    },
+    {
+      "sequence": 688,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 769.2565
+    },
+    {
+      "sequence": 689,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 328.212125
+    },
+    {
+      "sequence": 690,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 192.107333
+    },
+    {
+      "sequence": 691,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 410.199292
+    },
+    {
+      "sequence": 692,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 280.047916
+    },
+    {
+      "sequence": 693,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1248.396333
+    },
+    {
+      "sequence": 694,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 448.303291
+    },
+    {
+      "sequence": 695,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 714.259834
+    },
+    {
+      "sequence": 696,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 344.017208
+    },
+    {
+      "sequence": 697,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 331.464667
+    },
+    {
+      "sequence": 698,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 398.604667
+    },
+    {
+      "sequence": 699,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 217.577833
+    },
+    {
+      "sequence": 700,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 926.521667
+    },
+    {
+      "sequence": 701,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 782.463166
+    },
+    {
+      "sequence": 702,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 679.624292
+    },
+    {
+      "sequence": 703,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 684.051208
+    },
+    {
+      "sequence": 704,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 768.247833
+    },
+    {
+      "sequence": 705,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 535.498042
+    },
+    {
+      "sequence": 706,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 739.73075
+    },
+    {
+      "sequence": 707,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 930.535625
+    },
+    {
+      "sequence": 708,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 827.062916
+    },
+    {
+      "sequence": 709,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 360.563834
+    },
+    {
+      "sequence": 710,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 432.757292
+    },
+    {
+      "sequence": 711,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 726.507166
+    },
+    {
+      "sequence": 712,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 439.365875
+    },
+    {
+      "sequence": 713,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 375.694875
+    },
+    {
+      "sequence": 714,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 571.394625
+    },
+    {
+      "sequence": 715,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 555.757917
+    },
+    {
+      "sequence": 716,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 516.061458
+    },
+    {
+      "sequence": 717,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 581.701417
+    },
+    {
+      "sequence": 718,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 248.926083
+    },
+    {
+      "sequence": 719,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1127.456458
+    },
+    {
+      "sequence": 720,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1098.538375
+    },
+    {
+      "sequence": 721,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 263.0915
+    },
+    {
+      "sequence": 722,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 738.606583
+    },
+    {
+      "sequence": 723,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 738.581916
+    },
+    {
+      "sequence": 724,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 403.306541
+    },
+    {
+      "sequence": 725,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 105.153084
+    },
+    {
+      "sequence": 726,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 227.573292
+    },
+    {
+      "sequence": 727,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 846.53
+    },
+    {
+      "sequence": 728,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 345.624125
+    },
+    {
+      "sequence": 729,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 647.840875
+    },
+    {
+      "sequence": 730,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 580.25725
+    },
+    {
+      "sequence": 731,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 564.771708
+    },
+    {
+      "sequence": 732,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 838.589042
+    },
+    {
+      "sequence": 733,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 131.884208
+    },
+    {
+      "sequence": 734,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 769.572542
+    },
+    {
+      "sequence": 735,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1715.924208
+    },
+    {
+      "sequence": 736,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 864.197
+    },
+    {
+      "sequence": 737,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 346.65425
+    },
+    {
+      "sequence": 738,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 721.320334
+    },
+    {
+      "sequence": 739,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 485.95875
+    },
+    {
+      "sequence": 740,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 495.183417
+    },
+    {
+      "sequence": 741,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 225.357541
+    },
+    {
+      "sequence": 742,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 116.555375
+    },
+    {
+      "sequence": 743,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 474.976125
+    },
+    {
+      "sequence": 744,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 582.532084
+    },
+    {
+      "sequence": 745,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1302.002375
+    },
+    {
+      "sequence": 746,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 753.17
+    },
+    {
+      "sequence": 747,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 819.295833
+    },
+    {
+      "sequence": 748,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 403.931416
+    },
+    {
+      "sequence": 749,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 722.050875
+    },
+    {
+      "sequence": 750,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 119.51175
+    },
+    {
+      "sequence": 751,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 700.123917
+    },
+    {
+      "sequence": 752,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 246.5075
+    },
+    {
+      "sequence": 753,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 807.552417
+    },
+    {
+      "sequence": 754,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 576.527375
+    },
+    {
+      "sequence": 755,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 544.573958
+    },
+    {
+      "sequence": 756,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 216.021667
+    },
+    {
+      "sequence": 757,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 896.180708
+    },
+    {
+      "sequence": 758,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1027.339791
+    },
+    {
+      "sequence": 759,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 972.088208
+    },
+    {
+      "sequence": 760,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 691.875208
+    },
+    {
+      "sequence": 761,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 482.458459
+    },
+    {
+      "sequence": 762,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 698.5335
+    },
+    {
+      "sequence": 763,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 454.0355
+    },
+    {
+      "sequence": 764,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 468.853042
+    },
+    {
+      "sequence": 765,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 440.834708
+    },
+    {
+      "sequence": 766,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 700.196958
+    },
+    {
+      "sequence": 767,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 490.337417
+    },
+    {
+      "sequence": 768,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 331.411334
+    },
+    {
+      "sequence": 769,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 798.702584
+    },
+    {
+      "sequence": 770,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 480.447416
+    },
+    {
+      "sequence": 771,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 353.835792
+    },
+    {
+      "sequence": 772,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1060.485167
+    },
+    {
+      "sequence": 773,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 550.942667
+    },
+    {
+      "sequence": 774,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 800.089208
+    },
+    {
+      "sequence": 775,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 684.892541
+    },
+    {
+      "sequence": 776,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 918.837375
+    },
+    {
+      "sequence": 777,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 849.706833
+    },
+    {
+      "sequence": 778,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 502.875625
+    },
+    {
+      "sequence": 779,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1159.995417
+    },
+    {
+      "sequence": 780,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 686.177458
+    },
+    {
+      "sequence": 781,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 263.563792
+    },
+    {
+      "sequence": 782,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 597.028916
+    },
+    {
+      "sequence": 783,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 307.47025
+    },
+    {
+      "sequence": 784,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 414.996959
+    },
+    {
+      "sequence": 785,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 948.038875
+    },
+    {
+      "sequence": 786,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 612.904958
+    },
+    {
+      "sequence": 787,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 300.630792
+    },
+    {
+      "sequence": 788,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 470.811875
+    },
+    {
+      "sequence": 789,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 307.218708
+    },
+    {
+      "sequence": 790,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 566.54025
+    },
+    {
+      "sequence": 791,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 337.991458
+    },
+    {
+      "sequence": 792,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 527.605958
+    },
+    {
+      "sequence": 793,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 669.724291
+    },
+    {
+      "sequence": 794,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 463.79725
+    },
+    {
+      "sequence": 795,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 709.083958
+    },
+    {
+      "sequence": 796,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 839.017709
+    },
+    {
+      "sequence": 797,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 967.377208
+    },
+    {
+      "sequence": 798,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 239.915625
+    },
+    {
+      "sequence": 799,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 524.91025
+    },
+    {
+      "sequence": 800,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 232.8975
+    },
+    {
+      "sequence": 801,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 452.058875
+    },
+    {
+      "sequence": 802,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 915.904875
+    },
+    {
+      "sequence": 803,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 502.849042
+    },
+    {
+      "sequence": 804,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 263.295958
+    },
+    {
+      "sequence": 805,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 708.264292
+    },
+    {
+      "sequence": 806,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 349.796959
+    },
+    {
+      "sequence": 807,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 725.948709
+    },
+    {
+      "sequence": 808,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 571.743208
+    },
+    {
+      "sequence": 809,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 277.25325
+    },
+    {
+      "sequence": 810,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 738.133333
+    },
+    {
+      "sequence": 811,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 678.1435
+    },
+    {
+      "sequence": 812,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 635.331
+    },
+    {
+      "sequence": 813,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 179.668125
+    },
+    {
+      "sequence": 814,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 691.5315
+    },
+    {
+      "sequence": 815,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 316.904209
+    },
+    {
+      "sequence": 816,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 346.73625
+    },
+    {
+      "sequence": 817,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 550.622459
+    },
+    {
+      "sequence": 818,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 248.198
+    },
+    {
+      "sequence": 819,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 886.987125
+    },
+    {
+      "sequence": 820,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 316.575584
+    },
+    {
+      "sequence": 821,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 497.334167
+    },
+    {
+      "sequence": 822,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 744.344917
+    },
+    {
+      "sequence": 823,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 258.277542
+    },
+    {
+      "sequence": 824,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1122.751125
+    },
+    {
+      "sequence": 825,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 183.620792
+    },
+    {
+      "sequence": 826,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 468.772333
+    },
+    {
+      "sequence": 827,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 605.970042
+    },
+    {
+      "sequence": 828,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1090.052583
+    },
+    {
+      "sequence": 829,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 719.927292
+    },
+    {
+      "sequence": 830,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 514.915416
+    },
+    {
+      "sequence": 831,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 399.107417
+    },
+    {
+      "sequence": 832,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 232.319667
+    },
+    {
+      "sequence": 833,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 916.1025
+    },
+    {
+      "sequence": 834,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 407.135208
+    },
+    {
+      "sequence": 835,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 237.465459
+    },
+    {
+      "sequence": 836,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 480.100917
+    },
+    {
+      "sequence": 837,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 449.802334
+    },
+    {
+      "sequence": 838,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 479.907375
+    },
+    {
+      "sequence": 839,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1136.272209
+    },
+    {
+      "sequence": 840,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 704.577917
+    },
+    {
+      "sequence": 841,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1036.568375
+    },
+    {
+      "sequence": 842,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 552.301459
+    },
+    {
+      "sequence": 843,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 396.437334
+    },
+    {
+      "sequence": 844,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 458.205083
+    },
+    {
+      "sequence": 845,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 116.391166
+    },
+    {
+      "sequence": 846,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 899.03175
+    },
+    {
+      "sequence": 847,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 373.129708
+    },
+    {
+      "sequence": 848,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 496.761666
+    },
+    {
+      "sequence": 849,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 647.063959
+    },
+    {
+      "sequence": 850,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 306.005708
+    },
+    {
+      "sequence": 851,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 872.4145
+    },
+    {
+      "sequence": 852,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 623.677875
+    },
+    {
+      "sequence": 853,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 415.267875
+    },
+    {
+      "sequence": 854,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 434.328042
+    },
+    {
+      "sequence": 855,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 118.560875
+    },
+    {
+      "sequence": 856,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 786.56475
+    },
+    {
+      "sequence": 857,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 668.476792
+    },
+    {
+      "sequence": 858,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 868.090542
+    },
+    {
+      "sequence": 859,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 985.177458
+    },
+    {
+      "sequence": 860,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 347.087125
+    },
+    {
+      "sequence": 861,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 998.22825
+    },
+    {
+      "sequence": 862,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 833.302125
+    },
+    {
+      "sequence": 863,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 254.345791
+    },
+    {
+      "sequence": 864,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 286.336
+    },
+    {
+      "sequence": 865,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 422.029125
+    },
+    {
+      "sequence": 866,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 461.575375
+    },
+    {
+      "sequence": 867,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 350.328292
+    },
+    {
+      "sequence": 868,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 452.908625
+    },
+    {
+      "sequence": 869,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 763.704708
+    },
+    {
+      "sequence": 870,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 1025.404375
+    },
+    {
+      "sequence": 871,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 481.947375
+    },
+    {
+      "sequence": 872,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 470.355625
+    },
+    {
+      "sequence": 873,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 887.547125
+    },
+    {
+      "sequence": 874,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 329.904459
+    },
+    {
+      "sequence": 875,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 685.858083
+    },
+    {
+      "sequence": 876,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 343.682541
+    },
+    {
+      "sequence": 877,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 550.526084
+    },
+    {
+      "sequence": 878,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 403.491834
+    },
+    {
+      "sequence": 879,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 227.29875
+    },
+    {
+      "sequence": 880,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 263.047458
+    },
+    {
+      "sequence": 881,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 825.497042
+    },
+    {
+      "sequence": 882,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 346.766166
+    },
+    {
+      "sequence": 883,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 900.930292
+    },
+    {
+      "sequence": 884,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 273.450041
+    },
+    {
+      "sequence": 885,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 553.642709
+    },
+    {
+      "sequence": 886,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 952.057667
+    },
+    {
+      "sequence": 887,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 211.549542
+    },
+    {
+      "sequence": 888,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 401.601667
+    },
+    {
+      "sequence": 889,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 291.758417
+    },
+    {
+      "sequence": 890,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 193.981167
+    },
+    {
+      "sequence": 891,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 720.954834
+    },
+    {
+      "sequence": 892,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 704.34075
+    },
+    {
+      "sequence": 893,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 457.484333
+    },
+    {
+      "sequence": 894,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 924.198584
+    },
+    {
+      "sequence": 895,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 337.293375
+    },
+    {
+      "sequence": 896,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 370.243333
+    },
+    {
+      "sequence": 897,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 585.783625
+    },
+    {
+      "sequence": 898,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 207.017167
+    },
+    {
+      "sequence": 899,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 340.714166
+    },
+    {
+      "sequence": 900,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 154.264208
+    },
+    {
+      "sequence": 901,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 349.945333
+    },
+    {
+      "sequence": 902,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 782.031625
+    },
+    {
+      "sequence": 903,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 619.386875
+    },
+    {
+      "sequence": 904,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 781.492416
+    },
+    {
+      "sequence": 905,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 642.399417
+    },
+    {
+      "sequence": 906,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 506.812167
+    },
+    {
+      "sequence": 907,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 251.811417
+    },
+    {
+      "sequence": 908,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 636.699875
+    },
+    {
+      "sequence": 909,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 359.343
+    },
+    {
+      "sequence": 910,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 525.318125
+    },
+    {
+      "sequence": 911,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 271.843833
+    },
+    {
+      "sequence": 912,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 250.16675
+    },
+    {
+      "sequence": 913,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 293.861667
+    },
+    {
+      "sequence": 914,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 756.233416
+    },
+    {
+      "sequence": 915,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 578.13875
+    },
+    {
+      "sequence": 916,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 225.35375
+    },
+    {
+      "sequence": 917,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 445.085041
+    },
+    {
+      "sequence": 918,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 740.499208
+    },
+    {
+      "sequence": 919,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 710.017291
+    },
+    {
+      "sequence": 920,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 495.07575
+    },
+    {
+      "sequence": 921,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 214.701125
+    },
+    {
+      "sequence": 922,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 685.401875
+    },
+    {
+      "sequence": 923,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 429.590333
+    },
+    {
+      "sequence": 924,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 600.829375
+    },
+    {
+      "sequence": 925,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 694.830083
+    },
+    {
+      "sequence": 926,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 408.005792
+    },
+    {
+      "sequence": 927,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 687.260625
+    },
+    {
+      "sequence": 928,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 492.302209
+    },
+    {
+      "sequence": 929,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 548.85
+    },
+    {
+      "sequence": 930,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 512.710291
+    },
+    {
+      "sequence": 931,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 258.694959
+    },
+    {
+      "sequence": 932,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 281.055084
+    },
+    {
+      "sequence": 933,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 693.585125
+    },
+    {
+      "sequence": 934,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 551.358334
+    },
+    {
+      "sequence": 935,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 375.265667
+    },
+    {
+      "sequence": 936,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 576.9505
+    },
+    {
+      "sequence": 937,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 440.105458
+    },
+    {
+      "sequence": 938,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 57.750333
+    },
+    {
+      "sequence": 939,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 431.682
+    },
+    {
+      "sequence": 940,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 465.509292
+    },
+    {
+      "sequence": 941,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 380.861833
+    },
+    {
+      "sequence": 942,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 340.002958
+    },
+    {
+      "sequence": 943,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 164.621666
+    },
+    {
+      "sequence": 944,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 496.560875
+    },
+    {
+      "sequence": 945,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 382.063917
+    },
+    {
+      "sequence": 946,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 562.541792
+    },
+    {
+      "sequence": 947,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 439.120291
+    },
+    {
+      "sequence": 948,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 529.516125
+    },
+    {
+      "sequence": 949,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 510.803417
+    },
+    {
+      "sequence": 950,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 548.498958
+    },
+    {
+      "sequence": 951,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 484.794541
+    },
+    {
+      "sequence": 952,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 517.188833
+    },
+    {
+      "sequence": 953,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 420.294125
+    },
+    {
+      "sequence": 954,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 590.841583
+    },
+    {
+      "sequence": 955,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 321.002416
+    },
+    {
+      "sequence": 956,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 552.182416
+    },
+    {
+      "sequence": 957,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 178.26975
+    },
+    {
+      "sequence": 958,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 374.677583
+    },
+    {
+      "sequence": 959,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 526.258167
+    },
+    {
+      "sequence": 960,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 425.199833
+    },
+    {
+      "sequence": 961,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 500.261917
+    },
+    {
+      "sequence": 962,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 521.841792
+    },
+    {
+      "sequence": 963,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 327.647708
+    },
+    {
+      "sequence": 964,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 527.960667
+    },
+    {
+      "sequence": 965,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 505.3065
+    },
+    {
+      "sequence": 966,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 446.085583
+    },
+    {
+      "sequence": 967,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 402.362708
+    },
+    {
+      "sequence": 968,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 418.41475
+    },
+    {
+      "sequence": 969,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 512.551208
+    },
+    {
+      "sequence": 970,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 343.59675
+    },
+    {
+      "sequence": 971,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 322.481709
+    },
+    {
+      "sequence": 972,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 462.375208
+    },
+    {
+      "sequence": 973,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 284.691292
+    },
+    {
+      "sequence": 974,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 404.424292
+    },
+    {
+      "sequence": 975,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 433.9495
+    },
+    {
+      "sequence": 976,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 359.890625
+    },
+    {
+      "sequence": 977,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 374.792834
+    },
+    {
+      "sequence": 978,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 277.685291
+    },
+    {
+      "sequence": 979,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 281.066709
+    },
+    {
+      "sequence": 980,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 351.516875
+    },
+    {
+      "sequence": 981,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 328.6895
+    },
+    {
+      "sequence": 982,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 205.374375
+    },
+    {
+      "sequence": 983,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 370.271417
+    },
+    {
+      "sequence": 984,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 383.456375
+    },
+    {
+      "sequence": 985,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 390.265584
+    },
+    {
+      "sequence": 986,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 430.476208
+    },
+    {
+      "sequence": 987,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 412.527625
+    },
+    {
+      "sequence": 988,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 338.912333
+    },
+    {
+      "sequence": 989,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 279.734667
+    },
+    {
+      "sequence": 990,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 279.1905
+    },
+    {
+      "sequence": 991,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 295.439
+    },
+    {
+      "sequence": 992,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 207.770291
+    },
+    {
+      "sequence": 993,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 178.041042
+    },
+    {
+      "sequence": 994,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 318.647708
+    },
+    {
+      "sequence": 995,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 310.698125
+    },
+    {
+      "sequence": 996,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 288.303875
+    },
+    {
+      "sequence": 997,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 281.416083
+    },
+    {
+      "sequence": 998,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 265.318083
+    },
+    {
+      "sequence": 999,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "latency_ms": 122.473667
+    }
+  ]
+}

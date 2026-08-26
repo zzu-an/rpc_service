@@ -514,10 +514,13 @@ func (r *runner) run(itemID uint64, tokens []string) ([]sample, time.Duration) {
 			defer group.Done()
 			<-start
 			for sequence := range jobs {
-				token := tokens[sequence]
+				// replay 场景只准备一个用户，因此必须先决定 token 下标，再访问切片。
+				// 之前先取 tokens[sequence] 再改成 tokens[0]，sequence > 0 时会在改值前直接 panic。
+				tokenIndex := sequence
 				if r.options.Scenario == "replay" {
-					token = tokens[0]
+					tokenIndex = 0
 				}
+				token := tokens[tokenIndex]
 				results[sequence] = r.executeRequest(sequence, itemID, token)
 			}
 		}()

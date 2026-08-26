@@ -65,6 +65,31 @@ func TestExecuteRequestRecordsBusinessResultAndLatency(t *testing.T) {
 	}
 }
 
+func TestRunReplayUsesSingleTokenForAllConcurrentRequests(t *testing.T) {
+	serverURL := newTestHTTPServer(t, http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		if req.Header.Get("Authorization") != "Bearer only-token" {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK", "data": map[string]any{"replayed": true}})
+	}))
+
+	r := &runner{
+		options: options{BaseURL: serverURL, Scenario: "replay", Requests: 100, Concurrency: 100},
+		client:  http.DefaultClient,
+	}
+	results, _ := r.run(7, []string{"only-token"})
+	if len(results) != 100 {
+		t.Fatalf("result count = %d, want 100", len(results))
+	}
+	for index, result := range results {
+		if result.HTTPCode != http.StatusOK || result.Code != "OK" || !result.Replayed || result.Error != "" {
+			t.Fatalf("result[%d] = %+v", index, result)
+		}
+	}
+}
+
 func TestExecuteRequestRecognizesServerTimeout(t *testing.T) {
 	serverURL := newTestHTTPServer(t, http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusServiceUnavailable)
