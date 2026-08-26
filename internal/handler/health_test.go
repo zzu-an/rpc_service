@@ -94,7 +94,7 @@ func TestRegisteredHealthRoute(t *testing.T) {
 		server.Stop()
 	})
 
-	url := fmt.Sprintf("http://127.0.0.1:%d/healthz", port)
+	url := fmt.Sprintf("http://127.0.0.1:%d/health", port)
 	var response *http.Response
 	for attempt := 0; attempt < 50; attempt++ {
 		response, err = http.Get(url) // #nosec G107 -- the URL is a test-only loopback address.

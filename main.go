@@ -20,6 +20,8 @@ import (
 	productmysql "service_rpc/internal/product/mysqlrepo"
 	"service_rpc/internal/rbac"
 	rbacmysql "service_rpc/internal/rbac/mysqlrepo"
+	"service_rpc/internal/seckill"
+	seckillmysql "service_rpc/internal/seckill/mysqlrepo"
 	"service_rpc/internal/user"
 	usermysql "service_rpc/internal/user/mysqlrepo"
 )
@@ -68,6 +70,16 @@ func main() {
 	orderService := order.NewService(ordermysql.New(db))
 	handler.RegisterOrderRoutes(server, tokenManager, orderService)
 
-	fmt.Printf("Starting %s at %s:%d...\n", c.Name, c.Host, c.Port)
+	stockMode, err := seckillmysql.ParseStockMode(c.Seckill.StockMode)
+	if err != nil {
+		log.Fatalf("initialize seckill stock mode: %v", err)
+	}
+	// 策略只在启动时由受控配置选择，不让客户端逐请求指定，避免外部协议泄漏数据库实现。
+	// 做对比压测时必须修改 StockMode 后重启进程，确保整轮样本使用同一种并发控制方式。
+	seckillService := seckill.NewService(seckillmysql.NewWithStockMode(db, stockMode))
+	handler.RegisterSeckillAdminRoutes(server, tokenManager, rbacService, seckillService)
+	handler.RegisterSeckillOrderRoutes(server, tokenManager, seckillService)
+
+	fmt.Printf("Starting %s at %s:%d with seckill stock mode %s...\n", c.Name, c.Host, c.Port, stockMode)
 	server.Start()
 }

@@ -3,13 +3,16 @@ Host: 127.0.0.1
 Port: 8888
 Mode: dev
 MySQL:
-  DataSource: service_rpc:service_rpc_dev@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC&multiStatements=true
+  DataSource: service_rpc:service_rpc@tcp(192.168.0.107:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC&multiStatements=true
   MaxOpenConns: 10
   MaxIdleConns: 5
   ConnMaxLifetimeSeconds: 300
 Auth:
   AccessSecret: local-development-secret-change-me-2026
   AccessTTLSeconds: 900
+Seckill:
+  # 可选 atomic / pessimistic / optimistic；修改后必须重启服务。
+  StockMode: atomic
 
 #  Mysql:
 #  容器名：service-rpc-mysql

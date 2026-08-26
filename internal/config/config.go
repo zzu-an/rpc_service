@@ -4,11 +4,12 @@ package config
 
 import "github.com/zeromicro/go-zero/rest"
 
-// Config is the complete v0.1 process configuration.
+// Config is the complete v0.2 process configuration.
 type Config struct {
 	rest.RestConf // RestConf 内部封装了启动一个 HTTP 服务所需的核心配置：
 	MySQL         MySQLConfig
 	Auth          AuthConfig
+	Seckill       SeckillConfig
 }
 
 // MySQLConfig contains connection and conservative pool settings. These pool
@@ -26,4 +27,10 @@ type MySQLConfig struct {
 type AuthConfig struct {
 	AccessSecret     string
 	AccessTTLSeconds int
+}
+
+// SeckillConfig 只在进程启动时选择库存实现，绝不能由单个 HTTP 请求动态指定。
+// 压测三种策略时应修改配置并重启服务，保证一次测试期间所有请求使用相同策略。
+type SeckillConfig struct {
+	StockMode string
 }
