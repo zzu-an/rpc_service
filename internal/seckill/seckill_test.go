@@ -81,54 +81,35 @@ type admissionGateStub struct {
 	calls  int
 }
 
-type jobRepositoryStub struct {
-	input        EnsureJobInput
-	job          OrderJob
-	replayed     bool
-	err          error
-	markedID     uint64
-	markErr      error
-	foundJob     OrderJob
-	foundOrder   order.Order
-	findJobErr   error
-	findOrderErr error
+type streamGateStub struct {
+	input  ReservationInput
+	result Reservation
+	err    error
+	calls  int
 }
 
-func (r *jobRepositoryStub) EnsureJob(_ context.Context, input EnsureJobInput) (OrderJob, bool, error) {
-	r.input = input
-	return r.job, r.replayed, r.err
-}
-func (r *jobRepositoryStub) FindJobOwned(context.Context, uint64, string) (OrderJob, error) {
-	return r.foundJob, r.findJobErr
-}
-func (r *jobRepositoryStub) FindOrderOwned(context.Context, uint64, string) (order.Order, error) {
-	return r.foundOrder, r.findOrderErr
-}
-func (*jobRepositoryStub) ListPendingJobs(context.Context, time.Time, int) ([]OrderJob, error) {
-	return nil, nil
-}
-func (*jobRepositoryStub) MarkJobPublished(context.Context, uint64, time.Time) (bool, error) {
-	return false, nil
-}
-func (*jobRepositoryStub) ScheduleJobPublishRetry(context.Context, uint64, time.Time, string) (bool, error) {
-	return false, nil
-}
-func (r *jobRepositoryStub) MarkJobSucceeded(_ context.Context, id uint64, _ time.Time) (bool, error) {
-	r.markedID = id
-	return r.markErr == nil, r.markErr
-}
-func (*jobRepositoryStub) MarkJobFailed(context.Context, uint64, time.Time, string) (bool, error) {
-	return false, nil
+func (g *streamGateStub) ReserveAndEnqueue(_ context.Context, input ReservationInput) (Reservation, error) {
+	g.calls++
+	g.input = input
+	return g.result, g.err
 }
 
-type messageFactoryStub struct {
-	eventID string
-	payload []byte
-	err     error
+type streamResultStub struct {
+	status AsyncResultStatus
+	err    error
 }
 
-func (f messageFactoryStub) Build(string, uint64, uint64, time.Time) (string, []byte, error) {
-	return f.eventID, f.payload, f.err
+func (s streamResultStub) FindStreamResult(context.Context, uint64, string) (AsyncResultStatus, error) {
+	return s.status, s.err
+}
+
+type asyncOrderReaderStub struct {
+	order order.Order
+	err   error
+}
+
+func (r *asyncOrderReaderStub) FindOrderOwned(context.Context, uint64, string) (order.Order, error) {
+	return r.order, r.err
 }
 
 func (g *admissionGateStub) Reserve(_ context.Context, input ReservationInput) (Reservation, error) {
@@ -270,6 +251,22 @@ func TestPurchaseUsesRedisOrderNumberAndSameInstant(t *testing.T) {
 	}
 }
 
+func TestStreamOrderNumberCarriesTrustedItemID(t *testing.T) {
+	orderNo, err := newStreamOrderNo(time.UnixMilli(1_700_000_000_000), 42)
+	if err != nil {
+		t.Fatalf("newStreamOrderNo() error = %v", err)
+	}
+	itemID, ok := StreamOrderItemID(orderNo)
+	if !ok || itemID != 42 || len(orderNo) > 64 {
+		t.Fatalf("orderNo=%q itemID=%d ok=%v", orderNo, itemID, ok)
+	}
+	for _, invalid := range []string{"", "S1700000000000deadbeefdeadbeef", "T1-0-0000000000000000", "Tbad-42-0000000000000000", "T1-42-not-hex"} {
+		if _, ok := StreamOrderItemID(invalid); ok {
+			t.Fatalf("StreamOrderItemID(%q) unexpectedly succeeded", invalid)
+		}
+	}
+}
+
 func TestPurchaseGateRejectionDoesNotCallMySQL(t *testing.T) {
 	for _, gateErr := range []error{ErrCacheNotReady, ErrOutOfStock, ErrAdmissionFailure} {
 		t.Run(gateErr.Error(), func(t *testing.T) {
@@ -304,31 +301,6 @@ func TestPurchaseMySQLFailureDoesNotInvokeRedisAgain(t *testing.T) {
 	}
 }
 
-func TestEnqueuePersistsStableReservationWithoutPurchase(t *testing.T) {
-	now := time.Date(2026, 8, 29, 3, 4, 5, 0, time.UTC)
-	repository := &repositoryStub{}
-	gate := &admissionGateStub{result: Reservation{OrderNo: "stable-async-order", Replayed: true}}
-	jobs := &jobRepositoryStub{replayed: true}
-	service, err := NewServiceWithAsyncAdmission(
-		repository, snapshotReaderStub{}, &activityCacheStub{}, gate, jobs,
-		messageFactoryStub{eventID: "event-1", payload: []byte(`{"schema_version":1}`)},
-	)
-	if err != nil {
-		t.Fatalf("NewServiceWithAsyncAdmission() error = %v", err)
-	}
-	service.now = func() time.Time { return now }
-	result, err := service.Enqueue(context.Background(), 7, 9)
-	if err != nil {
-		t.Fatalf("Enqueue() error = %v", err)
-	}
-	if result.OrderNo != "stable-async-order" || !result.Replayed || repository.purchaseCalls != 0 {
-		t.Fatalf("Enqueue() = %+v purchaseCalls=%d", result, repository.purchaseCalls)
-	}
-	if jobs.input.EventID != "event-1" || jobs.input.OrderNo != result.OrderNo || !jobs.input.ReservedAt.Equal(now) {
-		t.Fatalf("EnsureJob input = %+v", jobs.input)
-	}
-}
-
 func TestReserveRecoversWinnerTimeFromReplayedOrderNumber(t *testing.T) {
 	winnerTime := time.Date(2026, 8, 29, 3, 4, 5, 123000000, time.UTC)
 	winnerOrder := "S" + strconv.FormatInt(winnerTime.UnixMilli(), 10) + "0123456789abcdef"
@@ -345,71 +317,58 @@ func TestReserveRecoversWinnerTimeFromReplayedOrderNumber(t *testing.T) {
 	}
 }
 
-func TestEnqueueJobFailureKeepsSingleRedisReservation(t *testing.T) {
+func TestEnqueueStreamUsesAtomicGateWithoutSynchronousPurchase(t *testing.T) {
 	repository := &repositoryStub{}
-	gate := &admissionGateStub{result: Reservation{OrderNo: "stable-async-order"}}
-	jobs := &jobRepositoryStub{err: context.DeadlineExceeded}
-	service, err := NewServiceWithAsyncAdmission(
-		repository, snapshotReaderStub{}, &activityCacheStub{}, gate, jobs,
-		messageFactoryStub{eventID: "event-1", payload: []byte(`{"schema_version":1}`)},
+	streamGate := &streamGateStub{result: Reservation{OrderNo: "T1700000000000-9-0000000000000001"}}
+	orders := &asyncOrderReaderStub{err: ErrAsyncResultNotFound}
+	service, err := NewServiceWithStreamAdmission(
+		repository, snapshotReaderStub{}, &activityCacheStub{}, &admissionGateStub{},
+		streamGate, streamResultStub{status: AsyncResultQueued}, orders,
 	)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, err := service.Enqueue(context.Background(), 7, 9); !errors.Is(err, ErrQueueUnavailable) {
+	result, err := service.Enqueue(context.Background(), 7, 9)
+	if err != nil {
 		t.Fatalf("Enqueue() error = %v", err)
 	}
-	if gate.calls != 1 || repository.purchaseCalls != 0 {
-		t.Fatalf("gate calls=%d purchase calls=%d", gate.calls, repository.purchaseCalls)
+	if result.OrderNo != streamGate.result.OrderNo || streamGate.calls != 1 || repository.purchaseCalls != 0 {
+		t.Fatalf("result=%+v stream_calls=%d purchase_calls=%d", result, streamGate.calls, repository.purchaseCalls)
+	}
+	asyncResult, err := service.GetAsyncResult(context.Background(), 7, result.OrderNo)
+	if err != nil || asyncResult.Status != AsyncResultQueued {
+		t.Fatalf("GetAsyncResult() = %+v, %v", asyncResult, err)
 	}
 }
 
-func TestProcessQueuedJobUsesReservedAtAndMarksAfterPurchase(t *testing.T) {
-	reservedAt := time.Date(2026, 8, 29, 3, 0, 0, 0, time.UTC)
-	repository := &repositoryStub{purchaseResult: PurchaseResult{}}
-	jobs := &jobRepositoryStub{}
-	service := NewService(repository)
-	service.jobRepository = jobs
-	job := OrderJob{ID: 11, OrderNo: "S-queued", UserID: 7, ItemID: 9, ReservedAt: reservedAt, Status: JobStatusPublished}
-	if _, err := service.ProcessQueuedJob(context.Background(), job); err != nil {
-		t.Fatalf("ProcessQueuedJob() error = %v", err)
+func TestGetAsyncResultPrefersOrderAndMapsStreamStates(t *testing.T) {
+	created := order.Order{ID: 1, OrderNo: "T1-9-0000000000000001", UserID: 7}
+	orders := &asyncOrderReaderStub{order: created}
+	results := &streamResultStub{status: AsyncResultQueued}
+	service, err := NewServiceWithStreamAdmission(
+		&repositoryStub{}, snapshotReaderStub{}, &activityCacheStub{}, &admissionGateStub{},
+		&streamGateStub{}, results, orders,
+	)
+	if err != nil {
+		t.Fatal(err)
 	}
-	if repository.purchaseNo != job.OrderNo || !repository.purchaseNow.Equal(reservedAt) || jobs.markedID != job.ID {
-		t.Fatalf("purchaseNo=%q purchaseNow=%v markedID=%d", repository.purchaseNo, repository.purchaseNow, jobs.markedID)
-	}
-
-	jobs.markErr = context.DeadlineExceeded
-	if _, err := service.ProcessQueuedJob(context.Background(), job); err == nil {
-		t.Fatal("ProcessQueuedJob() error = nil after status failure")
-	}
-	if repository.purchaseCalls != 2 {
-		t.Fatalf("purchase calls=%d, want redelivery call", repository.purchaseCalls)
-	}
-}
-
-func TestGetAsyncResultPrefersOrderAndMapsJobStates(t *testing.T) {
-	created := order.Order{ID: 1, OrderNo: "S-result", UserID: 7}
-	jobs := &jobRepositoryStub{foundOrder: created}
-	service := NewService(&repositoryStub{})
-	service.jobRepository = jobs
 	got, err := service.GetAsyncResult(context.Background(), 7, created.OrderNo)
 	if err != nil || got.Status != AsyncResultSucceeded || got.Order.ID != created.ID {
 		t.Fatalf("succeeded result=%+v error=%v", got, err)
 	}
 
-	jobs.findOrderErr = ErrJobNotFound
-	jobs.foundJob = OrderJob{OrderNo: created.OrderNo, Status: JobStatusPublished}
+	orders.err = ErrAsyncResultNotFound
 	got, err = service.GetAsyncResult(context.Background(), 7, created.OrderNo)
 	if err != nil || got.Status != AsyncResultQueued {
 		t.Fatalf("queued result=%+v error=%v", got, err)
 	}
-	jobs.foundJob.Status = JobStatusFailed
+	results.status = AsyncResultFailed
 	got, err = service.GetAsyncResult(context.Background(), 7, created.OrderNo)
 	if err != nil || got.Status != AsyncResultFailed {
 		t.Fatalf("failed result=%+v error=%v", got, err)
 	}
-	jobs.findJobErr = ErrJobNotFound
-	if _, err := service.GetAsyncResult(context.Background(), 8, created.OrderNo); !errors.Is(err, ErrJobNotFound) {
+	results.err = ErrAsyncResultNotFound
+	if _, err := service.GetAsyncResult(context.Background(), 8, created.OrderNo); !errors.Is(err, ErrAsyncResultNotFound) {
 		t.Fatalf("other user result error=%v", err)
 	}
 }

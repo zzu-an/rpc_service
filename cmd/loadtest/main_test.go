@@ -26,8 +26,13 @@ func TestValidateOptions(t *testing.T) {
 	if err := validateOptions(&valid); err != nil {
 		t.Fatalf("validateOptions() error = %v", err)
 	}
-	if valid.BaseURL != "http://127.0.0.1:8888" || valid.Strategy != "pessimistic" || valid.Admission != "redis" || valid.OrderMode != "async" || valid.RedisDeployment != "remote-standalone" || valid.RunID != "run01" {
+	if valid.BaseURL != "http://127.0.0.1:8888" || valid.Strategy != "pessimistic" || valid.Admission != "redis" || valid.OrderMode != "async-stream" || valid.RedisDeployment != "remote-standalone" || valid.RunID != "run01" {
 		t.Fatalf("options were not normalized: %+v", valid)
+	}
+	stream := valid
+	stream.OrderMode = " ASYNC-STREAM "
+	if err := validateOptions(&stream); err != nil || stream.OrderMode != "async-stream" {
+		t.Fatalf("stream mode=%q error=%v", stream.OrderMode, err)
 	}
 
 	invalid := valid
@@ -254,7 +259,7 @@ func TestBuildReportSeparatesAsyncAdmissionAndFinalState(t *testing.T) {
 		{HTTPCode: http.StatusAccepted, Code: "OK", OrderNo: "b", Status: "FAILED", Duration: time.Millisecond},
 		{HTTPCode: http.StatusAccepted, Code: "OK", OrderNo: "c", Status: "QUEUED", ResultError: "poll timeout", Duration: time.Millisecond},
 	}
-	got := buildReport(options{BaseURL: "http://example", OrderMode: "async", Requests: 3}, 7, samples, 0, time.Second)
+	got := buildReport(options{BaseURL: "http://example", OrderMode: "async-stream", Requests: 3}, 7, samples, 0, time.Second)
 	if got.Counts.HTTP202 != 3 || got.Counts.Queued != 3 || got.Counts.FinalSucceeded != 1 || got.Counts.FinalFailed != 1 || got.Counts.FinalPending != 1 || got.Counts.ResultPollError != 1 {
 		t.Fatalf("counts = %+v", got.Counts)
 	}

@@ -247,6 +247,57 @@ func (r *Repository) LoadPreheatSnapshot(ctx context.Context, activityID uint64)
 	return snapshot, nil
 }
 
+// ListStreamItemIDs 给 v0.4.2 Stream worker 发现需要监听的 item。它查询 MySQL 元数据而
+// 不是 SCAN Redis：单节点 SCAN 在 Cluster 中只覆盖一个 shard，且模式扫描会给热点
+// Redis 增加额外负担。已经启动的 item worker 即使活动随后停用也不会立即退出，以便排空
+// 活动窗口内已获得资格但仍在 PEL 的任务。
+func (r *Repository) ListStreamItemIDs(ctx context.Context) ([]uint64, error) {
+	rows, err := r.db.QueryContext(ctx, `
+		SELECT i.id
+		FROM seckill_items i
+		JOIN seckill_activities a ON a.id = i.activity_id
+		WHERE a.status = ? AND a.end_at > UTC_TIMESTAMP(6)
+		ORDER BY i.id
+	`, seckill.StatusEnabled)
+	if err != nil {
+		return nil, fmt.Errorf("list stream seckill item IDs: %w", err)
+	}
+	defer rows.Close()
+	var ids []uint64
+	for rows.Next() {
+		var id uint64
+		if err := rows.Scan(&id); err != nil {
+			return nil, fmt.Errorf("scan stream seckill item ID: %w", err)
+		}
+		ids = append(ids, id)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("iterate stream seckill item IDs: %w", err)
+	}
+	return ids, nil
+}
+
+// FindOrderOwned 为 Stream 结果查询读取 MySQL 订单事实。不存在与不属于当前用户统一
+// 返回 ErrAsyncResultNotFound，避免 order_no 可枚举；Redis QUEUED/FAILED 只能在这里查不到后兜底。
+func (r *Repository) FindOrderOwned(ctx context.Context, userID uint64, orderNo string) (order.Order, error) {
+	if userID == 0 || strings.TrimSpace(orderNo) == "" {
+		return order.Order{}, seckill.ErrAsyncResultNotFound
+	}
+	var orderID uint64
+	err := r.db.QueryRowContext(ctx, `SELECT id FROM orders WHERE user_id = ? AND order_no = ?`, userID, strings.TrimSpace(orderNo)).Scan(&orderID)
+	if errors.Is(err, sql.ErrNoRows) {
+		return order.Order{}, seckill.ErrAsyncResultNotFound
+	}
+	if err != nil {
+		return order.Order{}, fmt.Errorf("find stream seckill order ID: %w", err)
+	}
+	created, err := ordermysql.New(r.db).FindOwned(ctx, userID, orderID)
+	if err != nil {
+		return order.Order{}, fmt.Errorf("find stream seckill order: %w", err)
+	}
+	return created, nil
+}
+
 func (r *Repository) InspectItemState(ctx context.Context, itemID uint64) (ItemConsistencyState, error) {
 	if itemID == 0 {
 		return ItemConsistencyState{}, seckill.ErrInvalidArgument

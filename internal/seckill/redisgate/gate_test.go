@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -129,6 +130,90 @@ func TestGateKeysShareClusterHashTag(t *testing.T) {
 	state, buyers := StateKey(42), BuyersKey(42)
 	if state != "seckill:v03:{item:42}:state" || buyers != "seckill:v03:{item:42}:buyers" {
 		t.Fatalf("unexpected keys: %q %q", state, buyers)
+	}
+	for _, key := range []string{StreamKey(42), StreamResultsKey(42), StreamRetriesKey(42), StreamDLQKey(42)} {
+		if !strings.Contains(key, "{item:42}") {
+			t.Fatalf("stream key does not share item hash tag: %q", key)
+		}
+	}
+}
+
+func TestGateRealRedisAtomicReserveAndEnqueue(t *testing.T) {
+	client := integrationClient(t)
+	itemID := uint64(time.Now().UnixNano())
+	stateKey, buyersKey := StateKey(itemID), BuyersKey(itemID)
+	streamKey, resultsKey := StreamKey(itemID), StreamResultsKey(itemID)
+	t.Cleanup(func() { _ = client.Del(context.Background(), stateKey, buyersKey, streamKey, resultsKey).Err() })
+	now := time.Now().UTC().Truncate(time.Millisecond)
+	expiresAt := now.Add(2 * time.Minute)
+	if err := client.HSet(context.Background(), stateKey, map[string]any{
+		"ready": 1, "status": 1, "start_at_ms": now.Add(-time.Minute).UnixMilli(),
+		"end_at_ms": now.Add(time.Minute).UnixMilli(), "stock": 100, "expire_at_ms": expiresAt.UnixMilli(),
+	}).Err(); err != nil {
+		t.Fatalf("seed state: %v", err)
+	}
+	gate, err := New(client, time.Second)
+	if err != nil {
+		t.Fatalf("New() error = %v", err)
+	}
+	var successes atomic.Int64
+	// 并发调度不保证 user 1 位于前 25 个。记录真实赢家再验证重放，避免把 goroutine
+	// 启动顺序误当成 Redis 执行顺序；这也是并发测试里很常见的伪确定性陷阱。
+	type winner struct {
+		userID  uint64
+		orderNo string
+	}
+	winners := make(chan winner, 100)
+	var wg sync.WaitGroup
+	for userID := uint64(1); userID <= 1000; userID++ {
+		wg.Add(1)
+		go func(userID uint64) {
+			defer wg.Done()
+			orderNo := fmt.Sprintf("T%d-%d-%016x", now.UnixMilli(), itemID, userID)
+			_, reserveErr := gate.ReserveAndEnqueue(context.Background(), seckill.ReservationInput{
+				UserID: userID, ItemID: itemID, OrderNo: orderNo, Now: now,
+			})
+			switch {
+			case reserveErr == nil:
+				successes.Add(1)
+				winners <- winner{userID: userID, orderNo: orderNo}
+			case errors.Is(reserveErr, seckill.ErrOutOfStock):
+			default:
+				t.Errorf("ReserveAndEnqueue(%d) error = %v", userID, reserveErr)
+			}
+		}(userID)
+	}
+	wg.Wait()
+	close(winners)
+	stock := client.HGet(context.Background(), stateKey, "stock").Val()
+	buyers := client.HLen(context.Background(), buyersKey).Val()
+	messages := client.XLen(context.Background(), streamKey).Val()
+	results := client.HLen(context.Background(), resultsKey).Val()
+	if successes.Load() != 100 || stock != "0" || buyers != 100 || messages != 100 || results != 100 {
+		t.Fatalf("success=%d stock=%s buyers=%d messages=%d results=%d", successes.Load(), stock, buyers, messages, results)
+	}
+
+	firstWinner := <-winners
+	var replayFailures atomic.Int64
+	for index := 0; index < 100; index++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			replay, replayErr := gate.ReserveAndEnqueue(context.Background(), seckill.ReservationInput{
+				UserID: firstWinner.userID, ItemID: itemID, OrderNo: "T1-1-0000000000000001", Now: now,
+			})
+			if replayErr != nil || !replay.Replayed || replay.OrderNo != firstWinner.orderNo {
+				replayFailures.Add(1)
+			}
+		}()
+	}
+	wg.Wait()
+	if replayFailures.Load() != 0 || client.XLen(context.Background(), streamKey).Val() != 100 {
+		t.Fatalf("replay_failures=%d stream_len=%d", replayFailures.Load(), client.XLen(context.Background(), streamKey).Val())
+	}
+	status, err := gate.FindStreamResult(context.Background(), firstWinner.userID, firstWinner.orderNo)
+	if err != nil || status != seckill.AsyncResultQueued {
+		t.Fatalf("FindStreamResult() = %q, %v", status, err)
 	}
 }
 

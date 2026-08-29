@@ -17,28 +17,26 @@ Redis:
   DB: 0
   DialTimeoutMilliseconds: 500
   OperationTimeoutMilliseconds: 200
-Kafka:
-  Brokers:
-    - 192.168.0.107:9092
-  MainTopic: service-rpc-seckill-order-requested-v1
-  RetryTopic: service-rpc-seckill-order-retry-v1
-  DLQTopic: service-rpc-seckill-order-dlq-v1
-  ConsumerGroup: service-rpc-seckill-worker-v1
-  # 开发环境允许创建 topic；正式环境应由运维预创建并固定 partition/副本数。
-  AllowAutoTopicCreation: true
-  TopicPartitions: 4
-  OperationTimeoutMilliseconds: 2000
+RedisStream:
+  ConsumerGroup: service-rpc-seckill-stream-v1
+  ConsumerPrefix: stream-worker
+  # 全局 MySQL Purchase 并发上限，必须小于 MySQL MaxOpenConns 并给其他 SQL 留预算。
   ConsumerConcurrency: 4
-  MaxConsumeAttempts: 3
-  RelayIntervalMilliseconds: 100
+  BatchSize: 10
+  BlockMilliseconds: 100
+  ClaimIdleMilliseconds: 1000
+  DiscoveryIntervalMilliseconds: 1000
   ShutdownTimeoutMilliseconds: 10000
+  MaxDeliveries: 3
+  # Stream/results 比准入 state 多保留一天，允许活动结束后继续排空。
+  RetentionSeconds: 86400
 Seckill:
   # 可选 atomic / pessimistic / optimistic；修改后必须重启服务。
   StockMode: atomic
   # 可选 mysql / redis；Redis 故障时不会自动回退 MySQL。
   AdmissionMode: redis
-  # 可选 sync / async；v0.4 正式链路使用 async，sync 只用于 v0.3 对照。
-  OrderMode: async
+  # 可选 sync / async-stream；Kafka 版本请切换 codex/v0.4.1-kafka 分支。
+  OrderMode: async-stream
 
 #  Mysql:
 #  容器名：service-rpc-mysql

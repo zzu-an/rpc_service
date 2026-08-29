@@ -85,8 +85,14 @@ service A → service B database
 ### v0.3
 引入 Redis，目标是削峰和减少 DB 热点。
 
-### v0.4
-引入 MQ，目标是将非核心同步链路异步化。
+### v0.4.1（Kafka 分支）
+使用 MySQL Outbox、Kafka consumer、retry/DLQ 学习通用可靠消息，代码位于
+`codex/v0.4.1-kafka`。
+
+### v0.4.2（Redis Stream 分支）
+秒杀入口使用同 slot 的 Redis Lua 同时完成库存预扣、buyer 幂等标记和 Stream `XADD`，
+Stream worker 直接调用既有 MySQL Purchase 事务。当前工作树只包含该实现；Kafka 代码、
+job migration 和配置被隔离在另一分支，避免两套队列语义互相干扰。
 
 ### v0.5
 拆微服务，引入 RPC、服务发现、超时、熔断。

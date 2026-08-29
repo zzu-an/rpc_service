@@ -72,37 +72,11 @@ func TestRedisValidationErrorDoesNotContainPassword(t *testing.T) {
 	}
 }
 
-func TestKafkaConfigValidate(t *testing.T) {
-	valid := KafkaConfig{
-		Brokers: []string{"192.168.0.107:9092"}, MainTopic: "seckill-main",
-		RetryTopic: "seckill-retry", DLQTopic: "seckill-dlq", ConsumerGroup: "seckill-worker",
-		TopicPartitions: 4, OperationTimeoutMilliseconds: 1000, ConsumerConcurrency: 4, MaxConsumeAttempts: 3,
-		RelayIntervalMilliseconds: 100, ShutdownTimeoutMilliseconds: 5000,
-	}
-	if err := valid.Validate(); err != nil {
-		t.Fatalf("Validate() error = %v", err)
-	}
-	if valid.OperationTimeout() != time.Second || valid.RelayInterval() != 100*time.Millisecond || valid.ShutdownTimeout() != 5*time.Second {
-		t.Fatalf("unexpected Kafka durations")
-	}
-
-	tests := []KafkaConfig{
-		{},
-		{Brokers: []string{""}},
-		{Brokers: []string{"kafka:9092"}, MainTopic: "same", RetryTopic: "same", DLQTopic: "dlq", ConsumerGroup: "g", TopicPartitions: 1, OperationTimeoutMilliseconds: 1, ConsumerConcurrency: 1, MaxConsumeAttempts: 1, RelayIntervalMilliseconds: 1, ShutdownTimeoutMilliseconds: 1},
-	}
-	for i, cfg := range tests {
-		if err := cfg.Validate(); err == nil {
-			t.Fatalf("case %d Validate() error = nil", i)
-		}
-	}
-}
-
 func TestParseOrderMode(t *testing.T) {
 	for _, test := range []struct {
 		value string
 		want  OrderMode
-	}{{"", OrderModeSync}, {" sync ", OrderModeSync}, {"ASYNC", OrderModeAsync}} {
+	}{{"", OrderModeSync}, {" sync ", OrderModeSync}, {"ASYNC", OrderModeAsyncStream}, {"ASYNC-STREAM", OrderModeAsyncStream}} {
 		got, err := ParseOrderMode(test.value)
 		if err != nil || got != test.want || got.String() == "" {
 			t.Fatalf("ParseOrderMode(%q) = %v, %v", test.value, got, err)
@@ -110,5 +84,28 @@ func TestParseOrderMode(t *testing.T) {
 	}
 	if _, err := ParseOrderMode("fallback"); err == nil {
 		t.Fatal("ParseOrderMode(fallback) error = nil")
+	}
+	if _, err := ParseOrderMode("async-kafka"); err == nil {
+		t.Fatal("Kafka mode must be unavailable on the Redis Stream branch")
+	}
+}
+
+func TestRedisStreamConfigValidate(t *testing.T) {
+	valid := RedisStreamConfig{
+		ConsumerGroup: "seckill-stream", ConsumerPrefix: "worker", ConsumerConcurrency: 4,
+		BatchSize: 10, BlockMilliseconds: 100, ClaimIdleMilliseconds: 500,
+		DiscoveryIntervalMilliseconds: 1000, ShutdownTimeoutMilliseconds: 5000,
+		MaxDeliveries: 3, RetentionSeconds: 86400,
+	}
+	if err := valid.Validate(); err != nil {
+		t.Fatalf("Validate() error = %v", err)
+	}
+	if valid.Block() != 100*time.Millisecond || valid.Retention() != 24*time.Hour {
+		t.Fatalf("unexpected durations block=%s retention=%s", valid.Block(), valid.Retention())
+	}
+	invalid := valid
+	invalid.MaxDeliveries = 0
+	if err := invalid.Validate(); err == nil {
+		t.Fatal("zero max deliveries accepted")
 	}
 }

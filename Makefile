@@ -1,4 +1,4 @@
-.PHONY: test test-race vet verify-v01 verify-v02 verify-v02-boundary verify-v03 verify-v03-boundary verify-v04 verify-v04-boundary labs-test labs-race labs-bench migrate-up migrate-down migrate-version
+.PHONY: test test-race vet verify-v01 verify-v02 verify-v02-boundary verify-v03 verify-v03-boundary verify-v042 verify-v042-boundary labs-test labs-race labs-bench migrate-up migrate-down migrate-version
 
 CONFIG ?= etc/store-api.yaml
 TEST_DSN ?=
@@ -57,28 +57,36 @@ verify-v03-boundary:
 		echo "v0.3 production distributed-lock scan passed"; \
 	fi
 
-# v0.4 门禁要求三种真实依赖，并要求 TEST_DSN 指向可执行 up/down/up 的一次性数据库。
-# Kafka broker 可写逗号分隔列表；测试会创建带随机后缀的独立 topic，不复用业务 consumer group。
-verify-v04:
-	@test -n "$(TEST_DSN)" || (echo "TEST_DSN is required; use a disposable MySQL database dedicated to v0.4 verification" && exit 1)
+# v0.4.2 是纯 Redis Stream 分支，只要求真实 MySQL/Redis。缺少任一地址必须失败，
+# 防止 fake 测试冒充阶段验收；Kafka 由 codex/v0.4.1-kafka 分支单独验证。
+verify-v042:
+	@test -n "$(TEST_DSN)" || (echo "TEST_DSN is required; use a disposable MySQL database migrated to the latest version" && exit 1)
 	@test -n "$(TEST_REDIS_ADDR)" || (echo "TEST_REDIS_ADDR is required" && exit 1)
-	@test -n "$(TEST_KAFKA_BROKERS)" || (echo "TEST_KAFKA_BROKERS is required, for example 192.168.0.107:9092" && exit 1)
-	@V04_MIGRATION_VERIFY=1 TEST_DSN="$(TEST_DSN)" go test -timeout 120s -run '^TestV04MigrationRoundTrip$$' -count=1 ./internal/seckill/mq
-	@V04_STAGE_VERIFY=1 SERVICE_RPC_MYSQL_TEST_DSN="$(TEST_DSN)" TEST_DSN="$(TEST_DSN)" TEST_REDIS_ADDR="$(TEST_REDIS_ADDR)" TEST_REDIS_PASSWORD="$(TEST_REDIS_PASSWORD)" TEST_REDIS_DB="$(TEST_REDIS_DB)" TEST_KAFKA_BROKERS="$(TEST_KAFKA_BROKERS)" go test -race -timeout 600s ./...
+	@V042_STAGE_VERIFY=1 SERVICE_RPC_MYSQL_TEST_DSN="$(TEST_DSN)" TEST_DSN="$(TEST_DSN)" TEST_REDIS_ADDR="$(TEST_REDIS_ADDR)" TEST_REDIS_PASSWORD="$(TEST_REDIS_PASSWORD)" TEST_REDIS_DB="$(TEST_REDIS_DB)" go test -race -timeout 600s ./...
 	go vet ./...
-	$(MAKE) verify-v04-boundary
+	$(MAKE) verify-v042-boundary
 	git diff --check
 
-verify-v04-boundary:
-	@if rg -n 'google\.golang\.org/grpc|go\.etcd\.io|zeromicro/go-zero/zrpc|rocketmq|rabbitmq|amqp091|dtm-labs|rate\.NewLimiter|gobreaker' main.go cmd internal --glob '*.go'; then \
-		echo "v0.4 boundary violation: post-v0.4 infrastructure found"; exit 1; \
+verify-v042-boundary:
+	@if rg -n 'segmentio/kafka|shopify/sarama|go-queue/kq|rocketmq|rabbitmq|amqp091|google\.golang\.org/grpc|go\.etcd\.io|zeromicro/go-zero/zrpc|dtm-labs|rate\.NewLimiter|gobreaker' main.go cmd internal --glob '*.go'; then \
+		echo "v0.4.2 boundary violation: queue alternative or later-stage infrastructure found"; exit 1; \
 	else \
-		echo "v0.4 infrastructure boundary scan passed"; \
+		echo "v0.4.2 production infrastructure boundary scan passed"; \
+	fi
+	@if rg -n 'segmentio/kafka|shopify/sarama|go-queue/kq' go.mod go.sum; then \
+		echo "v0.4.2 boundary violation: Kafka dependency found"; exit 1; \
+	else \
+		echo "v0.4.2 Kafka dependency isolation scan passed"; \
 	fi
 	@if rg -n '^\s*(type|func|var|const)\s+.*(Payment(State|Status)|Compensat|Reconcil)' main.go cmd internal --glob '*.go'; then \
-		echo "v0.4 boundary violation: payment/compensation/reconciliation production API found"; exit 1; \
+		echo "v0.4.2 boundary violation: payment/compensation/reconciliation production API found"; exit 1; \
 	else \
-		echo "v0.4 business boundary scan passed"; \
+		echo "v0.4.2 business boundary scan passed"; \
+	fi
+	@if find migrations -maxdepth 1 -type f -name '000008*' | rg .; then \
+		echo "v0.4.2 boundary violation: Stream alternative must not contain the Kafka job migration"; exit 1; \
+	else \
+		echo "v0.4.2 schema boundary scan passed"; \
 	fi
 labs-test:
 	go test ./labs/...

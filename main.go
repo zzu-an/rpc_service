@@ -22,7 +22,6 @@ import (
 	"service_rpc/internal/rbac"
 	rbacmysql "service_rpc/internal/rbac/mysqlrepo"
 	"service_rpc/internal/seckill"
-	seckillmq "service_rpc/internal/seckill/mq"
 	seckillmysql "service_rpc/internal/seckill/mysqlrepo"
 	"service_rpc/internal/seckill/redisgate"
 	"service_rpc/internal/user"
@@ -85,8 +84,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("initialize seckill order mode: %v", err)
 	}
-	if orderMode == config.OrderModeAsync && admissionMode != config.AdmissionModeRedis {
-		// async job 必须由 Redis 先确定唯一资格/orderNo。允许 mysql+async 会绕过 v0.3
+	if orderMode != config.OrderModeSync && admissionMode != config.AdmissionModeRedis {
+		// Stream 任务必须由 Redis 先确定唯一资格/orderNo。允许 mysql+async 会绕过 v0.3
 		// 的削峰与 stable buyer 语义，失败重试也无法恢复第一次预留。
 		log.Fatal("initialize async seckill: admission mode must be redis")
 	}
@@ -107,11 +106,17 @@ func main() {
 		if err != nil {
 			log.Fatalf("initialize Redis seckill gate: %v", err)
 		}
-		if orderMode == config.OrderModeAsync {
-			seckillService, err = seckill.NewServiceWithAsyncAdmission(
-				seckillRepository, seckillRepository, gate, gate, seckillRepository, seckillmq.NewJobFactory(),
-			)
-		} else {
+		switch orderMode {
+		case config.OrderModeAsyncStream:
+			if err = c.RedisStream.Validate(); err != nil {
+				log.Fatalf("validate Redis Stream: %v", err)
+			}
+			if err = gate.SetStreamRetention(c.RedisStream.Retention()); err == nil {
+				seckillService, err = seckill.NewServiceWithStreamAdmission(
+					seckillRepository, seckillRepository, gate, gate, gate, gate, seckillRepository,
+				)
+			}
+		default:
 			seckillService, err = seckill.NewServiceWithAdmission(seckillRepository, seckillRepository, gate, gate)
 		}
 		if err != nil {

@@ -15,7 +15,7 @@ type Config struct {
 	rest.RestConf // RestConf 内部封装了启动一个 HTTP 服务所需的核心配置：
 	MySQL         MySQLConfig
 	Redis         RedisConfig
-	Kafka         KafkaConfig `json:",optional"`
+	RedisStream   RedisStreamConfig `json:",optional"`
 	Auth          AuthConfig
 	Seckill       SeckillConfig
 }
@@ -59,70 +59,51 @@ type RedisConfig struct {
 	OperationTimeoutMilliseconds int
 }
 
-// KafkaConfig 同时服务 API 的配置校验和异步 worker。
-// topic 名显式配置而不是散落在业务代码中，便于测试使用唯一 topic，也避免主消息、
-// retry 和 DLQ 因拼写漂移进入错误队列。这里暂不加入 SASL/TLS；当前里程碑只连接
-// 用户提供的开发 broker，生产安全接入必须另做明确架构决策。
-type KafkaConfig struct {
-	Brokers                      []string
-	MainTopic                    string
-	RetryTopic                   string
-	DLQTopic                     string
-	ConsumerGroup                string
-	AllowAutoTopicCreation       bool
-	TopicPartitions              int
-	OperationTimeoutMilliseconds int
-	ConsumerConcurrency          int
-	MaxConsumeAttempts           int
-	RelayIntervalMilliseconds    int
-	ShutdownTimeoutMilliseconds  int
+// RedisStreamConfig 只描述 v0.4.2 内部工作队列。它与 Redis 连接配置分离：连接超时是
+// 单次 I/O 预算，Block/ClaimIdle 是消费协议语义，把二者混成一个值会导致长轮询被客户端
+// 提前超时，或故障请求占用连接过久。
+type RedisStreamConfig struct {
+	ConsumerGroup                 string
+	ConsumerPrefix                string
+	ConsumerConcurrency           int
+	BatchSize                     int
+	BlockMilliseconds             int
+	ClaimIdleMilliseconds         int
+	DiscoveryIntervalMilliseconds int
+	ShutdownTimeoutMilliseconds   int
+	MaxDeliveries                 int
+	RetentionSeconds              int
 }
 
-func (c KafkaConfig) OperationTimeout() time.Duration {
-	return time.Duration(c.OperationTimeoutMilliseconds) * time.Millisecond
+func (c RedisStreamConfig) Block() time.Duration {
+	return time.Duration(c.BlockMilliseconds) * time.Millisecond
 }
 
-func (c KafkaConfig) RelayInterval() time.Duration {
-	return time.Duration(c.RelayIntervalMilliseconds) * time.Millisecond
+func (c RedisStreamConfig) ClaimIdle() time.Duration {
+	return time.Duration(c.ClaimIdleMilliseconds) * time.Millisecond
 }
 
-func (c KafkaConfig) ShutdownTimeout() time.Duration {
+func (c RedisStreamConfig) DiscoveryInterval() time.Duration {
+	return time.Duration(c.DiscoveryIntervalMilliseconds) * time.Millisecond
+}
+
+func (c RedisStreamConfig) ShutdownTimeout() time.Duration {
 	return time.Duration(c.ShutdownTimeoutMilliseconds) * time.Millisecond
 }
 
-func (c KafkaConfig) Validate() error {
-	if len(c.Brokers) == 0 {
-		return fmt.Errorf("at least one kafka broker is required")
+func (c RedisStreamConfig) Retention() time.Duration {
+	return time.Duration(c.RetentionSeconds) * time.Second
+}
+
+func (c RedisStreamConfig) Validate() error {
+	if strings.TrimSpace(c.ConsumerGroup) == "" || strings.TrimSpace(c.ConsumerPrefix) == "" {
+		return fmt.Errorf("redis stream consumer group and prefix are required")
 	}
-	for i, broker := range c.Brokers {
-		if strings.TrimSpace(broker) == "" {
-			return fmt.Errorf("kafka broker %d is empty", i)
-		}
+	if c.ConsumerConcurrency <= 0 || c.BatchSize <= 0 || c.MaxDeliveries <= 0 {
+		return fmt.Errorf("redis stream concurrency, batch size, and max deliveries must be positive")
 	}
-	for name, topic := range map[string]string{
-		"main": c.MainTopic, "retry": c.RetryTopic, "dlq": c.DLQTopic,
-	} {
-		if strings.TrimSpace(topic) == "" {
-			return fmt.Errorf("kafka %s topic is required", name)
-		}
-	}
-	if c.MainTopic == c.RetryTopic || c.MainTopic == c.DLQTopic || c.RetryTopic == c.DLQTopic {
-		return fmt.Errorf("kafka main, retry, and dlq topics must be distinct")
-	}
-	if strings.TrimSpace(c.ConsumerGroup) == "" {
-		return fmt.Errorf("kafka consumer group is required")
-	}
-	if c.OperationTimeoutMilliseconds <= 0 || c.RelayIntervalMilliseconds <= 0 || c.ShutdownTimeoutMilliseconds <= 0 {
-		return fmt.Errorf("kafka operation, relay, and shutdown timeouts must be positive")
-	}
-	if c.ConsumerConcurrency <= 0 {
-		return fmt.Errorf("kafka consumer concurrency must be positive")
-	}
-	if c.TopicPartitions <= 0 {
-		return fmt.Errorf("kafka topic partitions must be positive")
-	}
-	if c.MaxConsumeAttempts <= 0 {
-		return fmt.Errorf("kafka max consume attempts must be positive")
+	if c.BlockMilliseconds <= 0 || c.ClaimIdleMilliseconds <= 0 || c.DiscoveryIntervalMilliseconds <= 0 || c.ShutdownTimeoutMilliseconds <= 0 || c.RetentionSeconds <= 0 {
+		return fmt.Errorf("redis stream time budgets and retention must be positive")
 	}
 	return nil
 }
@@ -187,20 +168,19 @@ type OrderMode uint8
 
 const (
 	OrderModeSync OrderMode = iota + 1
-	OrderModeAsync
+	OrderModeAsyncStream
 )
 
-// ParseOrderMode 只允许启动时选择同步基线或异步主链路。
-// Kafka 故障时不能临时切回 sync，否则所有已通过 Redis 的流量会突然重新占用 HTTP
-// goroutine 和 Purchase 事务，恰好绕过 v0.4 希望提供的削峰边界。
+// ParseOrderMode 只允许启动时选择同步或 Stream 链路。Kafka 方案位于独立的
+// codex/v0.4.1-kafka 分支；这里拒绝 async-kafka，避免学习时误以为两套队列会同时运行。
 func ParseOrderMode(value string) (OrderMode, error) {
 	switch strings.ToLower(strings.TrimSpace(value)) {
 	case "", "sync":
 		return OrderModeSync, nil
-	case "async":
-		return OrderModeAsync, nil
+	case "async", "async-stream":
+		return OrderModeAsyncStream, nil
 	default:
-		return 0, fmt.Errorf("unsupported seckill order mode %q; use sync or async", value)
+		return 0, fmt.Errorf("unsupported seckill order mode %q; use sync or async-stream", value)
 	}
 }
 
@@ -208,8 +188,8 @@ func (m OrderMode) String() string {
 	switch m {
 	case OrderModeSync:
 		return "sync"
-	case OrderModeAsync:
-		return "async"
+	case OrderModeAsyncStream:
+		return "async-stream"
 	default:
 		return fmt.Sprintf("unknown(%d)", m)
 	}

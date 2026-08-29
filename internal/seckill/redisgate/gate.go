@@ -65,6 +65,55 @@ redis.call('PEXPIREAT', KEYS[2], expire_at)
 return {1, ARGV[3]}
 `
 
+// reserveAndEnqueueScript 把资格判断、库存扣减、buyer 幂等标记和 XADD 放在一次
+// Redis 执行中。四个 key 都含相同 `{item:<id>}`，因此未来 Cluster 模式不会 CROSSSLOT。
+// 原子性只覆盖这个 Redis shard，不覆盖后续 MySQL；Stream consumer 仍必须接受重复处理。
+const reserveAndEnqueueScript = `
+local ready = redis.call('HGET', KEYS[1], 'ready')
+if ready ~= '1' then
+  return {-1, ''}
+end
+
+local existing = redis.call('HGET', KEYS[2], ARGV[1])
+if existing then
+  return {2, existing}
+end
+
+local status = redis.call('HGET', KEYS[1], 'status')
+local start_at = tonumber(redis.call('HGET', KEYS[1], 'start_at_ms'))
+local end_at = tonumber(redis.call('HGET', KEYS[1], 'end_at_ms'))
+local now = tonumber(ARGV[2])
+if status ~= '1' or start_at == nil or end_at == nil or now < start_at or now >= end_at then
+  return {-2, ''}
+end
+
+local stock = tonumber(redis.call('HGET', KEYS[1], 'stock'))
+local expire_at = tonumber(redis.call('HGET', KEYS[1], 'expire_at_ms'))
+if stock == nil or expire_at == nil then
+  return {-1, ''}
+end
+if stock <= 0 then
+  return {-3, ''}
+end
+
+redis.call('HINCRBY', KEYS[1], 'stock', -1)
+redis.call('HSET', KEYS[2], ARGV[1], ARGV[3])
+redis.call('HSET', KEYS[4], ARGV[3], ARGV[1] .. '|QUEUED')
+redis.call('XADD', KEYS[3], '*',
+  'schema_version', '1',
+  'event_type', 'seckill.order.requested',
+  'order_no', ARGV[3],
+  'user_id', ARGV[1],
+  'item_id', ARGV[4],
+  'reserved_at_ms', ARGV[2])
+
+redis.call('PEXPIREAT', KEYS[2], expire_at)
+local queue_expire_at = expire_at + tonumber(ARGV[5])
+redis.call('PEXPIREAT', KEYS[3], queue_expire_at)
+redis.call('PEXPIREAT', KEYS[4], queue_expire_at)
+return {1, ARGV[3]}
+`
+
 const publishScript = `
 redis.call('DEL', KEYS[1], KEYS[2])
 redis.call('HSET', KEYS[1],
@@ -123,10 +172,16 @@ type Gate struct {
 	operationTimeout time.Duration
 	loadMu           sync.Mutex
 	sha              string
+	streamSHA        string
+	streamRetention  time.Duration
 }
 
 var _ seckill.AdmissionGate = (*Gate)(nil)
+var _ seckill.StreamAdmissionGate = (*Gate)(nil)
+var _ seckill.StreamResultReader = (*Gate)(nil)
 var _ seckill.ActivityCache = (*Gate)(nil)
+
+const defaultStreamRetention = 24 * time.Hour
 
 func New(client *redis.Client, operationTimeout time.Duration) (*Gate, error) {
 	if client == nil {
@@ -147,7 +202,7 @@ func newWithRunner(runner scriptRunner, operationTimeout time.Duration) (*Gate, 
 	if operationTimeout <= 0 {
 		return nil, fmt.Errorf("redis gate operation timeout must be positive")
 	}
-	return &Gate{runner: runner, operationTimeout: operationTimeout}, nil
+	return &Gate{runner: runner, operationTimeout: operationTimeout, streamRetention: defaultStreamRetention}, nil
 }
 
 func StateKey(itemID uint64) string {
@@ -156,6 +211,30 @@ func StateKey(itemID uint64) string {
 
 func BuyersKey(itemID uint64) string {
 	return fmt.Sprintf("seckill:v03:{item:%d}:buyers", itemID)
+}
+
+func StreamKey(itemID uint64) string {
+	return fmt.Sprintf("seckill:v042:{item:%d}:orders", itemID)
+}
+
+func StreamResultsKey(itemID uint64) string {
+	return fmt.Sprintf("seckill:v042:{item:%d}:results", itemID)
+}
+
+func StreamRetriesKey(itemID uint64) string {
+	return fmt.Sprintf("seckill:v042:{item:%d}:retries", itemID)
+}
+
+func StreamDLQKey(itemID uint64) string {
+	return fmt.Sprintf("seckill:v042:{item:%d}:dlq", itemID)
+}
+
+func (g *Gate) SetStreamRetention(retention time.Duration) error {
+	if g == nil || retention <= 0 {
+		return seckill.ErrInvalidArgument
+	}
+	g.streamRetention = retention
+	return nil
 }
 
 func (g *Gate) Reserve(ctx context.Context, input seckill.ReservationInput) (seckill.Reservation, error) {
@@ -184,6 +263,62 @@ func (g *Gate) Reserve(ctx context.Context, input seckill.ReservationInput) (sec
 		return seckill.Reservation{}, admissionFailure("execute reserve script", err)
 	}
 	return parseReservation(reply)
+}
+
+func (g *Gate) ReserveAndEnqueue(ctx context.Context, input seckill.ReservationInput) (seckill.Reservation, error) {
+	if input.UserID == 0 || input.ItemID == 0 || strings.TrimSpace(input.OrderNo) == "" || input.Now.IsZero() || g.streamRetention <= 0 {
+		return seckill.Reservation{}, seckill.ErrInvalidArgument
+	}
+	commandCtx, cancel := context.WithTimeout(ctx, g.operationTimeout)
+	defer cancel()
+	sha, err := g.streamScriptSHA(commandCtx)
+	if err != nil {
+		return seckill.Reservation{}, admissionFailure("load stream reserve script", err)
+	}
+	keys := []string{StateKey(input.ItemID), BuyersKey(input.ItemID), StreamKey(input.ItemID), StreamResultsKey(input.ItemID)}
+	args := []any{
+		strconv.FormatUint(input.UserID, 10), input.Now.UTC().UnixMilli(), input.OrderNo,
+		input.ItemID, g.streamRetention.Milliseconds(),
+	}
+	reply, err := g.runner.EvalSha(commandCtx, sha, keys, args...)
+	if err != nil && isNoScript(err) {
+		sha, err = g.reloadStreamScript(commandCtx)
+		if err == nil {
+			reply, err = g.runner.EvalSha(commandCtx, sha, keys, args...)
+		}
+	}
+	if err != nil {
+		// 超时后不能改用普通 Reserve 或单独 XADD：第一次脚本可能已经成功，只是响应丢失。
+		// 正确恢复方式是同一用户重试，Lua 先读 buyer 并返回原 order_no。
+		return seckill.Reservation{}, admissionFailure("execute stream reserve script", err)
+	}
+	return parseReservation(reply)
+}
+
+func (g *Gate) FindStreamResult(ctx context.Context, userID uint64, orderNo string) (seckill.AsyncResultStatus, error) {
+	itemID, ok := seckill.StreamOrderItemID(orderNo)
+	if g == nil || g.client == nil || userID == 0 || !ok {
+		return "", seckill.ErrAsyncResultNotFound
+	}
+	commandCtx, cancel := context.WithTimeout(ctx, g.operationTimeout)
+	defer cancel()
+	value, err := g.client.HGet(commandCtx, StreamResultsKey(itemID), strings.TrimSpace(orderNo)).Result()
+	if errors.Is(err, redis.Nil) {
+		return "", seckill.ErrAsyncResultNotFound
+	}
+	if err != nil {
+		return "", admissionFailure("read stream result", err)
+	}
+	parts := strings.Split(value, "|")
+	if len(parts) != 2 || parts[0] != strconv.FormatUint(userID, 10) {
+		// 不存在和所有者不匹配必须统一返回 not found，避免 order_no 枚举泄漏。
+		return "", seckill.ErrAsyncResultNotFound
+	}
+	status := seckill.AsyncResultStatus(parts[1])
+	if status != seckill.AsyncResultQueued && status != seckill.AsyncResultFailed {
+		return "", admissionFailure("parse stream result", fmt.Errorf("unknown status %q", parts[1]))
+	}
+	return status, nil
 }
 
 func (g *Gate) PublishActivity(ctx context.Context, snapshot seckill.PreheatSnapshot, now time.Time) (seckill.PreheatResult, error) {
@@ -319,6 +454,31 @@ func (g *Gate) reloadScript(ctx context.Context) (string, error) {
 		return "", err
 	}
 	g.sha = sha
+	return sha, nil
+}
+
+func (g *Gate) streamScriptSHA(ctx context.Context) (string, error) {
+	g.loadMu.Lock()
+	defer g.loadMu.Unlock()
+	if g.streamSHA != "" {
+		return g.streamSHA, nil
+	}
+	sha, err := g.runner.ScriptLoad(ctx, reserveAndEnqueueScript)
+	if err != nil {
+		return "", err
+	}
+	g.streamSHA = sha
+	return sha, nil
+}
+
+func (g *Gate) reloadStreamScript(ctx context.Context) (string, error) {
+	g.loadMu.Lock()
+	defer g.loadMu.Unlock()
+	sha, err := g.runner.ScriptLoad(ctx, reserveAndEnqueueScript)
+	if err != nil {
+		return "", err
+	}
+	g.streamSHA = sha
 	return sha, nil
 }
 

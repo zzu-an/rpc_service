@@ -84,8 +84,8 @@ func createSeckillOrderHandler(service *seckill.Service) http.HandlerFunc {
 				writeSeckillPurchaseError(r, w, err)
 				return
 			}
-			// 202 只说明任务已经进入持久化 job 表。使用 OkJson 会错误返回 200，也容易让
-			// 客户端把 QUEUED 当成订单成功，因此这里显式写 Accepted。
+			// 202 只说明任务已由 Lua 原子写入 Redis Stream，不代表正式订单成功；
+			// 客户端必须查询结果，因此不能用 OkJson 返回 200。
 			httpx.WriteJsonCtx(r.Context(), w, http.StatusAccepted, queuedSeckillOrderResponse{
 				Code: "OK", Data: queuedSeckillOrderData{OrderNo: result.OrderNo, Status: "QUEUED", Replayed: result.Replayed},
 			})
@@ -117,7 +117,7 @@ func getSeckillOrderResultHandler(service *seckill.Service) http.HandlerFunc {
 		}
 		result, err := service.GetAsyncResult(r.Context(), userID, request.OrderNo)
 		if err != nil {
-			if errors.Is(err, seckill.ErrJobNotFound) {
+			if errors.Is(err, seckill.ErrAsyncResultNotFound) {
 				// 不存在与不属于当前用户统一 404，防止攻击者枚举全局 order_no。
 				writeError(r, w, http.StatusNotFound, "SECKILL_ORDER_NOT_FOUND", "seckill order request not found")
 				return

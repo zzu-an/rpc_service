@@ -150,6 +150,8 @@ type serviceConfigSummary struct {
 	RedisAddress               string `json:"redis_address,omitempty"`
 	RedisDB                    int    `json:"redis_db"`
 	RedisOperationTimeoutMilli int    `json:"redis_operation_timeout_ms,omitempty"`
+	StreamConsumerConcurrency  int    `json:"stream_consumer_concurrency,omitempty"`
+	StreamClaimIdleMilli       int    `json:"stream_claim_idle_ms,omitempty"`
 }
 
 const (
@@ -213,7 +215,7 @@ func main() {
 		opts.Strategy, opts.Admission, opts.OrderMode, opts.Scenario, opts.SKUID, itemID, opts.Requests, opts.Concurrency, opts.Stock)
 	samples, elapsed := r.run(itemID, tokens)
 	var drainDuration time.Duration
-	if opts.OrderMode == "async" {
+	if isAsyncOrderMode(opts.OrderMode) {
 		samples, drainDuration = r.drainAsync(samples, tokens)
 	}
 	result := buildReport(opts, itemID, samples, setupDuration, elapsed)
@@ -232,7 +234,7 @@ func parseFlags() options {
 	flag.StringVar(&opts.BaseURL, "url", "http://127.0.0.1:8888", "服务端基础 URL")
 	flag.StringVar(&opts.Strategy, "strategy", "atomic", "报告策略标签: atomic/pessimistic/optimistic")
 	flag.StringVar(&opts.Admission, "admission", "redis", "报告准入标签: mysql/redis")
-	flag.StringVar(&opts.OrderMode, "order-mode", "sync", "下单模式: sync/async")
+	flag.StringVar(&opts.OrderMode, "order-mode", "sync", "下单模式: sync/async-stream（async 兼容 async-stream）")
 	flag.StringVar(&opts.ConfigFile, "config", "etc/store-api.yaml", "用于采集压测后端状态的服务配置")
 	flag.StringVar(&opts.RedisDeployment, "redis-deployment", "unspecified", "Redis 部署说明，例如 remote-standalone；不含凭据")
 	flag.StringVar(&opts.Scenario, "scenario", "unique", "unique=每请求独立用户，replay=所有请求重复同一用户")
@@ -284,8 +286,13 @@ func validateOptions(opts *options) error {
 	if opts.OrderMode == "" {
 		opts.OrderMode = "sync"
 	}
-	if opts.OrderMode != "sync" && opts.OrderMode != "async" {
-		return errors.New("order-mode 必须是 sync 或 async")
+	// 当前分支只有 Redis Stream 异步方案；历史简写 async 归一化为 async-stream，
+	// 让报告不会出现两个标签却代表同一条链路。
+	if opts.OrderMode == "async" {
+		opts.OrderMode = "async-stream"
+	}
+	if opts.OrderMode != "sync" && opts.OrderMode != "async-stream" {
+		return errors.New("order-mode 必须是 sync 或 async-stream")
 	}
 	if strings.TrimSpace(opts.ConfigFile) == "" {
 		return errors.New("config 不能为空")
@@ -336,6 +343,10 @@ func validateOptions(opts *options) error {
 		return errors.New("run-id 清理后不能超过 40 个字符")
 	}
 	return nil
+}
+
+func isAsyncOrderMode(value string) bool {
+	return value == "async-stream"
 }
 
 func sanitizeRunID(value string) string {
@@ -723,7 +734,7 @@ func (r *runner) executeRequest(sequence int, itemID uint64, token string) sampl
 }
 
 // drainAsync 在入口压测计时结束后轮询最终状态。它不会把查询耗时计入 BenchmarkDuration，
-// 否则“接口接收能力”和“Kafka 消费落库能力”会混成一个无法解释的 QPS 数字。
+// 否则“接口接收能力”和“Stream 消费落库能力”会混成一个无法解释的 QPS 数字。
 func (r *runner) drainAsync(samples []sample, tokens []string) ([]sample, time.Duration) {
 	startedAt := time.Now()
 	type pendingOrder struct {
@@ -921,6 +932,8 @@ func collectEnvironment(opts options) environmentReport {
 			RedisAddress:               cfg.Redis.Address,
 			RedisDB:                    cfg.Redis.DB,
 			RedisOperationTimeoutMilli: cfg.Redis.OperationTimeoutMilliseconds,
+			StreamConsumerConcurrency:  cfg.RedisStream.ConsumerConcurrency,
+			StreamClaimIdleMilli:       cfg.RedisStream.ClaimIdleMilliseconds,
 		}
 	}
 	return result
@@ -995,7 +1008,7 @@ func printReport(value report) {
 		value.Counts.Created, value.Counts.Replayed, value.Counts.OutOfStock, value.Counts.InventoryBusy,
 		value.Counts.Unavailable, value.Counts.CacheNotReady, value.Counts.TemporaryUnavailable, value.Counts.ServerTimeout, value.Counts.ServerRejected,
 		value.Counts.NetworkError, value.Counts.OtherError)
-	if value.OrderMode == "async" {
+	if isAsyncOrderMode(value.OrderMode) {
 		// 异步入口的 created 必然为 0；若不单独打印终态，终端摘要会让人误以为
 		// 100 个 202 全部丢失。排空指标与入口 duration 分开，保持压测口径可解释。
 		fmt.Printf("异步终态: accepted=%d succeeded=%d failed=%d pending=%d poll_error=%d drain=%.2fms\n",

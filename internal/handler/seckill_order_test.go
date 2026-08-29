@@ -41,44 +41,24 @@ func (handlerCache) PublishActivity(context.Context, seckill.PreheatSnapshot, ti
 }
 func (handlerCache) InvalidateItems(context.Context, []uint64) error { return nil }
 
-type handlerJobs struct {
-	input        seckill.EnsureJobInput
-	job          seckill.OrderJob
+type handlerStream struct {
+	input        seckill.ReservationInput
+	orderNo      string
+	status       seckill.AsyncResultStatus
 	order        order.Order
 	findOrderErr error
-	findJobErr   error
+	resultErr    error
 }
 
-func (j *handlerJobs) EnsureJob(_ context.Context, input seckill.EnsureJobInput) (seckill.OrderJob, bool, error) {
-	j.input = input
-	return seckill.OrderJob{OrderNo: input.OrderNo}, false, nil
+func (s *handlerStream) ReserveAndEnqueue(_ context.Context, input seckill.ReservationInput) (seckill.Reservation, error) {
+	s.input = input
+	return seckill.Reservation{OrderNo: s.orderNo}, nil
 }
-func (j *handlerJobs) FindJobOwned(context.Context, uint64, string) (seckill.OrderJob, error) {
-	return j.job, j.findJobErr
+func (s *handlerStream) FindStreamResult(context.Context, uint64, string) (seckill.AsyncResultStatus, error) {
+	return s.status, s.resultErr
 }
-func (j *handlerJobs) FindOrderOwned(context.Context, uint64, string) (order.Order, error) {
-	return j.order, j.findOrderErr
-}
-func (*handlerJobs) ListPendingJobs(context.Context, time.Time, int) ([]seckill.OrderJob, error) {
-	return nil, nil
-}
-func (*handlerJobs) MarkJobPublished(context.Context, uint64, time.Time) (bool, error) {
-	return false, nil
-}
-func (*handlerJobs) ScheduleJobPublishRetry(context.Context, uint64, time.Time, string) (bool, error) {
-	return false, nil
-}
-func (*handlerJobs) MarkJobSucceeded(context.Context, uint64, time.Time) (bool, error) {
-	return false, nil
-}
-func (*handlerJobs) MarkJobFailed(context.Context, uint64, time.Time, string) (bool, error) {
-	return false, nil
-}
-
-type handlerMessageFactory struct{}
-
-func (handlerMessageFactory) Build(string, uint64, uint64, time.Time) (string, []byte, error) {
-	return "event-async", []byte(`{"schema_version":1}`), nil
+func (s *handlerStream) FindOrderOwned(context.Context, uint64, string) (order.Order, error) {
+	return s.order, s.findOrderErr
 }
 
 func (*seckillOrderRepository) CreateActivity(context.Context, seckill.CreateActivityInput) (seckill.Activity, error) {
@@ -157,12 +137,12 @@ func TestCreateSeckillOrderHandlerRequiresIdentity(t *testing.T) {
 	}
 }
 
-func TestCreateSeckillOrderHandlerReturnsAcceptedOnlyAfterJob(t *testing.T) {
+func TestCreateSeckillOrderHandlerReturnsAcceptedOnlyAfterAtomicStreamEnqueue(t *testing.T) {
 	repository := &seckillOrderRepository{}
-	jobs := &handlerJobs{}
-	service, err := seckill.NewServiceWithAsyncAdmission(repository, handlerReader{}, handlerCache{}, handlerGate{orderNo: "S-queued"}, jobs, handlerMessageFactory{})
+	stream := &handlerStream{orderNo: "T1-9-0000000000000001"}
+	service, err := seckill.NewServiceWithStreamAdmission(repository, handlerReader{}, handlerCache{}, handlerGate{orderNo: "unused"}, stream, stream, stream)
 	if err != nil {
-		t.Fatalf("NewServiceWithAsyncAdmission() error = %v", err)
+		t.Fatalf("NewServiceWithStreamAdmission() error = %v", err)
 	}
 	request := httptest.NewRequest(http.MethodPost, "/v1/seckill/items/9/orders", nil)
 	request = request.WithContext(context.WithValue(request.Context(), authenticatedUserIDKey{}, uint64(7)))
@@ -176,15 +156,15 @@ func TestCreateSeckillOrderHandlerReturnsAcceptedOnlyAfterJob(t *testing.T) {
 	if err := json.NewDecoder(recorder.Body).Decode(&response); err != nil {
 		t.Fatal(err)
 	}
-	if response.Data.OrderNo != "S-queued" || response.Data.Status != "QUEUED" || jobs.input.UserID != 7 {
-		t.Fatalf("response=%+v job=%+v", response, jobs.input)
+	if response.Data.OrderNo != stream.orderNo || response.Data.Status != "QUEUED" || stream.input.UserID != 7 {
+		t.Fatalf("response=%+v stream_input=%+v", response, stream.input)
 	}
 }
 
 func TestGetSeckillOrderResultHandlerAndOwnership404(t *testing.T) {
 	repository := &seckillOrderRepository{}
-	jobs := &handlerJobs{order: order.Order{ID: 21, OrderNo: "S-result", UserID: 7}}
-	service, err := seckill.NewServiceWithAsyncAdmission(repository, handlerReader{}, handlerCache{}, handlerGate{orderNo: "S-result"}, jobs, handlerMessageFactory{})
+	stream := &handlerStream{orderNo: "T1-9-0000000000000001", order: order.Order{ID: 21, OrderNo: "T1-9-0000000000000001", UserID: 7}}
+	service, err := seckill.NewServiceWithStreamAdmission(repository, handlerReader{}, handlerCache{}, handlerGate{orderNo: "unused"}, stream, stream, stream)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -201,8 +181,8 @@ func TestGetSeckillOrderResultHandlerAndOwnership404(t *testing.T) {
 		t.Fatalf("response=%+v error=%v", response, err)
 	}
 
-	jobs.findOrderErr = seckill.ErrJobNotFound
-	jobs.findJobErr = seckill.ErrJobNotFound
+	stream.findOrderErr = seckill.ErrAsyncResultNotFound
+	stream.resultErr = seckill.ErrAsyncResultNotFound
 	recorder = httptest.NewRecorder()
 	getSeckillOrderResultHandler(service)(recorder, request)
 	if recorder.Code != http.StatusNotFound {
