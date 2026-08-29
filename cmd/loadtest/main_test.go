@@ -18,15 +18,15 @@ import (
 func TestValidateOptions(t *testing.T) {
 	valid := options{
 		BaseURL: "http://127.0.0.1:8888/", Strategy: " PESSIMISTIC ", Scenario: "unique",
-		Admission: " REDIS ", ConfigFile: "etc/store-api.yaml", RedisDeployment: " remote-standalone ",
-		Concurrency: 10, Requests: 20, Stock: 20, RequestTimeout: time.Second, SetupConcurrency: 2,
+		Admission: " REDIS ", OrderMode: " ASYNC ", ConfigFile: "etc/store-api.yaml", RedisDeployment: " remote-standalone ",
+		Concurrency: 10, Requests: 20, Stock: 20, RequestTimeout: time.Second, DrainTimeout: time.Second, PollInterval: time.Millisecond, SetupConcurrency: 2,
 		AdminEmail: "admin@example.com", AdminPassword: "password", UserPassword: "password",
 		UserDomain: "example.com", RunID: "Run-01", Output: "report.json",
 	}
 	if err := validateOptions(&valid); err != nil {
 		t.Fatalf("validateOptions() error = %v", err)
 	}
-	if valid.BaseURL != "http://127.0.0.1:8888" || valid.Strategy != "pessimistic" || valid.Admission != "redis" || valid.RedisDeployment != "remote-standalone" || valid.RunID != "run01" {
+	if valid.BaseURL != "http://127.0.0.1:8888" || valid.Strategy != "pessimistic" || valid.Admission != "redis" || valid.OrderMode != "async" || valid.RedisDeployment != "remote-standalone" || valid.RunID != "run01" {
 		t.Fatalf("options were not normalized: %+v", valid)
 	}
 
@@ -40,6 +40,12 @@ func TestValidateOptions(t *testing.T) {
 	if err := validateOptions(&invalidAdmission); err == nil {
 		t.Fatal("invalid admission error = nil")
 	}
+	invalidOrderMode := valid
+	invalidOrderMode.OrderMode = "eventual-magic"
+	if err := validateOptions(&invalidOrderMode); err == nil {
+		t.Fatal("invalid order mode error = nil")
+	}
+
 	conflictingTarget := valid
 	conflictingTarget.SKUID = 10
 	conflictingTarget.ItemID = 20
@@ -108,6 +114,47 @@ func TestExecuteRequestRecordsBusinessResultAndLatency(t *testing.T) {
 	got := r.executeRequest(3, 7, "token")
 	if got.Sequence != 3 || got.HTTPCode != http.StatusOK || got.Code != "OK" || !got.Replayed || got.OrderID != 9 || got.OrderNo != "order-9" || got.Duration <= 0 || got.Error != "" {
 		t.Fatalf("executeRequest() = %+v", got)
+	}
+}
+
+func TestExecuteRequestRecordsAsyncAccepted(t *testing.T) {
+	serverURL := newTestHTTPServer(t, http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusAccepted)
+		_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK", "data": map[string]any{
+			"replayed": false, "order_no": "async-9", "status": "QUEUED",
+		}})
+	}))
+	r := &runner{options: options{BaseURL: serverURL}, client: http.DefaultClient}
+	got := r.executeRequest(3, 7, "token")
+	if got.HTTPCode != http.StatusAccepted || got.Code != "OK" || got.OrderNo != "async-9" || got.Status != "QUEUED" || got.Error != "" {
+		t.Fatalf("executeRequest() = %+v", got)
+	}
+}
+
+func TestDrainAsyncPollsEachReplayedOrderOncePerRound(t *testing.T) {
+	polls := 0
+	serverURL := newTestHTTPServer(t, http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		if req.URL.Path != "/v1/seckill/orders/async-9/result" || req.Header.Get("Authorization") != "Bearer token" {
+			t.Fatalf("unexpected request path=%s authorization=%q", req.URL.Path, req.Header.Get("Authorization"))
+		}
+		polls++
+		status := "QUEUED"
+		if polls == 2 {
+			status = "SUCCEEDED"
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK", "data": map[string]any{"status": status}})
+	}))
+	r := &runner{options: options{
+		BaseURL: serverURL, Scenario: "replay", DrainTimeout: time.Second, PollInterval: time.Millisecond,
+	}, client: http.DefaultClient}
+	samples, _ := r.drainAsync([]sample{
+		{Sequence: 0, HTTPCode: http.StatusAccepted, Code: "OK", OrderNo: "async-9"},
+		{Sequence: 1, HTTPCode: http.StatusAccepted, Code: "OK", OrderNo: "async-9", Replayed: true},
+	}, []string{"token"})
+	if polls != 2 || samples[0].Status != "SUCCEEDED" || samples[1].Status != "SUCCEEDED" {
+		t.Fatalf("polls=%d samples=%+v", polls, samples)
 	}
 }
 
@@ -198,6 +245,18 @@ func TestBuildReportCountsAndPercentiles(t *testing.T) {
 	}
 	if got.Admission != "redis" {
 		t.Fatalf("admission=%q, want redis", got.Admission)
+	}
+}
+
+func TestBuildReportSeparatesAsyncAdmissionAndFinalState(t *testing.T) {
+	samples := []sample{
+		{HTTPCode: http.StatusAccepted, Code: "OK", OrderNo: "a", Status: "SUCCEEDED", Duration: time.Millisecond},
+		{HTTPCode: http.StatusAccepted, Code: "OK", OrderNo: "b", Status: "FAILED", Duration: time.Millisecond},
+		{HTTPCode: http.StatusAccepted, Code: "OK", OrderNo: "c", Status: "QUEUED", ResultError: "poll timeout", Duration: time.Millisecond},
+	}
+	got := buildReport(options{BaseURL: "http://example", OrderMode: "async", Requests: 3}, 7, samples, 0, time.Second)
+	if got.Counts.HTTP202 != 3 || got.Counts.Queued != 3 || got.Counts.FinalSucceeded != 1 || got.Counts.FinalFailed != 1 || got.Counts.FinalPending != 1 || got.Counts.ResultPollError != 1 {
+		t.Fatalf("counts = %+v", got.Counts)
 	}
 }
 

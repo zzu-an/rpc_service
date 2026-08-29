@@ -39,6 +39,7 @@ type options struct {
 	BaseURL          string
 	Strategy         string
 	Admission        string
+	OrderMode        string
 	ConfigFile       string
 	RedisDeployment  string
 	Scenario         string
@@ -46,6 +47,8 @@ type options struct {
 	Requests         int
 	Stock            int64
 	RequestTimeout   time.Duration
+	DrainTimeout     time.Duration
+	PollInterval     time.Duration
 	SetupConcurrency int
 	AdminEmail       string
 	AdminPassword    string
@@ -75,13 +78,17 @@ type sample struct {
 	Code     string `json:"business_code,omitempty"`
 	// ResponseBody 保留非 JSON 响应的摘要。压测排障时只记录“解析失败”是不够的，
 	// 服务端网关、超时中间件返回的纯文本往往才是判断故障来源的关键证据。
-	ResponseBody string        `json:"response_body,omitempty"`
-	Replayed     bool          `json:"replayed"`
-	OrderID      uint64        `json:"order_id,omitempty"`
-	OrderNo      string        `json:"order_no,omitempty"`
-	LatencyMS    float64       `json:"latency_ms"`
-	Error        string        `json:"error,omitempty"`
-	Duration     time.Duration `json:"-"`
+	ResponseBody string `json:"response_body,omitempty"`
+	Replayed     bool   `json:"replayed"`
+	OrderID      uint64 `json:"order_id,omitempty"`
+	OrderNo      string `json:"order_no,omitempty"`
+	// Status 是异步订单的最终观测状态。入口返回 202 时先记为 QUEUED，排空阶段再更新为
+	// SUCCEEDED/FAILED；到达 drain-timeout 仍为 QUEUED 不等于失败，只表示观测窗口不足。
+	Status      string        `json:"status,omitempty"`
+	ResultError string        `json:"result_error,omitempty"`
+	LatencyMS   float64       `json:"latency_ms"`
+	Error       string        `json:"error,omitempty"`
+	Duration    time.Duration `json:"-"`
 }
 
 type latencyReport struct {
@@ -96,8 +103,14 @@ type latencyReport struct {
 
 type countReport struct {
 	HTTP200              int            `json:"http_200"`
+	HTTP202              int            `json:"http_202"`
 	Created              int            `json:"created"`
 	Replayed             int            `json:"replayed"`
+	Queued               int            `json:"queued"`
+	FinalSucceeded       int            `json:"final_succeeded"`
+	FinalFailed          int            `json:"final_failed"`
+	FinalPending         int            `json:"final_pending"`
+	ResultPollError      int            `json:"result_poll_error"`
 	OutOfStock           int            `json:"out_of_stock"`
 	Unavailable          int            `json:"unavailable"`
 	InventoryBusy        int            `json:"inventory_busy"`
@@ -149,6 +162,7 @@ type report struct {
 	BaseURL             string            `json:"base_url"`
 	Strategy            string            `json:"strategy_label"`
 	Admission           string            `json:"admission_label"`
+	OrderMode           string            `json:"order_mode"`
 	Scenario            string            `json:"scenario"`
 	ItemID              uint64            `json:"item_id"`
 	SKUID               uint64            `json:"sku_id,omitempty"`
@@ -157,6 +171,7 @@ type report struct {
 	ConfiguredStock     int64             `json:"configured_stock"`
 	SetupDurationMS     float64           `json:"setup_duration_ms"`
 	BenchmarkDurationMS float64           `json:"benchmark_duration_ms"`
+	DrainDurationMS     float64           `json:"drain_duration_ms"`
 	ThroughputQPS       float64           `json:"throughput_qps"`
 	Counts              countReport       `json:"counts"`
 	Latency             latencyReport     `json:"latency"`
@@ -194,10 +209,15 @@ func main() {
 	}
 	setupDuration := time.Since(setupStarted)
 
-	fmt.Printf("开始压测: strategy=%s admission=%s scenario=%s sku_id=%d item_id=%d requests=%d concurrency=%d stock=%d\n",
-		opts.Strategy, opts.Admission, opts.Scenario, opts.SKUID, itemID, opts.Requests, opts.Concurrency, opts.Stock)
+	fmt.Printf("开始压测: strategy=%s admission=%s order_mode=%s scenario=%s sku_id=%d item_id=%d requests=%d concurrency=%d stock=%d\n",
+		opts.Strategy, opts.Admission, opts.OrderMode, opts.Scenario, opts.SKUID, itemID, opts.Requests, opts.Concurrency, opts.Stock)
 	samples, elapsed := r.run(itemID, tokens)
+	var drainDuration time.Duration
+	if opts.OrderMode == "async" {
+		samples, drainDuration = r.drainAsync(samples, tokens)
+	}
 	result := buildReport(opts, itemID, samples, setupDuration, elapsed)
+	result.DrainDurationMS = durationMS(drainDuration)
 	result.Backend = collectBackendState(opts.ConfigFile, itemID)
 	printReport(result)
 	if err := writeReport(opts.Output, result); err != nil {
@@ -212,6 +232,7 @@ func parseFlags() options {
 	flag.StringVar(&opts.BaseURL, "url", "http://127.0.0.1:8888", "服务端基础 URL")
 	flag.StringVar(&opts.Strategy, "strategy", "atomic", "报告策略标签: atomic/pessimistic/optimistic")
 	flag.StringVar(&opts.Admission, "admission", "redis", "报告准入标签: mysql/redis")
+	flag.StringVar(&opts.OrderMode, "order-mode", "sync", "下单模式: sync/async")
 	flag.StringVar(&opts.ConfigFile, "config", "etc/store-api.yaml", "用于采集压测后端状态的服务配置")
 	flag.StringVar(&opts.RedisDeployment, "redis-deployment", "unspecified", "Redis 部署说明，例如 remote-standalone；不含凭据")
 	flag.StringVar(&opts.Scenario, "scenario", "unique", "unique=每请求独立用户，replay=所有请求重复同一用户")
@@ -219,6 +240,8 @@ func parseFlags() options {
 	flag.IntVar(&opts.Requests, "requests", 1000, "请求总数")
 	flag.Int64Var(&opts.Stock, "stock", -1, "自动创建的库存；默认等于请求总数")
 	flag.DurationVar(&opts.RequestTimeout, "timeout", 10*time.Second, "单个 HTTP 请求超时")
+	flag.DurationVar(&opts.DrainTimeout, "drain-timeout", 30*time.Second, "异步入口压测结束后的结果排空等待上限")
+	flag.DurationVar(&opts.PollInterval, "poll-interval", 200*time.Millisecond, "异步订单结果轮询间隔")
 	flag.IntVar(&opts.SetupConcurrency, "setup-concurrency", 20, "注册和登录测试用户的并发数")
 	flag.StringVar(&opts.AdminEmail, "admin-email", os.Getenv("SERVICE_RPC_LOADTEST_ADMIN_EMAIL"), "现有管理员邮箱")
 	flag.StringVar(&opts.AdminPassword, "admin-password", os.Getenv("SERVICE_RPC_LOADTEST_ADMIN_PASSWORD"), "管理员密码，推荐使用环境变量")
@@ -257,6 +280,13 @@ func validateOptions(opts *options) error {
 	if opts.Admission != "mysql" && opts.Admission != "redis" {
 		return errors.New("admission 必须是 mysql 或 redis")
 	}
+	opts.OrderMode = strings.ToLower(strings.TrimSpace(opts.OrderMode))
+	if opts.OrderMode == "" {
+		opts.OrderMode = "sync"
+	}
+	if opts.OrderMode != "sync" && opts.OrderMode != "async" {
+		return errors.New("order-mode 必须是 sync 或 async")
+	}
 	if strings.TrimSpace(opts.ConfigFile) == "" {
 		return errors.New("config 不能为空")
 	}
@@ -268,8 +298,8 @@ func validateOptions(opts *options) error {
 	if opts.Scenario != "unique" && opts.Scenario != "replay" {
 		return errors.New("scenario 必须是 unique 或 replay")
 	}
-	if opts.Concurrency <= 0 || opts.Requests <= 0 || opts.SetupConcurrency <= 0 || opts.RequestTimeout <= 0 {
-		return errors.New("concurrency、requests、setup-concurrency 和 timeout 必须为正数")
+	if opts.Concurrency <= 0 || opts.Requests <= 0 || opts.SetupConcurrency <= 0 || opts.RequestTimeout <= 0 || opts.DrainTimeout <= 0 || opts.PollInterval <= 0 {
+		return errors.New("concurrency、requests、setup-concurrency、timeout、drain-timeout 和 poll-interval 必须为正数")
 	}
 	if opts.Stock < 0 {
 		return errors.New("stock 不能为负数")
@@ -663,7 +693,9 @@ func (r *runner) executeRequest(sequence int, itemID uint64, token string) sampl
 	var envelope struct {
 		apiResponse
 		Data struct {
-			Replayed bool `json:"replayed"`
+			Replayed bool   `json:"replayed"`
+			Status   string `json:"status"`
+			OrderNo  string `json:"order_no"`
 			Order    struct {
 				ID      uint64 `json:"id"`
 				OrderNo string `json:"order_no"`
@@ -683,7 +715,97 @@ func (r *runner) executeRequest(sequence int, itemID uint64, token string) sampl
 	result.Replayed = envelope.Data.Replayed
 	result.OrderID = envelope.Data.Order.ID
 	result.OrderNo = envelope.Data.Order.OrderNo
+	if result.OrderNo == "" {
+		result.OrderNo = envelope.Data.OrderNo
+	}
+	result.Status = envelope.Data.Status
 	return result
+}
+
+// drainAsync 在入口压测计时结束后轮询最终状态。它不会把查询耗时计入 BenchmarkDuration，
+// 否则“接口接收能力”和“Kafka 消费落库能力”会混成一个无法解释的 QPS 数字。
+func (r *runner) drainAsync(samples []sample, tokens []string) ([]sample, time.Duration) {
+	startedAt := time.Now()
+	type pendingOrder struct {
+		token   string
+		indices []int
+	}
+	pending := make(map[string]*pendingOrder)
+	for index := range samples {
+		item := &samples[index]
+		if item.HTTPCode != http.StatusAccepted || item.Code != "OK" || item.OrderNo == "" {
+			continue
+		}
+		item.Status = "QUEUED"
+		tokenIndex := item.Sequence
+		if r.options.Scenario == "replay" {
+			tokenIndex = 0
+		}
+		if tokenIndex < 0 || tokenIndex >= len(tokens) {
+			item.ResultError = "missing token for result polling"
+			continue
+		}
+		entry := pending[item.OrderNo]
+		if entry == nil {
+			entry = &pendingOrder{token: tokens[tokenIndex]}
+			pending[item.OrderNo] = entry
+		}
+		entry.indices = append(entry.indices, index)
+	}
+	if len(pending) == 0 {
+		return samples, time.Since(startedAt)
+	}
+
+	deadline := time.Now().Add(r.options.DrainTimeout)
+	for len(pending) > 0 && time.Now().Before(deadline) {
+		for orderNo, entry := range pending {
+			status, err := r.pollAsyncResult(orderNo, entry.token)
+			if err != nil {
+				for _, index := range entry.indices {
+					samples[index].ResultError = err.Error()
+				}
+				continue
+			}
+			for _, index := range entry.indices {
+				samples[index].Status = status
+				samples[index].ResultError = ""
+			}
+			if status == "SUCCEEDED" || status == "FAILED" {
+				delete(pending, orderNo)
+			}
+		}
+		if len(pending) == 0 {
+			break
+		}
+		wait := r.options.PollInterval
+		if remaining := time.Until(deadline); wait > remaining {
+			wait = remaining
+		}
+		if wait > 0 {
+			time.Sleep(wait)
+		}
+	}
+	return samples, time.Since(startedAt)
+}
+
+func (r *runner) pollAsyncResult(orderNo, token string) (string, error) {
+	var response struct {
+		apiResponse
+		Data struct {
+			Status string `json:"status"`
+		} `json:"data"`
+	}
+	path := "/v1/seckill/orders/" + url.PathEscape(orderNo) + "/result"
+	status, err := r.requestJSON(http.MethodGet, path, token, nil, &response)
+	if err != nil || status != http.StatusOK || response.Code != "OK" {
+		return "", combineAPIErr("查询异步订单结果", status, response.apiResponse, err)
+	}
+	switch response.Data.Status {
+	case "QUEUED", "SUCCEEDED", "FAILED":
+		return response.Data.Status, nil
+	default:
+		return "", fmt.Errorf("查询异步订单结果: 未知状态 %q", response.Data.Status)
+	}
 }
 
 func responseBodySummary(body string) string {
@@ -707,6 +829,16 @@ func buildReport(opts options, itemID uint64, samples []sample, setupDuration, e
 			code = "INVALID_SERVER_RESPONSE"
 		}
 		counts.ByCode[code]++
+		if item.Status == "SUCCEEDED" {
+			counts.FinalSucceeded++
+		} else if item.Status == "FAILED" {
+			counts.FinalFailed++
+		} else if item.Status == "QUEUED" {
+			counts.FinalPending++
+		}
+		if item.ResultError != "" {
+			counts.ResultPollError++
+		}
 		switch {
 		case item.Error != "" && item.HTTPCode == 0:
 			counts.NetworkError++
@@ -716,6 +848,12 @@ func buildReport(opts options, itemID uint64, samples []sample, setupDuration, e
 				counts.Replayed++
 			} else {
 				counts.Created++
+			}
+		case item.HTTPCode == http.StatusAccepted:
+			counts.HTTP202++
+			counts.Queued++
+			if item.Replayed {
+				counts.Replayed++
 			}
 		case item.Code == "OUT_OF_STOCK":
 			counts.OutOfStock++
@@ -751,7 +889,7 @@ func buildReport(opts options, itemID uint64, samples []sample, setupDuration, e
 		throughput = float64(len(samples)) / elapsed.Seconds()
 	}
 	result := report{
-		GeneratedAt: time.Now().UTC().Format(time.RFC3339Nano), BaseURL: opts.BaseURL, Strategy: opts.Strategy, Admission: opts.Admission,
+		GeneratedAt: time.Now().UTC().Format(time.RFC3339Nano), BaseURL: opts.BaseURL, Strategy: opts.Strategy, Admission: opts.Admission, OrderMode: opts.OrderMode,
 		Scenario: opts.Scenario, ItemID: itemID, SKUID: opts.SKUID, Concurrency: opts.Concurrency, Requests: opts.Requests,
 		ConfiguredStock: opts.Stock, SetupDurationMS: durationMS(setupDuration), BenchmarkDurationMS: durationMS(elapsed),
 		ThroughputQPS: throughput, Counts: counts, Latency: latency, Samples: samples,
@@ -857,6 +995,13 @@ func printReport(value report) {
 		value.Counts.Created, value.Counts.Replayed, value.Counts.OutOfStock, value.Counts.InventoryBusy,
 		value.Counts.Unavailable, value.Counts.CacheNotReady, value.Counts.TemporaryUnavailable, value.Counts.ServerTimeout, value.Counts.ServerRejected,
 		value.Counts.NetworkError, value.Counts.OtherError)
+	if value.OrderMode == "async" {
+		// 异步入口的 created 必然为 0；若不单独打印终态，终端摘要会让人误以为
+		// 100 个 202 全部丢失。排空指标与入口 duration 分开，保持压测口径可解释。
+		fmt.Printf("异步终态: accepted=%d succeeded=%d failed=%d pending=%d poll_error=%d drain=%.2fms\n",
+			value.Counts.Queued, value.Counts.FinalSucceeded, value.Counts.FinalFailed,
+			value.Counts.FinalPending, value.Counts.ResultPollError, value.DrainDurationMS)
+	}
 	fmt.Printf("延迟(ms): min=%.3f avg=%.3f p50=%.3f p90=%.3f p95=%.3f p99=%.3f max=%.3f\n",
 		value.Latency.MinMS, value.Latency.AvgMS, value.Latency.P50MS, value.Latency.P90MS,
 		value.Latency.P95MS, value.Latency.P99MS, value.Latency.MaxMS)

@@ -17,11 +17,28 @@ Redis:
   DB: 0
   DialTimeoutMilliseconds: 500
   OperationTimeoutMilliseconds: 200
+Kafka:
+  Brokers:
+    - 192.168.0.107:9092
+  MainTopic: service-rpc-seckill-order-requested-v1
+  RetryTopic: service-rpc-seckill-order-retry-v1
+  DLQTopic: service-rpc-seckill-order-dlq-v1
+  ConsumerGroup: service-rpc-seckill-worker-v1
+  # 开发环境允许创建 topic；正式环境应由运维预创建并固定 partition/副本数。
+  AllowAutoTopicCreation: true
+  TopicPartitions: 4
+  OperationTimeoutMilliseconds: 2000
+  ConsumerConcurrency: 4
+  MaxConsumeAttempts: 3
+  RelayIntervalMilliseconds: 100
+  ShutdownTimeoutMilliseconds: 10000
 Seckill:
   # 可选 atomic / pessimistic / optimistic；修改后必须重启服务。
   StockMode: atomic
   # 可选 mysql / redis；Redis 故障时不会自动回退 MySQL。
   AdmissionMode: redis
+  # 可选 sync / async；v0.4 正式链路使用 async，sync 只用于 v0.3 对照。
+  OrderMode: async
 
 #  Mysql:
 #  容器名：service-rpc-mysql
