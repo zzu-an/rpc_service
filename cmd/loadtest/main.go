@@ -6,6 +6,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -15,12 +16,21 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/zeromicro/go-zero/core/conf"
+
+	"service_rpc/internal/config"
+	platformcache "service_rpc/internal/platform/cache"
+	"service_rpc/internal/platform/database"
+	seckillmysql "service_rpc/internal/seckill/mysqlrepo"
+	"service_rpc/internal/seckill/redisgate"
 )
 
 var loadtestResourceSequence atomic.Uint64
@@ -28,6 +38,9 @@ var loadtestResourceSequence atomic.Uint64
 type options struct {
 	BaseURL          string
 	Strategy         string
+	Admission        string
+	ConfigFile       string
+	RedisDeployment  string
 	Scenario         string
 	Concurrency      int
 	Requests         int
@@ -48,6 +61,7 @@ type options struct {
 type runner struct {
 	options options
 	client  *http.Client
+	readyAt time.Time
 }
 
 type apiResponse struct {
@@ -63,6 +77,8 @@ type sample struct {
 	// 服务端网关、超时中间件返回的纯文本往往才是判断故障来源的关键证据。
 	ResponseBody string        `json:"response_body,omitempty"`
 	Replayed     bool          `json:"replayed"`
+	OrderID      uint64        `json:"order_id,omitempty"`
+	OrderNo      string        `json:"order_no,omitempty"`
 	LatencyMS    float64       `json:"latency_ms"`
 	Error        string        `json:"error,omitempty"`
 	Duration     time.Duration `json:"-"`
@@ -79,18 +95,48 @@ type latencyReport struct {
 }
 
 type countReport struct {
-	HTTP200        int            `json:"http_200"`
-	Created        int            `json:"created"`
-	Replayed       int            `json:"replayed"`
-	OutOfStock     int            `json:"out_of_stock"`
-	Unavailable    int            `json:"unavailable"`
-	InventoryBusy  int            `json:"inventory_busy"`
-	ServerTimeout  int            `json:"server_timeout"`
-	ServerRejected int            `json:"server_rejected"`
-	NetworkError   int            `json:"network_error"`
-	OtherError     int            `json:"other_error"`
-	ByHTTPStatus   map[string]int `json:"by_http_status"`
-	ByCode         map[string]int `json:"by_business_code"`
+	HTTP200              int            `json:"http_200"`
+	Created              int            `json:"created"`
+	Replayed             int            `json:"replayed"`
+	OutOfStock           int            `json:"out_of_stock"`
+	Unavailable          int            `json:"unavailable"`
+	InventoryBusy        int            `json:"inventory_busy"`
+	CacheNotReady        int            `json:"cache_not_ready"`
+	TemporaryUnavailable int            `json:"temporary_unavailable"`
+	ServerTimeout        int            `json:"server_timeout"`
+	ServerRejected       int            `json:"server_rejected"`
+	NetworkError         int            `json:"network_error"`
+	OtherError           int            `json:"other_error"`
+	ByHTTPStatus         map[string]int `json:"by_http_status"`
+	ByCode               map[string]int `json:"by_business_code"`
+}
+
+type backendReport struct {
+	MySQL                  *seckillmysql.ItemConsistencyState `json:"mysql,omitempty"`
+	Redis                  *redisgate.ItemConsistencyState    `json:"redis,omitempty"`
+	MySQLPurchaseCalls     *int64                             `json:"mysql_purchase_calls,omitempty"`
+	PurchaseCallsAvailable bool                               `json:"mysql_purchase_calls_available"`
+	ErrorCategories        []string                           `json:"error_categories,omitempty"`
+}
+
+type environmentReport struct {
+	Hardware        string               `json:"hardware"`
+	GoVersion       string               `json:"go_version"`
+	RedisDeployment string               `json:"redis_deployment"`
+	ReportFile      string               `json:"report_file"`
+	ServiceConfig   serviceConfigSummary `json:"service_config"`
+}
+
+// serviceConfigSummary 只保留比较压测所需的非敏感配置。DSN、Redis 密码、JWT
+// secret 即使对排障有帮助也不能进入可长期保存或提交到仓库的原始报告。
+type serviceConfigSummary struct {
+	StockMode                  string `json:"stock_mode,omitempty"`
+	AdmissionMode              string `json:"admission_mode,omitempty"`
+	MySQLMaxOpenConns          int    `json:"mysql_max_open_conns,omitempty"`
+	MySQLMaxIdleConns          int    `json:"mysql_max_idle_conns,omitempty"`
+	RedisAddress               string `json:"redis_address,omitempty"`
+	RedisDB                    int    `json:"redis_db"`
+	RedisOperationTimeoutMilli int    `json:"redis_operation_timeout_ms,omitempty"`
 }
 
 const (
@@ -99,21 +145,24 @@ const (
 )
 
 type report struct {
-	GeneratedAt         string        `json:"generated_at"`
-	BaseURL             string        `json:"base_url"`
-	Strategy            string        `json:"strategy_label"`
-	Scenario            string        `json:"scenario"`
-	ItemID              uint64        `json:"item_id"`
-	SKUID               uint64        `json:"sku_id,omitempty"`
-	Concurrency         int           `json:"concurrency"`
-	Requests            int           `json:"requests"`
-	ConfiguredStock     int64         `json:"configured_stock"`
-	SetupDurationMS     float64       `json:"setup_duration_ms"`
-	BenchmarkDurationMS float64       `json:"benchmark_duration_ms"`
-	ThroughputQPS       float64       `json:"throughput_qps"`
-	Counts              countReport   `json:"counts"`
-	Latency             latencyReport `json:"latency"`
-	Samples             []sample      `json:"samples"`
+	GeneratedAt         string            `json:"generated_at"`
+	BaseURL             string            `json:"base_url"`
+	Strategy            string            `json:"strategy_label"`
+	Admission           string            `json:"admission_label"`
+	Scenario            string            `json:"scenario"`
+	ItemID              uint64            `json:"item_id"`
+	SKUID               uint64            `json:"sku_id,omitempty"`
+	Concurrency         int               `json:"concurrency"`
+	Requests            int               `json:"requests"`
+	ConfiguredStock     int64             `json:"configured_stock"`
+	SetupDurationMS     float64           `json:"setup_duration_ms"`
+	BenchmarkDurationMS float64           `json:"benchmark_duration_ms"`
+	ThroughputQPS       float64           `json:"throughput_qps"`
+	Counts              countReport       `json:"counts"`
+	Latency             latencyReport     `json:"latency"`
+	Backend             backendReport     `json:"backend"`
+	Environment         environmentReport `json:"environment"`
+	Samples             []sample          `json:"samples"`
 }
 
 func main() {
@@ -145,10 +194,11 @@ func main() {
 	}
 	setupDuration := time.Since(setupStarted)
 
-	fmt.Printf("开始压测: strategy=%s scenario=%s sku_id=%d item_id=%d requests=%d concurrency=%d stock=%d\n",
-		opts.Strategy, opts.Scenario, opts.SKUID, itemID, opts.Requests, opts.Concurrency, opts.Stock)
+	fmt.Printf("开始压测: strategy=%s admission=%s scenario=%s sku_id=%d item_id=%d requests=%d concurrency=%d stock=%d\n",
+		opts.Strategy, opts.Admission, opts.Scenario, opts.SKUID, itemID, opts.Requests, opts.Concurrency, opts.Stock)
 	samples, elapsed := r.run(itemID, tokens)
 	result := buildReport(opts, itemID, samples, setupDuration, elapsed)
+	result.Backend = collectBackendState(opts.ConfigFile, itemID)
 	printReport(result)
 	if err := writeReport(opts.Output, result); err != nil {
 		fmt.Fprintf(os.Stderr, "写入报告失败: %v\n", err)
@@ -161,6 +211,9 @@ func parseFlags() options {
 	var opts options
 	flag.StringVar(&opts.BaseURL, "url", "http://127.0.0.1:8888", "服务端基础 URL")
 	flag.StringVar(&opts.Strategy, "strategy", "atomic", "报告策略标签: atomic/pessimistic/optimistic")
+	flag.StringVar(&opts.Admission, "admission", "redis", "报告准入标签: mysql/redis")
+	flag.StringVar(&opts.ConfigFile, "config", "etc/store-api.yaml", "用于采集压测后端状态的服务配置")
+	flag.StringVar(&opts.RedisDeployment, "redis-deployment", "unspecified", "Redis 部署说明，例如 remote-standalone；不含凭据")
 	flag.StringVar(&opts.Scenario, "scenario", "unique", "unique=每请求独立用户，replay=所有请求重复同一用户")
 	flag.IntVar(&opts.Concurrency, "concurrency", 100, "并发 worker 数")
 	flag.IntVar(&opts.Requests, "requests", 1000, "请求总数")
@@ -196,6 +249,20 @@ func validateOptions(opts *options) error {
 	opts.Strategy = strings.ToLower(strings.TrimSpace(opts.Strategy))
 	if opts.Strategy != "atomic" && opts.Strategy != "pessimistic" && opts.Strategy != "optimistic" {
 		return errors.New("strategy 必须是 atomic、pessimistic 或 optimistic")
+	}
+	opts.Admission = strings.ToLower(strings.TrimSpace(opts.Admission))
+	if opts.Admission == "" {
+		opts.Admission = "mysql"
+	}
+	if opts.Admission != "mysql" && opts.Admission != "redis" {
+		return errors.New("admission 必须是 mysql 或 redis")
+	}
+	if strings.TrimSpace(opts.ConfigFile) == "" {
+		return errors.New("config 不能为空")
+	}
+	opts.RedisDeployment = strings.TrimSpace(opts.RedisDeployment)
+	if opts.RedisDeployment == "" {
+		return errors.New("redis-deployment 不能为空")
 	}
 	opts.Scenario = strings.ToLower(strings.TrimSpace(opts.Scenario))
 	if opts.Scenario != "unique" && opts.Scenario != "replay" {
@@ -283,6 +350,13 @@ func (r *runner) prepare() (uint64, []string, error) {
 	if err != nil {
 		return 0, nil, err
 	}
+	if wait := time.Until(r.readyAt); wait > 0 {
+		// 等待发生在 setup 阶段，不计入正式 QPS。replay 只创建一个用户，准备可能早于
+		// 活动 start_at 完成；若直接开压会把“未开始”错误误当成 Redis 性能结果。
+		timer := time.NewTimer(wait)
+		defer timer.Stop()
+		<-timer.C
+	}
 	return itemID, tokens, nil
 }
 
@@ -322,8 +396,13 @@ func (r *runner) createSeckillItem(adminToken string) (uint64, error) {
 	}
 	var activity activityResponse
 	now := time.Now().UTC()
+	startAt := now.Add(-time.Minute)
+	if r.options.Admission == "redis" {
+		startAt = now.Add(3 * time.Second)
+	}
+	r.readyAt = startAt
 	status, err := r.requestJSON(http.MethodPost, "/v1/admin/seckill/activities", adminToken, map[string]any{
-		"name": "Load Test Activity " + r.options.RunID, "start_at": now.Add(-time.Minute).Format(time.RFC3339Nano), "end_at": now.Add(time.Hour).Format(time.RFC3339Nano),
+		"name": "Load Test Activity " + r.options.RunID, "start_at": startAt.Format(time.RFC3339Nano), "end_at": now.Add(time.Hour).Format(time.RFC3339Nano),
 	}, &activity)
 	if err != nil || status != http.StatusOK || activity.Code != "OK" || activity.Data.ID == 0 {
 		return 0, combineAPIErr("创建压测活动", status, activity.apiResponse, err)
@@ -345,6 +424,13 @@ func (r *runner) createSeckillItem(adminToken string) (uint64, error) {
 	status, err = r.requestJSON(http.MethodPut, fmt.Sprintf("/v1/admin/seckill/activities/%d/status", activity.Data.ID), adminToken, map[string]uint8{"status": 1}, &basic)
 	if err != nil || status != http.StatusOK || basic.Code != "OK" {
 		return 0, combineAPIErr("启用压测活动", status, basic, err)
+	}
+	if r.options.Admission == "redis" {
+		var preheat apiResponse
+		status, err = r.requestJSON(http.MethodPost, fmt.Sprintf("/v1/admin/seckill/activities/%d/preheat", activity.Data.ID), adminToken, nil, &preheat)
+		if err != nil || status != http.StatusOK || preheat.Code != "OK" {
+			return 0, combineAPIErr("预热压测活动", status, preheat, err)
+		}
 	}
 	return item.Data.ID, nil
 }
@@ -578,6 +664,10 @@ func (r *runner) executeRequest(sequence int, itemID uint64, token string) sampl
 		apiResponse
 		Data struct {
 			Replayed bool `json:"replayed"`
+			Order    struct {
+				ID      uint64 `json:"id"`
+				OrderNo string `json:"order_no"`
+			} `json:"order"`
 		} `json:"data"`
 	}
 	if err := json.Unmarshal(body, &envelope); err != nil {
@@ -591,6 +681,8 @@ func (r *runner) executeRequest(sequence int, itemID uint64, token string) sampl
 	}
 	result.Code = envelope.Code
 	result.Replayed = envelope.Data.Replayed
+	result.OrderID = envelope.Data.Order.ID
+	result.OrderNo = envelope.Data.Order.OrderNo
 	return result
 }
 
@@ -631,6 +723,10 @@ func buildReport(opts options, itemID uint64, samples []sample, setupDuration, e
 			counts.Unavailable++
 		case item.Code == "INVENTORY_BUSY":
 			counts.InventoryBusy++
+		case item.Code == "SECKILL_CACHE_NOT_READY":
+			counts.CacheNotReady++
+		case item.Code == "SECKILL_TEMPORARILY_UNAVAILABLE":
+			counts.TemporaryUnavailable++
 		case item.Code == codeServerTimeout:
 			counts.ServerTimeout++
 		case item.Code == codeServerRejected:
@@ -654,12 +750,86 @@ func buildReport(opts options, itemID uint64, samples []sample, setupDuration, e
 	if elapsed > 0 {
 		throughput = float64(len(samples)) / elapsed.Seconds()
 	}
-	return report{
-		GeneratedAt: time.Now().UTC().Format(time.RFC3339Nano), BaseURL: opts.BaseURL, Strategy: opts.Strategy,
+	result := report{
+		GeneratedAt: time.Now().UTC().Format(time.RFC3339Nano), BaseURL: opts.BaseURL, Strategy: opts.Strategy, Admission: opts.Admission,
 		Scenario: opts.Scenario, ItemID: itemID, SKUID: opts.SKUID, Concurrency: opts.Concurrency, Requests: opts.Requests,
 		ConfiguredStock: opts.Stock, SetupDurationMS: durationMS(setupDuration), BenchmarkDurationMS: durationMS(elapsed),
 		ThroughputQPS: throughput, Counts: counts, Latency: latency, Samples: samples,
 	}
+	result.Environment = collectEnvironment(opts)
+	return result
+}
+
+func collectEnvironment(opts options) environmentReport {
+	reportPath, err := filepath.Abs(opts.Output)
+	if err != nil {
+		// filepath.Abs 只依赖当前工作目录；即使极端环境下失败，仍保留用户传入路径，
+		// 不能因为辅助元数据让一次昂贵压测的业务样本全部丢失。
+		reportPath = opts.Output
+	}
+	result := environmentReport{
+		Hardware:        fmt.Sprintf("%s/%s logical_cpu=%d", runtime.GOOS, runtime.GOARCH, runtime.NumCPU()),
+		GoVersion:       runtime.Version(),
+		RedisDeployment: opts.RedisDeployment,
+		ReportFile:      reportPath,
+	}
+	var cfg config.Config
+	if err := conf.Load(opts.ConfigFile, &cfg); err == nil {
+		result.ServiceConfig = serviceConfigSummary{
+			StockMode:                  cfg.Seckill.StockMode,
+			AdmissionMode:              cfg.Seckill.AdmissionMode,
+			MySQLMaxOpenConns:          cfg.MySQL.MaxOpenConns,
+			MySQLMaxIdleConns:          cfg.MySQL.MaxIdleConns,
+			RedisAddress:               cfg.Redis.Address,
+			RedisDB:                    cfg.Redis.DB,
+			RedisOperationTimeoutMilli: cfg.Redis.OperationTimeoutMilliseconds,
+		}
+	}
+	return result
+}
+
+func collectBackendState(configFile string, itemID uint64) backendReport {
+	result := backendReport{}
+	var cfg config.Config
+	if err := conf.Load(configFile, &cfg); err != nil {
+		result.ErrorCategories = append(result.ErrorCategories, "config_load_failed")
+		return result
+	}
+	ctx := context.Background()
+	db, err := database.OpenMySQL(ctx, cfg.MySQL)
+	if err != nil {
+		result.ErrorCategories = append(result.ErrorCategories, "mysql_open_failed")
+	} else {
+		state, inspectErr := seckillmysql.New(db).InspectItemState(ctx, itemID)
+		_ = db.Close()
+		if inspectErr != nil {
+			result.ErrorCategories = append(result.ErrorCategories, "mysql_read_failed")
+		} else {
+			result.MySQL = &state
+		}
+	}
+
+	redisClient, err := platformcache.OpenRedis(ctx, cfg.Redis)
+	if err != nil {
+		result.ErrorCategories = append(result.ErrorCategories, "redis_open_failed")
+	} else {
+		gate, gateErr := redisgate.New(redisClient, cfg.Redis.OperationTimeout())
+		if gateErr != nil {
+			result.ErrorCategories = append(result.ErrorCategories, "redis_inspector_failed")
+		} else {
+			state, inspectErr := gate.InspectItem(ctx, itemID)
+			if inspectErr != nil {
+				result.ErrorCategories = append(result.ErrorCategories, "redis_read_failed")
+			} else {
+				result.Redis = &state
+			}
+		}
+		_ = redisClient.Close()
+	}
+	// HTTP 客户端无法观察服务内部函数调用次数。claim 数只代表提交结果，不能冒充
+	// Purchase 调用数；精确“售罄不回源”由 TASK-027 的 spy 测试证明。
+	result.PurchaseCallsAvailable = false
+	return result
 }
 
 func percentile(sorted []time.Duration, percentage int) time.Duration {
@@ -683,9 +853,9 @@ func durationMS(value time.Duration) float64 {
 
 func printReport(value report) {
 	fmt.Printf("完成: duration=%.2fms throughput=%.2f req/s\n", value.BenchmarkDurationMS, value.ThroughputQPS)
-	fmt.Printf("结果: created=%d replayed=%d sold_out=%d busy=%d unavailable=%d server_timeout=%d server_rejected=%d network_error=%d other_error=%d\n",
+	fmt.Printf("结果: created=%d replayed=%d sold_out=%d busy=%d unavailable=%d cache_not_ready=%d redis_unavailable=%d server_timeout=%d server_rejected=%d network_error=%d other_error=%d\n",
 		value.Counts.Created, value.Counts.Replayed, value.Counts.OutOfStock, value.Counts.InventoryBusy,
-		value.Counts.Unavailable, value.Counts.ServerTimeout, value.Counts.ServerRejected,
+		value.Counts.Unavailable, value.Counts.CacheNotReady, value.Counts.TemporaryUnavailable, value.Counts.ServerTimeout, value.Counts.ServerRejected,
 		value.Counts.NetworkError, value.Counts.OtherError)
 	fmt.Printf("延迟(ms): min=%.3f avg=%.3f p50=%.3f p90=%.3f p95=%.3f p99=%.3f max=%.3f\n",
 		value.Latency.MinMS, value.Latency.AvgMS, value.Latency.P50MS, value.Latency.P90MS,

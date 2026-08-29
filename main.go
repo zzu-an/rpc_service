@@ -15,6 +15,7 @@ import (
 	"service_rpc/internal/handler"
 	"service_rpc/internal/order"
 	ordermysql "service_rpc/internal/order/mysqlrepo"
+	platformcache "service_rpc/internal/platform/cache"
 	"service_rpc/internal/platform/database"
 	"service_rpc/internal/product"
 	productmysql "service_rpc/internal/product/mysqlrepo"
@@ -22,6 +23,7 @@ import (
 	rbacmysql "service_rpc/internal/rbac/mysqlrepo"
 	"service_rpc/internal/seckill"
 	seckillmysql "service_rpc/internal/seckill/mysqlrepo"
+	"service_rpc/internal/seckill/redisgate"
 	"service_rpc/internal/user"
 	usermysql "service_rpc/internal/user/mysqlrepo"
 )
@@ -74,12 +76,36 @@ func main() {
 	if err != nil {
 		log.Fatalf("initialize seckill stock mode: %v", err)
 	}
-	// 策略只在启动时由受控配置选择，不让客户端逐请求指定，避免外部协议泄漏数据库实现。
-	// 做对比压测时必须修改 StockMode 后重启进程，确保整轮样本使用同一种并发控制方式。
-	seckillService := seckill.NewService(seckillmysql.NewWithStockMode(db, stockMode))
+	admissionMode, err := config.ParseAdmissionMode(c.Seckill.AdmissionMode)
+	if err != nil {
+		log.Fatalf("initialize seckill admission mode: %v", err)
+	}
+	seckillRepository := seckillmysql.NewWithStockMode(db, stockMode)
+	seckillService := seckill.NewService(seckillRepository)
+	if admissionMode == config.AdmissionModeRedis {
+		redisClient, err := platformcache.OpenRedis(context.Background(), c.Redis)
+		if err != nil {
+			// Redis 模式启动失败必须终止，不能静默切回 MySQL；后者会把峰值重新压到热点行。
+			log.Fatalf("initialize Redis: %v", err)
+		}
+		defer func() {
+			if err := redisClient.Close(); err != nil {
+				log.Printf("close Redis: %v", err)
+			}
+		}()
+		gate, err := redisgate.New(redisClient, c.Redis.OperationTimeout())
+		if err != nil {
+			log.Fatalf("initialize Redis seckill gate: %v", err)
+		}
+		seckillService, err = seckill.NewServiceWithAdmission(seckillRepository, seckillRepository, gate, gate)
+		if err != nil {
+			log.Fatalf("initialize cached seckill service: %v", err)
+		}
+	}
+	// 两种策略都只允许在启动时选择；HTTP 请求不能指定内部并发控制或绕过 Redis。
 	handler.RegisterSeckillAdminRoutes(server, tokenManager, rbacService, seckillService)
 	handler.RegisterSeckillOrderRoutes(server, tokenManager, seckillService)
 
-	fmt.Printf("Starting %s at %s:%d with seckill stock mode %s...\n", c.Name, c.Host, c.Port, stockMode)
+	fmt.Printf("Starting %s at %s:%d with seckill stock mode %s and admission mode %s...\n", c.Name, c.Host, c.Port, stockMode, admissionMode)
 	server.Start()
 }

@@ -1,0 +1,975 @@
+{
+  "generated_at": "2026-08-26T16:14:27.685069Z",
+  "base_url": "http://127.0.0.1:18888",
+  "strategy_label": "atomic",
+  "admission_label": "redis",
+  "scenario": "replay",
+  "item_id": 5,
+  "concurrency": 100,
+  "requests": 100,
+  "configured_stock": 100,
+  "setup_duration_ms": 3069.427208,
+  "benchmark_duration_ms": 108.639542,
+  "throughput_qps": 920.4751617969818,
+  "counts": {
+    "http_200": 100,
+    "created": 1,
+    "replayed": 99,
+    "out_of_stock": 0,
+    "unavailable": 0,
+    "inventory_busy": 0,
+    "cache_not_ready": 0,
+    "temporary_unavailable": 0,
+    "server_timeout": 0,
+    "server_rejected": 0,
+    "network_error": 0,
+    "other_error": 0,
+    "by_http_status": {
+      "200": 100
+    },
+    "by_business_code": {
+      "OK": 100
+    }
+  },
+  "latency": {
+    "min_ms": 28.501459,
+    "avg_ms": 79.840102,
+    "p50_ms": 81.975375,
+    "p90_ms": 103.460834,
+    "p95_ms": 105.214542,
+    "p99_ms": 106.559958,
+    "max_ms": 106.917709
+  },
+  "backend": {
+    "mysql": {
+      "InitialStock": 100,
+      "AvailableStock": 99,
+      "ClaimCount": 1
+    },
+    "redis": {
+      "Exists": true,
+      "Stock": 99,
+      "BuyerCount": 1,
+      "Generation": "5:0:1787764464575148",
+      "TTL": 3901772000000
+    },
+    "mysql_purchase_calls_available": false
+  },
+  "environment": {
+    "hardware": "darwin/arm64 logical_cpu=10",
+    "go_version": "go1.26.1",
+    "redis_deployment": "remote-standalone-lan",
+    "report_file": "/Volumes/mac_T7/worksp/service_rpc/docs/benchmark/v03-redis-replay-20260827.json",
+    "service_config": {
+      "stock_mode": "atomic",
+      "admission_mode": "redis",
+      "mysql_max_open_conns": 10,
+      "mysql_max_idle_conns": 5,
+      "redis_address": "192.168.0.107:6379",
+      "redis_db": 0,
+      "redis_operation_timeout_ms": 200
+    }
+  },
+  "samples": [
+    {
+      "sequence": 0,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 103.834875
+    },
+    {
+      "sequence": 1,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 90.23425
+    },
+    {
+      "sequence": 2,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 106.083042
+    },
+    {
+      "sequence": 3,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 28.501459
+    },
+    {
+      "sequence": 4,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 70.863333
+    },
+    {
+      "sequence": 5,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 92.309333
+    },
+    {
+      "sequence": 6,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 103.200125
+    },
+    {
+      "sequence": 7,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 49.133
+    },
+    {
+      "sequence": 8,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 62.083042
+    },
+    {
+      "sequence": 9,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 88.873375
+    },
+    {
+      "sequence": 10,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 72.822459
+    },
+    {
+      "sequence": 11,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 77.2255
+    },
+    {
+      "sequence": 12,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 83.220291
+    },
+    {
+      "sequence": 13,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 59.308167
+    },
+    {
+      "sequence": 14,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 104.741334
+    },
+    {
+      "sequence": 15,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 82.422708
+    },
+    {
+      "sequence": 16,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 52.454667
+    },
+    {
+      "sequence": 17,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 48.536167
+    },
+    {
+      "sequence": 18,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 87.030625
+    },
+    {
+      "sequence": 19,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 76.437375
+    },
+    {
+      "sequence": 20,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 85.790542
+    },
+    {
+      "sequence": 21,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 79.31425
+    },
+    {
+      "sequence": 22,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 45.363084
+    },
+    {
+      "sequence": 23,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 73.17925
+    },
+    {
+      "sequence": 24,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 85.642459
+    },
+    {
+      "sequence": 25,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 82.923917
+    },
+    {
+      "sequence": 26,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 79.8865
+    },
+    {
+      "sequence": 27,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 106.559958
+    },
+    {
+      "sequence": 28,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 75.615625
+    },
+    {
+      "sequence": 29,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 65.183625
+    },
+    {
+      "sequence": 30,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 70.767333
+    },
+    {
+      "sequence": 31,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 67.163708
+    },
+    {
+      "sequence": 32,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 102.943041
+    },
+    {
+      "sequence": 33,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 87.157334
+    },
+    {
+      "sequence": 34,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 64.611416
+    },
+    {
+      "sequence": 35,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 91.655792
+    },
+    {
+      "sequence": 36,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 75.824875
+    },
+    {
+      "sequence": 37,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 60.427834
+    },
+    {
+      "sequence": 38,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 91.05275
+    },
+    {
+      "sequence": 39,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 102.195625
+    },
+    {
+      "sequence": 40,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 103.460834
+    },
+    {
+      "sequence": 41,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 53.378875
+    },
+    {
+      "sequence": 42,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 62.411916
+    },
+    {
+      "sequence": 43,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 64.629958
+    },
+    {
+      "sequence": 44,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 74.988875
+    },
+    {
+      "sequence": 45,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 68.656084
+    },
+    {
+      "sequence": 46,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 76.056041
+    },
+    {
+      "sequence": 47,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 103.651375
+    },
+    {
+      "sequence": 48,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 82.340625
+    },
+    {
+      "sequence": 49,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 70.820667
+    },
+    {
+      "sequence": 50,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 63.268375
+    },
+    {
+      "sequence": 51,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 87.469542
+    },
+    {
+      "sequence": 52,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 98.645458
+    },
+    {
+      "sequence": 53,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 41.700291
+    },
+    {
+      "sequence": 54,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 87.180042
+    },
+    {
+      "sequence": 55,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 94.363417
+    },
+    {
+      "sequence": 56,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 71.459625
+    },
+    {
+      "sequence": 57,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 89.153583
+    },
+    {
+      "sequence": 58,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 90.49725
+    },
+    {
+      "sequence": 59,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 80.619208
+    },
+    {
+      "sequence": 60,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 92.586209
+    },
+    {
+      "sequence": 61,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 105.949542
+    },
+    {
+      "sequence": 62,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 103.233833
+    },
+    {
+      "sequence": 63,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 66.64525
+    },
+    {
+      "sequence": 64,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 102.48425
+    },
+    {
+      "sequence": 65,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 60.780542
+    },
+    {
+      "sequence": 66,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 91.78625
+    },
+    {
+      "sequence": 67,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 50.787875
+    },
+    {
+      "sequence": 68,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 67.223375
+    },
+    {
+      "sequence": 69,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 106.917709
+    },
+    {
+      "sequence": 70,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 81.662542
+    },
+    {
+      "sequence": 71,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 66.69575
+    },
+    {
+      "sequence": 72,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 84.99775
+    },
+    {
+      "sequence": 73,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 67.72925
+    },
+    {
+      "sequence": 74,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 62.648875
+    },
+    {
+      "sequence": 75,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 71.266667
+    },
+    {
+      "sequence": 76,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 94.99675
+    },
+    {
+      "sequence": 77,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 81.975375
+    },
+    {
+      "sequence": 78,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 79.482291
+    },
+    {
+      "sequence": 79,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 61.696333
+    },
+    {
+      "sequence": 80,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 95.414916
+    },
+    {
+      "sequence": 81,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 105.201875
+    },
+    {
+      "sequence": 82,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 86.741584
+    },
+    {
+      "sequence": 83,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 88.937792
+    },
+    {
+      "sequence": 84,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 54.296834
+    },
+    {
+      "sequence": 85,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 82.872833
+    },
+    {
+      "sequence": 86,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 84.854542
+    },
+    {
+      "sequence": 87,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 54.635792
+    },
+    {
+      "sequence": 88,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 68.423
+    },
+    {
+      "sequence": 89,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 89.440834
+    },
+    {
+      "sequence": 90,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 95.378125
+    },
+    {
+      "sequence": 91,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 84.904709
+    },
+    {
+      "sequence": 92,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 95.575833
+    },
+    {
+      "sequence": 93,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 105.214542
+    },
+    {
+      "sequence": 94,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 72.7625
+    },
+    {
+      "sequence": 95,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 87.867625
+    },
+    {
+      "sequence": 96,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 78.588542
+    },
+    {
+      "sequence": 97,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 106.170125
+    },
+    {
+      "sequence": 98,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 83.207042
+    },
+    {
+      "sequence": 99,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": true,
+      "order_id": 203,
+      "order_no": "S1787760867578c6353166a2c8018a",
+      "latency_ms": 64.64875
+    }
+  ]
+}

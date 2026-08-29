@@ -10,9 +10,18 @@ MySQL:
 Auth:
   AccessSecret: local-development-secret-change-me-2026
   AccessTTLSeconds: 900
+Redis:
+  Address: 192.168.0.107:6379
+  Username: ""
+  Password: redis_030603
+  DB: 0
+  DialTimeoutMilliseconds: 500
+  OperationTimeoutMilliseconds: 200
 Seckill:
   # 可选 atomic / pessimistic / optimistic；修改后必须重启服务。
   StockMode: atomic
+  # 可选 mysql / redis；Redis 故障时不会自动回退 MySQL。
+  AdmissionMode: redis
 
 #  Mysql:
 #  容器名：service-rpc-mysql

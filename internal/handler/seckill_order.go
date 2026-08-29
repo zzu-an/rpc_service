@@ -74,6 +74,10 @@ func writeSeckillPurchaseError(r *http.Request, w http.ResponseWriter, err error
 	case errors.Is(err, seckill.ErrInventoryBusy):
 		// 乐观锁耗尽只表示当前竞争过高，不能伪装成售罄；客户端可在退避后用同一身份安全重试。
 		writeError(r, w, http.StatusServiceUnavailable, "INVENTORY_BUSY", "inventory is busy, retry later")
+	case errors.Is(err, seckill.ErrCacheNotReady):
+		writeError(r, w, http.StatusServiceUnavailable, "SECKILL_CACHE_NOT_READY", "seckill cache is not ready")
+	case errors.Is(err, seckill.ErrAdmissionFailure):
+		writeError(r, w, http.StatusServiceUnavailable, "SECKILL_TEMPORARILY_UNAVAILABLE", "seckill service is temporarily unavailable")
 	default:
 		writeError(r, w, http.StatusInternalServerError, "INTERNAL_ERROR", "internal server error")
 	}

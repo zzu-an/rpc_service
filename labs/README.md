@@ -18,6 +18,7 @@
 | `graceful-shutdown` | 信号、停止接流量、在途请求、资源关闭 | `go run ./labs/graceful-shutdown` |
 | `grpc-deadline` | 原生 gRPC、流、deadline、metadata、拦截器 | `go test -v ./labs/grpc-deadline` |
 | `goroutine-leak` | 泄漏复现、取消、goroutine profile | `go run ./labs/goroutine-leak -mode=fixed` |
+| `distributed-lock` | Redis lease、唯一 token、原子释放、TTL 失效与 fencing | `go test -v ./labs/distributed-lock` |
 
 ## 一键验收
 

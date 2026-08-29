@@ -11,6 +11,8 @@ import (
 
 	"github.com/zeromicro/go-zero/rest/pathvar"
 
+	"service_rpc/internal/auth"
+	"service_rpc/internal/rbac"
 	"service_rpc/internal/seckill"
 )
 
@@ -83,5 +85,144 @@ func TestAddItemAndUpdateActivityStatusHandlers(t *testing.T) {
 	updateSeckillActivityStatusHandler(service)(recorder, request)
 	if recorder.Code != http.StatusOK || repository.statusID != 11 || repository.status != seckill.StatusEnabled {
 		t.Fatalf("status=%d id=%d value=%d body=%s", recorder.Code, repository.statusID, repository.status, recorder.Body.String())
+	}
+}
+
+type adminSnapshotReader struct {
+	snapshot seckill.PreheatSnapshot
+}
+
+func (r adminSnapshotReader) LoadPreheatSnapshot(context.Context, uint64) (seckill.PreheatSnapshot, error) {
+	return r.snapshot, nil
+}
+
+type adminActivityCache struct {
+	result seckill.PreheatResult
+	err    error
+}
+
+func (c adminActivityCache) PublishActivity(context.Context, seckill.PreheatSnapshot, time.Time) (seckill.PreheatResult, error) {
+	return c.result, c.err
+}
+
+func (adminActivityCache) InvalidateItems(context.Context, []uint64) error { return nil }
+
+func TestPreheatSeckillActivityHandler(t *testing.T) {
+	now := time.Now().UTC()
+	want := seckill.PreheatResult{
+		ActivityID: 11, ItemCount: 2,
+		EarliestExpireAt: now.Add(time.Hour), LatestExpireAt: now.Add(time.Hour + time.Minute),
+	}
+	service, err := seckill.NewServiceWithCache(
+		&seckillAdminRepository{},
+		adminSnapshotReader{snapshot: seckill.PreheatSnapshot{
+			Activity: seckill.Activity{ID: 11, Status: seckill.StatusEnabled, StartAt: now.Add(time.Minute), EndAt: now.Add(time.Hour)},
+			Items:    []seckill.Item{{ID: 12, ActivityID: 11, SKUID: 21, InitialStock: 2, AvailableStock: 2}},
+		}},
+		adminActivityCache{result: want},
+	)
+	if err != nil {
+		t.Fatalf("NewServiceWithCache() error = %v", err)
+	}
+	request := httptest.NewRequest(http.MethodPost, "/v1/admin/seckill/activities/11/preheat", nil)
+	request = pathvar.WithVars(request, map[string]string{"activityId": "11"})
+	recorder := httptest.NewRecorder()
+	preheatSeckillActivityHandler(service)(recorder, request)
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status=%d body=%s", recorder.Code, recorder.Body.String())
+	}
+	var response seckillPreheatResponse
+	if err := json.NewDecoder(recorder.Body).Decode(&response); err != nil {
+		t.Fatalf("decode response: %v", err)
+	}
+	if response.Data.ActivityID != 11 || response.Data.ItemCount != 2 || response.Data.EarliestExpireAt == "" {
+		t.Fatalf("response = %+v", response)
+	}
+}
+
+func TestPreheatSeckillActivityHandlerMapsCacheFailure(t *testing.T) {
+	service, err := seckill.NewServiceWithCache(
+		&seckillAdminRepository{},
+		adminSnapshotReader{snapshot: seckill.PreheatSnapshot{
+			Activity: seckill.Activity{ID: 11, Status: seckill.StatusEnabled, StartAt: time.Now().Add(time.Minute), EndAt: time.Now().Add(time.Hour)},
+			Items:    []seckill.Item{{ID: 12, ActivityID: 11, SKUID: 21, InitialStock: 1, AvailableStock: 1}},
+		}},
+		adminActivityCache{err: seckill.ErrAdmissionFailure},
+	)
+	if err != nil {
+		t.Fatalf("NewServiceWithCache() error = %v", err)
+	}
+	request := httptest.NewRequest(http.MethodPost, "/v1/admin/seckill/activities/11/preheat", nil)
+	request = pathvar.WithVars(request, map[string]string{"activityId": "11"})
+	recorder := httptest.NewRecorder()
+	preheatSeckillActivityHandler(service)(recorder, request)
+	if recorder.Code != http.StatusServiceUnavailable || !bytes.Contains(recorder.Body.Bytes(), []byte("SECKILL_TEMPORARILY_UNAVAILABLE")) {
+		t.Fatalf("status=%d body=%s", recorder.Code, recorder.Body.String())
+	}
+}
+
+type seckillPermissionRepository struct {
+	allowed bool
+}
+
+func (*seckillPermissionRepository) ReplaceUserRoles(context.Context, uint64, []string) error {
+	return nil
+}
+
+func (*seckillPermissionRepository) UserRoles(context.Context, uint64) ([]string, error) {
+	return nil, nil
+}
+
+func (r *seckillPermissionRepository) HasPermission(_ context.Context, _ uint64, permission string) (bool, error) {
+	return r.allowed && permission == "seckill:write", nil
+}
+
+func TestPreheatSeckillActivityAuthorization(t *testing.T) {
+	tokens, err := auth.NewTokenManager(handlerTokenSecret, 15*time.Minute)
+	if err != nil {
+		t.Fatalf("NewTokenManager() error = %v", err)
+	}
+	token, err := tokens.Issue(7)
+	if err != nil {
+		t.Fatalf("Issue() error = %v", err)
+	}
+	now := time.Now().UTC()
+	service, err := seckill.NewServiceWithCache(
+		&seckillAdminRepository{},
+		adminSnapshotReader{snapshot: seckill.PreheatSnapshot{
+			Activity: seckill.Activity{ID: 11, Status: seckill.StatusEnabled, StartAt: now.Add(time.Minute), EndAt: now.Add(time.Hour)},
+			Items:    []seckill.Item{{ID: 12, ActivityID: 11, SKUID: 21, InitialStock: 1, AvailableStock: 1}},
+		}},
+		adminActivityCache{result: seckill.PreheatResult{ActivityID: 11, ItemCount: 1, EarliestExpireAt: now.Add(time.Hour), LatestExpireAt: now.Add(time.Hour)}},
+	)
+	if err != nil {
+		t.Fatalf("NewServiceWithCache() error = %v", err)
+	}
+
+	tests := []struct {
+		name       string
+		authorized bool
+		allowed    bool
+		wantStatus int
+	}{
+		{name: "missing token", wantStatus: http.StatusUnauthorized},
+		{name: "permission denied", authorized: true, wantStatus: http.StatusForbidden},
+		{name: "administrator", authorized: true, allowed: true, wantStatus: http.StatusOK},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			permissionService := rbac.NewService(&seckillPermissionRepository{allowed: tt.allowed})
+			handler := authenticate(tokens)(requirePermission(permissionService, "seckill:write")(preheatSeckillActivityHandler(service)))
+			request := httptest.NewRequest(http.MethodPost, "/v1/admin/seckill/activities/11/preheat", nil)
+			request = pathvar.WithVars(request, map[string]string{"activityId": "11"})
+			if tt.authorized {
+				request.Header.Set("Authorization", "Bearer "+token)
+			}
+			recorder := httptest.NewRecorder()
+			handler(recorder, request)
+			if recorder.Code != tt.wantStatus {
+				t.Fatalf("status=%d body=%s, want %d", recorder.Code, recorder.Body.String(), tt.wantStatus)
+			}
+		})
 	}
 }

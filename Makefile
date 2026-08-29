@@ -1,4 +1,4 @@
-.PHONY: test test-race vet verify-v01 verify-v02 verify-v02-boundary labs-test labs-race labs-bench migrate-up migrate-down migrate-version
+.PHONY: test test-race vet verify-v01 verify-v02 verify-v02-boundary verify-v03 verify-v03-boundary labs-test labs-race labs-bench migrate-up migrate-down migrate-version
 
 CONFIG ?= etc/store-api.yaml
 TEST_DSN ?=
@@ -32,6 +32,29 @@ verify-v02-boundary:
 		echo "v0.2 boundary violation: later-stage infrastructure found"; exit 1; \
 	else \
 		echo "v0.2 boundary scan passed"; \
+	fi
+
+# v0.3 门禁显式连接真实 MySQL 与 Redis。Redis 密码是可选变量：无密码实例可省略，
+# 有密码实例通过 TEST_REDIS_PASSWORD 传入；命令和报告都不会打印其值。
+verify-v03:
+	@test -n "$(TEST_DSN)" || (echo "TEST_DSN is required; use an isolated MySQL database migrated to the latest version" && exit 1)
+	@test -n "$(TEST_REDIS_ADDR)" || (echo "TEST_REDIS_ADDR is required; use a disposable Redis DB" && exit 1)
+	@V03_STAGE_VERIFY=1 V03_MIGRATION_VERIFY=1 TEST_DSN="$(TEST_DSN)" TEST_REDIS_ADDR="$(TEST_REDIS_ADDR)" TEST_REDIS_PASSWORD="$(TEST_REDIS_PASSWORD)" go test -timeout 120s -run '^TestV03MigrationRoundTrip$$' -count=1 ./internal/seckill/redisgate
+	@V03_STAGE_VERIFY=1 SERVICE_RPC_MYSQL_TEST_DSN="$(TEST_DSN)" TEST_DSN="$(TEST_DSN)" TEST_REDIS_ADDR="$(TEST_REDIS_ADDR)" TEST_REDIS_PASSWORD="$(TEST_REDIS_PASSWORD)" go test -race -timeout 240s ./...
+	go vet ./...
+	$(MAKE) verify-v03-boundary
+	git diff --check
+
+verify-v03-boundary:
+	@if rg -n 'segmentio/kafka|shopify/sarama|rocketmq|rabbitmq|amqp091|google\.golang\.org/grpc|grpc\.New|go\.etcd\.io|zrpc|dtm-labs|rate\.NewLimiter|gobreaker' main.go internal --glob '*.go'; then \
+		echo "v0.3 boundary violation: post-v0.3 infrastructure found"; exit 1; \
+	else \
+		echo "v0.3 infrastructure boundary scan passed"; \
+	fi
+	@if rg -n 'distributed-lock|NewLock\(|Acquire\(|SetNX\(' main.go internal --glob '*.go'; then \
+		echo "v0.3 boundary violation: production distributed-lock reference found"; exit 1; \
+	else \
+		echo "v0.3 production distributed-lock scan passed"; \
 	fi
 
 labs-test:

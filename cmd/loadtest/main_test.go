@@ -6,13 +6,19 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
+
+	"github.com/zeromicro/go-zero/core/conf"
+
+	"service_rpc/internal/config"
 )
 
 func TestValidateOptions(t *testing.T) {
 	valid := options{
 		BaseURL: "http://127.0.0.1:8888/", Strategy: " PESSIMISTIC ", Scenario: "unique",
+		Admission: " REDIS ", ConfigFile: "etc/store-api.yaml", RedisDeployment: " remote-standalone ",
 		Concurrency: 10, Requests: 20, Stock: 20, RequestTimeout: time.Second, SetupConcurrency: 2,
 		AdminEmail: "admin@example.com", AdminPassword: "password", UserPassword: "password",
 		UserDomain: "example.com", RunID: "Run-01", Output: "report.json",
@@ -20,7 +26,7 @@ func TestValidateOptions(t *testing.T) {
 	if err := validateOptions(&valid); err != nil {
 		t.Fatalf("validateOptions() error = %v", err)
 	}
-	if valid.BaseURL != "http://127.0.0.1:8888" || valid.Strategy != "pessimistic" || valid.RunID != "run01" {
+	if valid.BaseURL != "http://127.0.0.1:8888" || valid.Strategy != "pessimistic" || valid.Admission != "redis" || valid.RedisDeployment != "remote-standalone" || valid.RunID != "run01" {
 		t.Fatalf("options were not normalized: %+v", valid)
 	}
 
@@ -29,7 +35,11 @@ func TestValidateOptions(t *testing.T) {
 	if err := validateOptions(&invalid); err == nil {
 		t.Fatal("invalid strategy error = nil")
 	}
-
+	invalidAdmission := valid
+	invalidAdmission.Admission = "fallback"
+	if err := validateOptions(&invalidAdmission); err == nil {
+		t.Fatal("invalid admission error = nil")
+	}
 	conflictingTarget := valid
 	conflictingTarget.SKUID = 10
 	conflictingTarget.ItemID = 20
@@ -50,17 +60,53 @@ func TestNewLoadtestSKUCodeIsUniqueAndKeepsRunID(t *testing.T) {
 	}
 }
 
+func TestCreateSeckillItemPreheatsRedisBeforeStart(t *testing.T) {
+	var operations []string
+	serverURL := newTestHTTPServer(t, http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		operations = append(operations, req.Method+" "+req.URL.Path)
+		w.Header().Set("Content-Type", "application/json")
+		switch req.URL.Path {
+		case "/v1/admin/seckill/activities":
+			_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK", "data": map[string]any{"id": 11}})
+		case "/v1/admin/seckill/activities/11/items":
+			_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK", "data": map[string]any{"id": 12}})
+		case "/v1/admin/seckill/activities/11/status", "/v1/admin/seckill/activities/11/preheat":
+			_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK"})
+		default:
+			w.WriteHeader(http.StatusNotFound)
+			_ = json.NewEncoder(w).Encode(map[string]any{"code": "NOT_FOUND"})
+		}
+	}))
+	r := &runner{
+		options: options{BaseURL: serverURL, Admission: "redis", SKUID: 21, Stock: 10, RunID: "redis01"},
+		client:  http.DefaultClient,
+	}
+	itemID, err := r.createSeckillItem("admin-token")
+	if err != nil {
+		t.Fatalf("createSeckillItem() error = %v", err)
+	}
+	if itemID != 12 || !r.readyAt.After(time.Now()) {
+		t.Fatalf("itemID=%d readyAt=%v", itemID, r.readyAt)
+	}
+	wantLast := "POST /v1/admin/seckill/activities/11/preheat"
+	if len(operations) != 4 || operations[len(operations)-1] != wantLast {
+		t.Fatalf("operations=%v, want final %q", operations, wantLast)
+	}
+}
+
 func TestExecuteRequestRecordsBusinessResultAndLatency(t *testing.T) {
 	serverURL := newTestHTTPServer(t, http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		if req.URL.Path != "/v1/seckill/items/7/orders" || req.Header.Get("Authorization") != "Bearer token" {
 			t.Fatalf("unexpected request path=%s authorization=%q", req.URL.Path, req.Header.Get("Authorization"))
 		}
 		w.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK", "data": map[string]any{"replayed": true}})
+		_ = json.NewEncoder(w).Encode(map[string]any{"code": "OK", "data": map[string]any{
+			"replayed": true, "order": map[string]any{"id": 9, "order_no": "order-9"},
+		}})
 	}))
 	r := &runner{options: options{BaseURL: serverURL}, client: http.DefaultClient}
 	got := r.executeRequest(3, 7, "token")
-	if got.Sequence != 3 || got.HTTPCode != http.StatusOK || got.Code != "OK" || !got.Replayed || got.Duration <= 0 || got.Error != "" {
+	if got.Sequence != 3 || got.HTTPCode != http.StatusOK || got.Code != "OK" || !got.Replayed || got.OrderID != 9 || got.OrderNo != "order-9" || got.Duration <= 0 || got.Error != "" {
 		t.Fatalf("executeRequest() = %+v", got)
 	}
 }
@@ -142,13 +188,42 @@ func TestBuildReportCountsAndPercentiles(t *testing.T) {
 		{HTTPCode: 503, Code: codeServerTimeout, Duration: 50 * time.Millisecond, LatencyMS: 50},
 		{HTTPCode: 503, Code: codeServerRejected, Duration: time.Millisecond, LatencyMS: 1},
 	}
-	got := buildReport(options{BaseURL: "http://example", Strategy: "atomic", Scenario: "unique", Concurrency: 2, Requests: 6, Stock: 2}, 7, samples, time.Second, 100*time.Millisecond)
+	got := buildReport(options{BaseURL: "http://example", Strategy: "atomic", Admission: "redis", Scenario: "unique", Concurrency: 2, Requests: 6, Stock: 2}, 7, samples, time.Second, 100*time.Millisecond)
 	if got.Counts.Created != 1 || got.Counts.Replayed != 1 || got.Counts.OutOfStock != 1 ||
 		got.Counts.NetworkError != 1 || got.Counts.ServerTimeout != 1 || got.Counts.ServerRejected != 1 {
 		t.Fatalf("counts = %+v", got.Counts)
 	}
 	if got.Latency.P50MS != 20 || got.Latency.P90MS != 50 || got.Latency.P99MS != 50 || got.ThroughputQPS != 60 {
 		t.Fatalf("latency=%+v throughput=%v", got.Latency, got.ThroughputQPS)
+	}
+	if got.Admission != "redis" {
+		t.Fatalf("admission=%q, want redis", got.Admission)
+	}
+}
+
+func TestCollectEnvironmentDoesNotExposeSecrets(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "store-api.yaml")
+	configBody := []byte("Name: test\nHost: 127.0.0.1\nPort: 8888\nMode: test\nMySQL:\n  DataSource: user:top-secret@tcp(db:3306)/test\n  MaxOpenConns: 12\n  MaxIdleConns: 6\n  ConnMaxLifetimeSeconds: 300\nRedis:\n  Address: redis.example:6379\n  Username: \"\"\n  Password: redis-secret\n  DB: 3\n  DialTimeoutMilliseconds: 500\n  OperationTimeoutMilliseconds: 200\nAuth:\n  AccessSecret: jwt-secret-with-required-minimum-length\n  AccessTTLSeconds: 60\nSeckill:\n  StockMode: atomic\n  AdmissionMode: redis\n")
+	if err := os.WriteFile(path, configBody, 0o600); err != nil {
+		t.Fatalf("write config: %v", err)
+	}
+	var parsed config.Config
+	if err := conf.Load(path, &parsed); err != nil {
+		t.Fatalf("load test config: %v", err)
+	}
+	got := collectEnvironment(options{ConfigFile: path, Output: "report.json", RedisDeployment: "remote-standalone"})
+	encoded, err := json.Marshal(got)
+	if err != nil {
+		t.Fatalf("json.Marshal() error = %v", err)
+	}
+	text := string(encoded)
+	for _, secret := range []string{"top-secret", "redis-secret", "jwt-secret-with-required-minimum-length"} {
+		if strings.Contains(text, secret) {
+			t.Fatalf("environment report leaks secret %q: %s", secret, text)
+		}
+	}
+	if got.ServiceConfig.RedisAddress != "redis.example:6379" || got.ServiceConfig.MySQLMaxOpenConns != 12 {
+		t.Fatalf("service config summary = %+v", got.ServiceConfig)
 	}
 }
 

@@ -29,7 +29,10 @@ func TestRepositoryActivityLifecycle(t *testing.T) {
 	productService := product.NewService(productmysql.New(db))
 	createdProduct, err := productService.Create(context.Background(), product.CreateInput{
 		Name: "秒杀 Repository 测试商品",
-		SKUs: []product.SKU{{Code: fmt.Sprintf("seckill-repo-%d", time.Now().UnixNano()), Name: "默认 SKU", PriceCent: 1999}},
+		SKUs: []product.SKU{
+			{Code: fmt.Sprintf("seckill-repo-a-%d", time.Now().UnixNano()), Name: "默认 SKU A", PriceCent: 1999},
+			{Code: fmt.Sprintf("seckill-repo-b-%d", time.Now().UnixNano()), Name: "默认 SKU B", PriceCent: 2999},
+		},
 	})
 	if err != nil {
 		t.Fatalf("create product: %v", err)
@@ -50,6 +53,9 @@ func TestRepositoryActivityLifecycle(t *testing.T) {
 	t.Cleanup(func() {
 		_, _ = db.ExecContext(context.Background(), `DELETE FROM seckill_activities WHERE id = ?`, activity.ID)
 	})
+	if _, err := repository.LoadPreheatSnapshot(context.Background(), activity.ID); !errors.Is(err, seckill.ErrNoItems) {
+		t.Fatalf("empty LoadPreheatSnapshot() error = %v, want ErrNoItems", err)
+	}
 
 	item, err := repository.AddItem(context.Background(), seckill.AddItemInput{ActivityID: activity.ID, SKUID: createdProduct.SKUs[0].ID, Stock: 10})
 	if err != nil {
@@ -60,6 +66,37 @@ func TestRepositoryActivityLifecycle(t *testing.T) {
 	}
 	if _, err := repository.AddItem(context.Background(), seckill.AddItemInput{ActivityID: activity.ID, SKUID: createdProduct.SKUs[0].ID, Stock: 10}); !errors.Is(err, seckill.ErrConflict) {
 		t.Fatalf("duplicate item error = %v, want ErrConflict", err)
+	}
+	secondItem, err := repository.AddItem(context.Background(), seckill.AddItemInput{ActivityID: activity.ID, SKUID: createdProduct.SKUs[1].ID, Stock: 7})
+	if err != nil {
+		t.Fatalf("AddItem(second) error = %v", err)
+	}
+
+	snapshot, err := repository.LoadPreheatSnapshot(context.Background(), activity.ID)
+	if err != nil {
+		t.Fatalf("LoadPreheatSnapshot() error = %v", err)
+	}
+	if snapshot.Activity.ID != activity.ID || len(snapshot.Items) != 2 {
+		t.Fatalf("unexpected snapshot = %+v", snapshot)
+	}
+	if snapshot.Items[0].ID != item.ID || snapshot.Items[1].ID != secondItem.ID {
+		t.Fatalf("items are not ordered by ID: %+v", snapshot.Items)
+	}
+	if snapshot.Items[0].AvailableStock != 10 || snapshot.Items[1].AvailableStock != 7 {
+		t.Fatalf("snapshot changed stock: %+v", snapshot.Items)
+	}
+	state, err := repository.InspectItemState(context.Background(), item.ID)
+	if err != nil {
+		t.Fatalf("InspectItemState() error = %v", err)
+	}
+	if state.InitialStock != 10 || state.AvailableStock != 10 || state.ClaimCount != 0 {
+		t.Fatalf("InspectItemState() = %+v", state)
+	}
+	if _, err := repository.InspectItemState(context.Background(), ^uint64(0)); !errors.Is(err, seckill.ErrItemNotFound) {
+		t.Fatalf("missing InspectItemState() error = %v", err)
+	}
+	if _, err := repository.LoadPreheatSnapshot(context.Background(), ^uint64(0)); !errors.Is(err, seckill.ErrActivityNotFound) {
+		t.Fatalf("missing LoadPreheatSnapshot() error = %v, want ErrActivityNotFound", err)
 	}
 
 	if err := repository.SetActivityStatus(context.Background(), activity.ID, seckill.StatusEnabled); err != nil {

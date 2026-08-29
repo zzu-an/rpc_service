@@ -22,6 +22,14 @@ type Repository struct {
 	stockMode StockMode
 }
 
+type ItemConsistencyState struct {
+	InitialStock   int64
+	AvailableStock int64
+	ClaimCount     int64
+}
+
+var _ seckill.PreheatSnapshotReader = (*Repository)(nil)
+
 type StockMode uint8
 
 const (
@@ -168,6 +176,100 @@ func (r *Repository) activityExists(ctx context.Context, activityID uint64) (boo
 	return exists, nil
 }
 
+func (r *Repository) LoadPreheatSnapshot(ctx context.Context, activityID uint64) (seckill.PreheatSnapshot, error) {
+	if activityID == 0 {
+		return seckill.PreheatSnapshot{}, seckill.ErrInvalidArgument
+	}
+
+	// 使用短生命周期的只读 REPEATABLE READ 事务，让活动和 item 来自同一个 MVCC 快照。
+	// 这里绝不能 SELECT ... FOR UPDATE：预热是读模型，不参与库存竞争；加锁不仅不能让
+	// Redis 与 MySQL 原子一致，反而会阻塞真正的下单事务，是常见的“为了一致性乱加锁”误区。
+	tx, err := r.db.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelRepeatableRead, ReadOnly: true})
+	if err != nil {
+		return seckill.PreheatSnapshot{}, fmt.Errorf("begin seckill preheat snapshot: %w", err)
+	}
+	defer func() { _ = tx.Rollback() }()
+
+	var snapshot seckill.PreheatSnapshot
+	err = tx.QueryRowContext(ctx, `
+		SELECT id, name, start_at, end_at, status, created_at
+		FROM seckill_activities
+		WHERE id = ?
+	`, activityID).Scan(
+		&snapshot.Activity.ID,
+		&snapshot.Activity.Name,
+		&snapshot.Activity.StartAt,
+		&snapshot.Activity.EndAt,
+		&snapshot.Activity.Status,
+		&snapshot.Activity.CreatedAt,
+	)
+	if errors.Is(err, sql.ErrNoRows) {
+		return seckill.PreheatSnapshot{}, seckill.ErrActivityNotFound
+	}
+	if err != nil {
+		return seckill.PreheatSnapshot{}, fmt.Errorf("load seckill preheat activity: %w", err)
+	}
+
+	rows, err := tx.QueryContext(ctx, `
+		SELECT id, activity_id, sku_id, initial_stock, available_stock, version, created_at
+		FROM seckill_items
+		WHERE activity_id = ?
+		ORDER BY id
+	`, activityID)
+	if err != nil {
+		return seckill.PreheatSnapshot{}, fmt.Errorf("load seckill preheat items: %w", err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var item seckill.Item
+		if err := rows.Scan(
+			&item.ID,
+			&item.ActivityID,
+			&item.SKUID,
+			&item.InitialStock,
+			&item.AvailableStock,
+			&item.Version,
+			&item.CreatedAt,
+		); err != nil {
+			return seckill.PreheatSnapshot{}, fmt.Errorf("scan seckill preheat item: %w", err)
+		}
+		snapshot.Items = append(snapshot.Items, item)
+	}
+	if err := rows.Err(); err != nil {
+		return seckill.PreheatSnapshot{}, fmt.Errorf("iterate seckill preheat items: %w", err)
+	}
+	if len(snapshot.Items) == 0 {
+		return seckill.PreheatSnapshot{}, seckill.ErrNoItems
+	}
+	if err := tx.Commit(); err != nil {
+		return seckill.PreheatSnapshot{}, fmt.Errorf("commit seckill preheat snapshot: %w", err)
+	}
+	return snapshot, nil
+}
+
+func (r *Repository) InspectItemState(ctx context.Context, itemID uint64) (ItemConsistencyState, error) {
+	if itemID == 0 {
+		return ItemConsistencyState{}, seckill.ErrInvalidArgument
+	}
+	var state ItemConsistencyState
+	// 诊断只读单个 item，并通过相关子查询计数；不能为了方便扫描整个 claim 表。
+	// 这个瞬时读数不是跨 Redis/MySQL 的一致快照，只能用于识别差值方向，不能证明
+	// 两个存储在某个历史时刻原子一致。
+	err := r.db.QueryRowContext(ctx, `
+		SELECT i.initial_stock, i.available_stock,
+		       (SELECT COUNT(*) FROM seckill_order_claims c WHERE c.seckill_item_id = i.id)
+		FROM seckill_items i
+		WHERE i.id = ?
+	`, itemID).Scan(&state.InitialStock, &state.AvailableStock, &state.ClaimCount)
+	if errors.Is(err, sql.ErrNoRows) {
+		return ItemConsistencyState{}, seckill.ErrItemNotFound
+	}
+	if err != nil {
+		return ItemConsistencyState{}, fmt.Errorf("inspect seckill MySQL state: %w", err)
+	}
+	return state, nil
+}
+
 type purchaseSnapshot struct {
 	activityID   uint64
 	skuID        uint64
@@ -282,6 +384,12 @@ func (r *Repository) purchaseOnce(ctx context.Context, userID, itemID uint64, or
 		VALUES (?, ?, 1, ?, ?)
 	`, orderNo, userID, snapshot.priceCent, createdAt)
 	if err != nil {
+		// v0.3 Redis buyer 会让同一用户的所有重试复用第一次 orderNo，因此并发重放可能
+		// 先撞上 orders.order_no 唯一键，而不是后面的 claim 唯一键。两者都表示“去读取赢家”，
+		// 不能返回 500；但外层仍会按 user+item 查询，避免把无关订单号冲突误当成功。
+		if isDuplicateKey(err) {
+			return seckill.PurchaseResult{}, errDuplicateClaim
+		}
 		return seckill.PurchaseResult{}, fmt.Errorf("insert seckill order: %w", err)
 	}
 	orderID, err := orderResult.LastInsertId()

@@ -1,0 +1,7273 @@
+{
+  "generated_at": "2026-08-26T16:13:17.155717Z",
+  "base_url": "http://127.0.0.1:18888",
+  "strategy_label": "atomic",
+  "admission_label": "mysql",
+  "scenario": "unique",
+  "item_id": 3,
+  "concurrency": 100,
+  "requests": 1000,
+  "configured_stock": 100,
+  "setup_duration_ms": 16070.0405,
+  "benchmark_duration_ms": 1113.940542,
+  "throughput_qps": 897.7139822961934,
+  "counts": {
+    "http_200": 100,
+    "created": 100,
+    "replayed": 0,
+    "out_of_stock": 900,
+    "unavailable": 0,
+    "inventory_busy": 0,
+    "cache_not_ready": 0,
+    "temporary_unavailable": 0,
+    "server_timeout": 0,
+    "server_rejected": 0,
+    "network_error": 0,
+    "other_error": 0,
+    "by_http_status": {
+      "200": 100,
+      "409": 900
+    },
+    "by_business_code": {
+      "OK": 100,
+      "OUT_OF_STOCK": 900
+    }
+  },
+  "latency": {
+    "min_ms": 7.691417,
+    "avg_ms": 108.232811,
+    "p50_ms": 76.949209,
+    "p90_ms": 234.070833,
+    "p95_ms": 308.808,
+    "p99_ms": 452.816209,
+    "max_ms": 552.686875
+  },
+  "backend": {
+    "mysql": {
+      "InitialStock": 100,
+      "AvailableStock": 0,
+      "ClaimCount": 100
+    },
+    "mysql_purchase_calls_available": false,
+    "error_categories": [
+      "redis_open_failed"
+    ]
+  },
+  "environment": {
+    "hardware": "darwin/arm64 logical_cpu=10",
+    "go_version": "go1.26.1",
+    "redis_deployment": "remote-standalone-lan",
+    "report_file": "/Volumes/mac_T7/worksp/service_rpc/docs/benchmark/v03-mysql-20260827.json",
+    "service_config": {
+      "stock_mode": "atomic",
+      "admission_mode": "mysql",
+      "mysql_max_open_conns": 10,
+      "mysql_max_idle_conns": 5,
+      "redis_address": "192.168.0.107:6379",
+      "redis_db": 0,
+      "redis_operation_timeout_ms": 200
+    }
+  },
+  "samples": [
+    {
+      "sequence": 0,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 40,
+      "order_no": "S178776079604270e9c70269a4784c",
+      "latency_ms": 215.467542
+    },
+    {
+      "sequence": 1,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 46,
+      "order_no": "S1787760796043686e5268db531732",
+      "latency_ms": 234.070833
+    },
+    {
+      "sequence": 2,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 5,
+      "order_no": "S1787760796042ea5e048fede73d5b",
+      "latency_ms": 76.104583
+    },
+    {
+      "sequence": 3,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 86,
+      "order_no": "S178776079604257672d5dfa5e459d",
+      "latency_ms": 361.349667
+    },
+    {
+      "sequence": 4,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 44,
+      "order_no": "S1787760796042d6737eca1734ab54",
+      "latency_ms": 226.22575
+    },
+    {
+      "sequence": 5,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 473.0125
+    },
+    {
+      "sequence": 6,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 418.348208
+    },
+    {
+      "sequence": 7,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 93,
+      "order_no": "S178776079604296ce2aafff4e487b",
+      "latency_ms": 384.883833
+    },
+    {
+      "sequence": 8,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 14,
+      "order_no": "S1787760796042a1808595c1d0f8a6",
+      "latency_ms": 114.241041
+    },
+    {
+      "sequence": 9,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 89,
+      "order_no": "S1787760796042c67215ac4ea3d0f2",
+      "latency_ms": 372.104417
+    },
+    {
+      "sequence": 10,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 41,
+      "order_no": "S1787760796043623e43044affd0ec",
+      "latency_ms": 217.577542
+    },
+    {
+      "sequence": 11,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 15,
+      "order_no": "S1787760796044c0e4a2b734a4f627",
+      "latency_ms": 118.361917
+    },
+    {
+      "sequence": 12,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 10,
+      "order_no": "S178776079604422769277b3f82ec0",
+      "latency_ms": 95.11775
+    },
+    {
+      "sequence": 13,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 23,
+      "order_no": "S1787760796044618051ec987233ec",
+      "latency_ms": 149.446916
+    },
+    {
+      "sequence": 14,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 424.382875
+    },
+    {
+      "sequence": 15,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 58,
+      "order_no": "S1787760796042750e34dfa3774374",
+      "latency_ms": 272.006666
+    },
+    {
+      "sequence": 16,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 35,
+      "order_no": "S1787760796042422bbb58818c55bd",
+      "latency_ms": 198.469166
+    },
+    {
+      "sequence": 17,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 6,
+      "order_no": "S1787760796042cb8c4d7565469e10",
+      "latency_ms": 80.138042
+    },
+    {
+      "sequence": 18,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 488.473208
+    },
+    {
+      "sequence": 19,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 47,
+      "order_no": "S1787760796043a7bfcd8bdedf8399",
+      "latency_ms": 238.002792
+    },
+    {
+      "sequence": 20,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 419.235084
+    },
+    {
+      "sequence": 21,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 101,
+      "order_no": "S1787760796044bcbc31b8b165410b",
+      "latency_ms": 410.149375
+    },
+    {
+      "sequence": 22,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 34,
+      "order_no": "S1787760796042690c66af199b1759",
+      "latency_ms": 193.73275
+    },
+    {
+      "sequence": 23,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 9,
+      "order_no": "S1787760796043995cb725740467b0",
+      "latency_ms": 91.95925
+    },
+    {
+      "sequence": 24,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 414.415375
+    },
+    {
+      "sequence": 25,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 7,
+      "order_no": "S178776079604431eeae17b565d4b9",
+      "latency_ms": 84.625625
+    },
+    {
+      "sequence": 26,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 53,
+      "order_no": "S17877607960432c403ad58906d9cd",
+      "latency_ms": 257.899875
+    },
+    {
+      "sequence": 27,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 29,
+      "order_no": "S17877607960425bf460702c14e654",
+      "latency_ms": 174.091167
+    },
+    {
+      "sequence": 28,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 67,
+      "order_no": "S1787760796042464fb360dd70fd05",
+      "latency_ms": 299.76025
+    },
+    {
+      "sequence": 29,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 452.816209
+    },
+    {
+      "sequence": 30,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 39,
+      "order_no": "S1787760796042d0cd77dfd9d8af5e",
+      "latency_ms": 212.321958
+    },
+    {
+      "sequence": 31,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 28,
+      "order_no": "S1787760796044fc2e23f2f6f88fdd",
+      "latency_ms": 170.065209
+    },
+    {
+      "sequence": 32,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 510.04275
+    },
+    {
+      "sequence": 33,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 11,
+      "order_no": "S178776079604256f7df7c0574575d",
+      "latency_ms": 99.015
+    },
+    {
+      "sequence": 34,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 451.543959
+    },
+    {
+      "sequence": 35,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 78,
+      "order_no": "S1787760796042b1b633eb4cb36963",
+      "latency_ms": 333.009333
+    },
+    {
+      "sequence": 36,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 37,
+      "order_no": "S178776079604293f322663f8f81e2",
+      "latency_ms": 203.974458
+    },
+    {
+      "sequence": 37,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 94,
+      "order_no": "S17877607960435c0843ce759fd80e",
+      "latency_ms": 388.756625
+    },
+    {
+      "sequence": 38,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 43,
+      "order_no": "S1787760796042d7c3594566d92dd3",
+      "latency_ms": 223.529625
+    },
+    {
+      "sequence": 39,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 66,
+      "order_no": "S1787760796042f91ef8c57ef6c2d9",
+      "latency_ms": 296.208542
+    },
+    {
+      "sequence": 40,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 52,
+      "order_no": "S17877607960420b269e18c51bdad3",
+      "latency_ms": 254.98325
+    },
+    {
+      "sequence": 41,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 63,
+      "order_no": "S1787760796043c8539004f8cc5940",
+      "latency_ms": 286.625
+    },
+    {
+      "sequence": 42,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 13,
+      "order_no": "S178776079604260e43d67d6e733e4",
+      "latency_ms": 107.472417
+    },
+    {
+      "sequence": 43,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 85,
+      "order_no": "S178776079604230040e4461ea0e6d",
+      "latency_ms": 357.450834
+    },
+    {
+      "sequence": 44,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 4,
+      "order_no": "S1787760796042455539fd299210e9",
+      "latency_ms": 71.587167
+    },
+    {
+      "sequence": 45,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 69,
+      "order_no": "S1787760796042e29c9b629f0e2a04",
+      "latency_ms": 306.539958
+    },
+    {
+      "sequence": 46,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 45,
+      "order_no": "S1787760796043fb89f652ee0b10e1",
+      "latency_ms": 230.18875
+    },
+    {
+      "sequence": 47,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 64,
+      "order_no": "S1787760796043d1bc32078aad0456",
+      "latency_ms": 289.23975
+    },
+    {
+      "sequence": 48,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 552.686875
+    },
+    {
+      "sequence": 49,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 19,
+      "order_no": "S17877607960440af09f56cfc00d51",
+      "latency_ms": 136.016666
+    },
+    {
+      "sequence": 50,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 439.264167
+    },
+    {
+      "sequence": 51,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 16,
+      "order_no": "S17877607960441d106c0e6fdfc4d6",
+      "latency_ms": 122.418584
+    },
+    {
+      "sequence": 52,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 432.382125
+    },
+    {
+      "sequence": 53,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 36,
+      "order_no": "S17877607960440d33cac54025f55d",
+      "latency_ms": 202.033833
+    },
+    {
+      "sequence": 54,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 431.768417
+    },
+    {
+      "sequence": 55,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 30,
+      "order_no": "S1787760796044d8a307e2e756d3ad",
+      "latency_ms": 176.094542
+    },
+    {
+      "sequence": 56,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 25,
+      "order_no": "S1787760796043b1b90bc59e8b6fbe",
+      "latency_ms": 157.684333
+    },
+    {
+      "sequence": 57,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 73,
+      "order_no": "S1787760796044f492984eea52c022",
+      "latency_ms": 318.950875
+    },
+    {
+      "sequence": 58,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 426.333792
+    },
+    {
+      "sequence": 59,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 435.335625
+    },
+    {
+      "sequence": 60,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 33,
+      "order_no": "S17877607960440a8df2fba9099a62",
+      "latency_ms": 188.200084
+    },
+    {
+      "sequence": 61,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 31,
+      "order_no": "S1787760796044496a0131139f7274",
+      "latency_ms": 179.041375
+    },
+    {
+      "sequence": 62,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 32,
+      "order_no": "S1787760796044af2c855e6d872e7c",
+      "latency_ms": 183.481167
+    },
+    {
+      "sequence": 63,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 38,
+      "order_no": "S1787760796044652ca69ea79fcc04",
+      "latency_ms": 205.397333
+    },
+    {
+      "sequence": 64,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 50,
+      "order_no": "S17877607960436a35e3c23c3e8c2d",
+      "latency_ms": 248.945083
+    },
+    {
+      "sequence": 65,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 26,
+      "order_no": "S17877607960448830c0ce28e6f052",
+      "latency_ms": 162.734417
+    },
+    {
+      "sequence": 66,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 22,
+      "order_no": "S178776079604437cc8d03de2977a0",
+      "latency_ms": 145.8705
+    },
+    {
+      "sequence": 67,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 74,
+      "order_no": "S178776079604476ef5a3c922f41b8",
+      "latency_ms": 320.789458
+    },
+    {
+      "sequence": 68,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 440.06075
+    },
+    {
+      "sequence": 69,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 60,
+      "order_no": "S17877607960442f7859a389597041",
+      "latency_ms": 275.874417
+    },
+    {
+      "sequence": 70,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 12,
+      "order_no": "S1787760796044ff97f7a2535d6339",
+      "latency_ms": 101.83625
+    },
+    {
+      "sequence": 71,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 57,
+      "order_no": "S1787760796044a538fb20cb206cdc",
+      "latency_ms": 266.91725
+    },
+    {
+      "sequence": 72,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 75,
+      "order_no": "S1787760796043479e29644c70049e",
+      "latency_ms": 323.172292
+    },
+    {
+      "sequence": 73,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 488.531875
+    },
+    {
+      "sequence": 74,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 542.391625
+    },
+    {
+      "sequence": 75,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 449.311167
+    },
+    {
+      "sequence": 76,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 55,
+      "order_no": "S178776079604224f423263dc7b18a",
+      "latency_ms": 262.234792
+    },
+    {
+      "sequence": 77,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 87,
+      "order_no": "S1787760796043a837034e0093bff2",
+      "latency_ms": 363.953
+    },
+    {
+      "sequence": 78,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 469.82175
+    },
+    {
+      "sequence": 79,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 3,
+      "order_no": "S1787760796042587af067b2c21ad2",
+      "latency_ms": 64.882
+    },
+    {
+      "sequence": 80,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 65,
+      "order_no": "S1787760796043fa96a146b1150873",
+      "latency_ms": 292.980375
+    },
+    {
+      "sequence": 81,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 96,
+      "order_no": "S178776079604351bc29eacb5027a0",
+      "latency_ms": 393.932667
+    },
+    {
+      "sequence": 82,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 70,
+      "order_no": "S1787760796044a841daf159ca7ab4",
+      "latency_ms": 308.742791
+    },
+    {
+      "sequence": 83,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 425.837666
+    },
+    {
+      "sequence": 84,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 62,
+      "order_no": "S1787760796043547ffa0f00550602",
+      "latency_ms": 282.513417
+    },
+    {
+      "sequence": 85,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 453.471208
+    },
+    {
+      "sequence": 86,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 8,
+      "order_no": "S1787760796044bff4f8a200e812cc",
+      "latency_ms": 87.681875
+    },
+    {
+      "sequence": 87,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 18,
+      "order_no": "S17877607960441eb6c5dfafa33974",
+      "latency_ms": 130.083
+    },
+    {
+      "sequence": 88,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 59,
+      "order_no": "S17877607960449028f2339ca4b571",
+      "latency_ms": 273.2085
+    },
+    {
+      "sequence": 89,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 17,
+      "order_no": "S178776079604258afb999439888ed",
+      "latency_ms": 126.347875
+    },
+    {
+      "sequence": 90,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 81,
+      "order_no": "S1787760796043960740dec617273b",
+      "latency_ms": 343.634041
+    },
+    {
+      "sequence": 91,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 455.881208
+    },
+    {
+      "sequence": 92,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 98,
+      "order_no": "S178776079604401749f48f09d5103",
+      "latency_ms": 399.704834
+    },
+    {
+      "sequence": 93,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 21,
+      "order_no": "S1787760796044a0430b387203993c",
+      "latency_ms": 142.933583
+    },
+    {
+      "sequence": 94,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 24,
+      "order_no": "S17877607960442e2a7af7e9e3d5c9",
+      "latency_ms": 154.752666
+    },
+    {
+      "sequence": 95,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 440.85525
+    },
+    {
+      "sequence": 96,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 54,
+      "order_no": "S17877607960440077e1dbc1d22190",
+      "latency_ms": 258.859458
+    },
+    {
+      "sequence": 97,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 20,
+      "order_no": "S1787760796043706e53478b53a813",
+      "latency_ms": 139.398333
+    },
+    {
+      "sequence": 98,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 27,
+      "order_no": "S1787760796044800d48944c892225",
+      "latency_ms": 166.018625
+    },
+    {
+      "sequence": 99,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 516.426458
+    },
+    {
+      "sequence": 100,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 391.6805
+    },
+    {
+      "sequence": 101,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 48,
+      "order_no": "S178776079611346eb8648a2382801",
+      "latency_ms": 170.520625
+    },
+    {
+      "sequence": 102,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 83,
+      "order_no": "S17877607961188417cb1b1333542b",
+      "latency_ms": 274.915042
+    },
+    {
+      "sequence": 103,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 334.756542
+    },
+    {
+      "sequence": 104,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 72,
+      "order_no": "S1787760796126cadb9f2f518314dd",
+      "latency_ms": 231.654708
+    },
+    {
+      "sequence": 105,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 61,
+      "order_no": "S1787760796130db006722e7036aca",
+      "latency_ms": 192.038291
+    },
+    {
+      "sequence": 106,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 80,
+      "order_no": "S1787760796134cf94662fb6ce8e3e",
+      "latency_ms": 249.0875
+    },
+    {
+      "sequence": 107,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 51,
+      "order_no": "S17877607961375f5a78a427942f8f",
+      "latency_ms": 156.87025
+    },
+    {
+      "sequence": 108,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 91,
+      "order_no": "S17877607961416be77c988432f29e",
+      "latency_ms": 279.18675
+    },
+    {
+      "sequence": 109,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 377.377583
+    },
+    {
+      "sequence": 110,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 82,
+      "order_no": "S178776079614979d029b223b5ea7c",
+      "latency_ms": 241.104083
+    },
+    {
+      "sequence": 111,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 351.616
+    },
+    {
+      "sequence": 112,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 296.821041
+    },
+    {
+      "sequence": 113,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 79,
+      "order_no": "S17877607961645b0768a88a81b2cd",
+      "latency_ms": 214.235875
+    },
+    {
+      "sequence": 114,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 370.151666
+    },
+    {
+      "sequence": 115,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 49,
+      "order_no": "S1787760796173ae5461604728c67c",
+      "latency_ms": 114.50925
+    },
+    {
+      "sequence": 116,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 42,
+      "order_no": "S17877607961790ea8d481c6f584e5",
+      "latency_ms": 83.128917
+    },
+    {
+      "sequence": 117,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 95,
+      "order_no": "S1787760796182b5d579c49db695ce",
+      "latency_ms": 251.750375
+    },
+    {
+      "sequence": 118,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 282.297458
+    },
+    {
+      "sequence": 119,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 359.237542
+    },
+    {
+      "sequence": 120,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 390.802542
+    },
+    {
+      "sequence": 121,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 425.196416
+    },
+    {
+      "sequence": 122,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 257.8705
+    },
+    {
+      "sequence": 123,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 281.602875
+    },
+    {
+      "sequence": 124,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 365.338209
+    },
+    {
+      "sequence": 125,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 56,
+      "order_no": "S1787760796212af2ee330ed3a164e",
+      "latency_ms": 94.834375
+    },
+    {
+      "sequence": 126,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 281.091917
+    },
+    {
+      "sequence": 127,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 68,
+      "order_no": "S1787760796219f4f1244492242e24",
+      "latency_ms": 126.352709
+    },
+    {
+      "sequence": 128,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 248.08075
+    },
+    {
+      "sequence": 129,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 253.827875
+    },
+    {
+      "sequence": 130,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 102,
+      "order_no": "S1787760796231dadce9421123f455",
+      "latency_ms": 222.94175
+    },
+    {
+      "sequence": 131,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 218.959542
+    },
+    {
+      "sequence": 132,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 308.808
+    },
+    {
+      "sequence": 133,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 283.399458
+    },
+    {
+      "sequence": 134,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 220.635834
+    },
+    {
+      "sequence": 135,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 77,
+      "order_no": "S17877607962486623b0b027688416",
+      "latency_ms": 122.67825
+    },
+    {
+      "sequence": 136,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 84,
+      "order_no": "S1787760796254c572053c82777ce0",
+      "latency_ms": 140.58725
+    },
+    {
+      "sequence": 137,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 234.379375
+    },
+    {
+      "sequence": 138,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 71,
+      "order_no": "S1787760796259d1a76dbbfdb08f2f",
+      "latency_ms": 96.302542
+    },
+    {
+      "sequence": 139,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 97,
+      "order_no": "S17877607962622abcb11770fec5a9",
+      "latency_ms": 177.389458
+    },
+    {
+      "sequence": 140,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 195.252834
+    },
+    {
+      "sequence": 141,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 302.4735
+    },
+    {
+      "sequence": 142,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 76,
+      "order_no": "S17877607962722a3abada97ad1682",
+      "latency_ms": 96.475666
+    },
+    {
+      "sequence": 143,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 244.400542
+    },
+    {
+      "sequence": 144,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 207.704792
+    },
+    {
+      "sequence": 145,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 396.169834
+    },
+    {
+      "sequence": 146,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 221.412417
+    },
+    {
+      "sequence": 147,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 259.386042
+    },
+    {
+      "sequence": 148,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 90,
+      "order_no": "S17877607962943f8305d3f93fe854",
+      "latency_ms": 122.525209
+    },
+    {
+      "sequence": 149,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 205.739792
+    },
+    {
+      "sequence": 150,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 155.414792
+    },
+    {
+      "sequence": 151,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 200.225167
+    },
+    {
+      "sequence": 152,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 88,
+      "order_no": "S178776079630468492087456e4ee1",
+      "latency_ms": 106.702625
+    },
+    {
+      "sequence": 153,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 179.392625
+    },
+    {
+      "sequence": 154,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 205.73025
+    },
+    {
+      "sequence": 155,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 157.764916
+    },
+    {
+      "sequence": 156,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 203.30125
+    },
+    {
+      "sequence": 157,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 146.503375
+    },
+    {
+      "sequence": 158,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 150.066916
+    },
+    {
+      "sequence": 159,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 175.474917
+    },
+    {
+      "sequence": 160,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 148.9605
+    },
+    {
+      "sequence": 161,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 205.526125
+    },
+    {
+      "sequence": 162,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 327.40275
+    },
+    {
+      "sequence": 163,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 138.146209
+    },
+    {
+      "sequence": 164,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 120.53375
+    },
+    {
+      "sequence": 165,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 128.131375
+    },
+    {
+      "sequence": 166,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 179.9325
+    },
+    {
+      "sequence": 167,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 99,
+      "order_no": "S178776079635180fd071677352e9d",
+      "latency_ms": 95.376375
+    },
+    {
+      "sequence": 168,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 209.65425
+    },
+    {
+      "sequence": 169,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 183.96125
+    },
+    {
+      "sequence": 170,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 105.342542
+    },
+    {
+      "sequence": 171,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 111.758292
+    },
+    {
+      "sequence": 172,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 225.047917
+    },
+    {
+      "sequence": 173,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 92,
+      "order_no": "S178776079636875ba2b7143dd1e80",
+      "latency_ms": 53.577417
+    },
+    {
+      "sequence": 174,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 132.493125
+    },
+    {
+      "sequence": 175,
+      "http_status": 200,
+      "business_code": "OK",
+      "replayed": false,
+      "order_id": 100,
+      "order_no": "S1787760796375b56cf9b282a5f9e6",
+      "latency_ms": 74.186667
+    },
+    {
+      "sequence": 176,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 175.848459
+    },
+    {
+      "sequence": 177,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 143.190042
+    },
+    {
+      "sequence": 178,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 98.758958
+    },
+    {
+      "sequence": 179,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 180.532791
+    },
+    {
+      "sequence": 180,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 152.4995
+    },
+    {
+      "sequence": 181,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 286.754084
+    },
+    {
+      "sequence": 182,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 98.258125
+    },
+    {
+      "sequence": 183,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 236.93725
+    },
+    {
+      "sequence": 184,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 177.845417
+    },
+    {
+      "sequence": 185,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.704917
+    },
+    {
+      "sequence": 186,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 222.228708
+    },
+    {
+      "sequence": 187,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 100.601875
+    },
+    {
+      "sequence": 188,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 112.323792
+    },
+    {
+      "sequence": 189,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 83.6525
+    },
+    {
+      "sequence": 190,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 72.241458
+    },
+    {
+      "sequence": 191,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 194.167667
+    },
+    {
+      "sequence": 192,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 79.267709
+    },
+    {
+      "sequence": 193,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 43.410667
+    },
+    {
+      "sequence": 194,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.907083
+    },
+    {
+      "sequence": 195,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.971917
+    },
+    {
+      "sequence": 196,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.670791
+    },
+    {
+      "sequence": 197,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 100.475291
+    },
+    {
+      "sequence": 198,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.135583
+    },
+    {
+      "sequence": 199,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.182792
+    },
+    {
+      "sequence": 200,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 24.27725
+    },
+    {
+      "sequence": 201,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 180.189667
+    },
+    {
+      "sequence": 202,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.395666
+    },
+    {
+      "sequence": 203,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.349959
+    },
+    {
+      "sequence": 204,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 65.645958
+    },
+    {
+      "sequence": 205,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.81575
+    },
+    {
+      "sequence": 206,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 122.384458
+    },
+    {
+      "sequence": 207,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.137708
+    },
+    {
+      "sequence": 208,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.543209
+    },
+    {
+      "sequence": 209,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.092084
+    },
+    {
+      "sequence": 210,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.17825
+    },
+    {
+      "sequence": 211,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.817708
+    },
+    {
+      "sequence": 212,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 106.0135
+    },
+    {
+      "sequence": 213,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.001833
+    },
+    {
+      "sequence": 214,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 121.381375
+    },
+    {
+      "sequence": 215,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.341625
+    },
+    {
+      "sequence": 216,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 43.993417
+    },
+    {
+      "sequence": 217,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 35.964208
+    },
+    {
+      "sequence": 218,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 124.283833
+    },
+    {
+      "sequence": 219,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 84.6815
+    },
+    {
+      "sequence": 220,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 176.941833
+    },
+    {
+      "sequence": 221,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 126.861959
+    },
+    {
+      "sequence": 222,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.422125
+    },
+    {
+      "sequence": 223,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.739459
+    },
+    {
+      "sequence": 224,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 64.12075
+    },
+    {
+      "sequence": 225,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.524584
+    },
+    {
+      "sequence": 226,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 146.609416
+    },
+    {
+      "sequence": 227,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 21.484208
+    },
+    {
+      "sequence": 228,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.8865
+    },
+    {
+      "sequence": 229,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 125.673708
+    },
+    {
+      "sequence": 230,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.854084
+    },
+    {
+      "sequence": 231,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 65.888625
+    },
+    {
+      "sequence": 232,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 113.771542
+    },
+    {
+      "sequence": 233,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.737333
+    },
+    {
+      "sequence": 234,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 93.632792
+    },
+    {
+      "sequence": 235,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.958625
+    },
+    {
+      "sequence": 236,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 51.247958
+    },
+    {
+      "sequence": 237,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 88.801541
+    },
+    {
+      "sequence": 238,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 72.548042
+    },
+    {
+      "sequence": 239,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.21425
+    },
+    {
+      "sequence": 240,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 136.009834
+    },
+    {
+      "sequence": 241,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.37925
+    },
+    {
+      "sequence": 242,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 38.113583
+    },
+    {
+      "sequence": 243,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 110.148458
+    },
+    {
+      "sequence": 244,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.175
+    },
+    {
+      "sequence": 245,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 105.062041
+    },
+    {
+      "sequence": 246,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 105.724666
+    },
+    {
+      "sequence": 247,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.002916
+    },
+    {
+      "sequence": 248,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 168.582542
+    },
+    {
+      "sequence": 249,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.833208
+    },
+    {
+      "sequence": 250,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.244125
+    },
+    {
+      "sequence": 251,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.107167
+    },
+    {
+      "sequence": 252,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 155.185333
+    },
+    {
+      "sequence": 253,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 105.909834
+    },
+    {
+      "sequence": 254,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 192.2315
+    },
+    {
+      "sequence": 255,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 80.745834
+    },
+    {
+      "sequence": 256,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 78.762542
+    },
+    {
+      "sequence": 257,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.321916
+    },
+    {
+      "sequence": 258,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.316917
+    },
+    {
+      "sequence": 259,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.566792
+    },
+    {
+      "sequence": 260,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 195.322375
+    },
+    {
+      "sequence": 261,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.926125
+    },
+    {
+      "sequence": 262,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 14.665958
+    },
+    {
+      "sequence": 263,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.79775
+    },
+    {
+      "sequence": 264,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 37.85475
+    },
+    {
+      "sequence": 265,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.83075
+    },
+    {
+      "sequence": 266,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.864083
+    },
+    {
+      "sequence": 267,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.757
+    },
+    {
+      "sequence": 268,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.3895
+    },
+    {
+      "sequence": 269,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.591167
+    },
+    {
+      "sequence": 270,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.6755
+    },
+    {
+      "sequence": 271,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.318833
+    },
+    {
+      "sequence": 272,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 144.632
+    },
+    {
+      "sequence": 273,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.062834
+    },
+    {
+      "sequence": 274,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.346458
+    },
+    {
+      "sequence": 275,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 91.623458
+    },
+    {
+      "sequence": 276,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 184.494792
+    },
+    {
+      "sequence": 277,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 92.51125
+    },
+    {
+      "sequence": 278,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.399542
+    },
+    {
+      "sequence": 279,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 60.956584
+    },
+    {
+      "sequence": 280,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 103.277458
+    },
+    {
+      "sequence": 281,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.579
+    },
+    {
+      "sequence": 282,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 41.911958
+    },
+    {
+      "sequence": 283,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 211.701
+    },
+    {
+      "sequence": 284,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 93.822458
+    },
+    {
+      "sequence": 285,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.292667
+    },
+    {
+      "sequence": 286,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 22.033625
+    },
+    {
+      "sequence": 287,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 104.952708
+    },
+    {
+      "sequence": 288,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 89.173917
+    },
+    {
+      "sequence": 289,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 119.250958
+    },
+    {
+      "sequence": 290,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 132.734334
+    },
+    {
+      "sequence": 291,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 75.206208
+    },
+    {
+      "sequence": 292,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.215125
+    },
+    {
+      "sequence": 293,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.606375
+    },
+    {
+      "sequence": 294,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 117.03225
+    },
+    {
+      "sequence": 295,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.899209
+    },
+    {
+      "sequence": 296,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.778916
+    },
+    {
+      "sequence": 297,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 25.688083
+    },
+    {
+      "sequence": 298,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 186.704917
+    },
+    {
+      "sequence": 299,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 22.499333
+    },
+    {
+      "sequence": 300,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.701834
+    },
+    {
+      "sequence": 301,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 112.6325
+    },
+    {
+      "sequence": 302,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.394417
+    },
+    {
+      "sequence": 303,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 241.564625
+    },
+    {
+      "sequence": 304,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 25.648541
+    },
+    {
+      "sequence": 305,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 29.353292
+    },
+    {
+      "sequence": 306,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 21.082292
+    },
+    {
+      "sequence": 307,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 207.547583
+    },
+    {
+      "sequence": 308,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 235.143125
+    },
+    {
+      "sequence": 309,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 144.174833
+    },
+    {
+      "sequence": 310,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.757875
+    },
+    {
+      "sequence": 311,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 72.356375
+    },
+    {
+      "sequence": 312,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.808833
+    },
+    {
+      "sequence": 313,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.370292
+    },
+    {
+      "sequence": 314,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 183.554625
+    },
+    {
+      "sequence": 315,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 236.05575
+    },
+    {
+      "sequence": 316,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.177667
+    },
+    {
+      "sequence": 317,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 26.886375
+    },
+    {
+      "sequence": 318,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 63.532083
+    },
+    {
+      "sequence": 319,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.607458
+    },
+    {
+      "sequence": 320,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 17.507125
+    },
+    {
+      "sequence": 321,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 94.649459
+    },
+    {
+      "sequence": 322,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 11.953417
+    },
+    {
+      "sequence": 323,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 91.949125
+    },
+    {
+      "sequence": 324,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.5915
+    },
+    {
+      "sequence": 325,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.749625
+    },
+    {
+      "sequence": 326,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 16.871125
+    },
+    {
+      "sequence": 327,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.811792
+    },
+    {
+      "sequence": 328,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.795709
+    },
+    {
+      "sequence": 329,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.853292
+    },
+    {
+      "sequence": 330,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.891542
+    },
+    {
+      "sequence": 331,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 128.502417
+    },
+    {
+      "sequence": 332,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 70.837208
+    },
+    {
+      "sequence": 333,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 85.788375
+    },
+    {
+      "sequence": 334,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.908791
+    },
+    {
+      "sequence": 335,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 95.987334
+    },
+    {
+      "sequence": 336,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 79.401333
+    },
+    {
+      "sequence": 337,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 41.232333
+    },
+    {
+      "sequence": 338,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 177.853
+    },
+    {
+      "sequence": 339,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 189.995209
+    },
+    {
+      "sequence": 340,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 35.085833
+    },
+    {
+      "sequence": 341,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 18.4065
+    },
+    {
+      "sequence": 342,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 218.749792
+    },
+    {
+      "sequence": 343,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 86.016
+    },
+    {
+      "sequence": 344,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 140.533375
+    },
+    {
+      "sequence": 345,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 97.3705
+    },
+    {
+      "sequence": 346,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.312458
+    },
+    {
+      "sequence": 347,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.625208
+    },
+    {
+      "sequence": 348,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 163.600208
+    },
+    {
+      "sequence": 349,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 22.729458
+    },
+    {
+      "sequence": 350,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 64.381834
+    },
+    {
+      "sequence": 351,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.997041
+    },
+    {
+      "sequence": 352,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.360833
+    },
+    {
+      "sequence": 353,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 89.639
+    },
+    {
+      "sequence": 354,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 146.077667
+    },
+    {
+      "sequence": 355,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 116.500292
+    },
+    {
+      "sequence": 356,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 240.082875
+    },
+    {
+      "sequence": 357,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.267333
+    },
+    {
+      "sequence": 358,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 86.273042
+    },
+    {
+      "sequence": 359,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 66.96325
+    },
+    {
+      "sequence": 360,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 25.620125
+    },
+    {
+      "sequence": 361,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.760291
+    },
+    {
+      "sequence": 362,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.274209
+    },
+    {
+      "sequence": 363,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.273958
+    },
+    {
+      "sequence": 364,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 72.096542
+    },
+    {
+      "sequence": 365,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.049708
+    },
+    {
+      "sequence": 366,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.03475
+    },
+    {
+      "sequence": 367,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 130.160958
+    },
+    {
+      "sequence": 368,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 80.637958
+    },
+    {
+      "sequence": 369,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.385666
+    },
+    {
+      "sequence": 370,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 136.636167
+    },
+    {
+      "sequence": 371,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.05125
+    },
+    {
+      "sequence": 372,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 142.531583
+    },
+    {
+      "sequence": 373,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 22.458
+    },
+    {
+      "sequence": 374,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 204.08025
+    },
+    {
+      "sequence": 375,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 101.464583
+    },
+    {
+      "sequence": 376,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 290.228875
+    },
+    {
+      "sequence": 377,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 43.116375
+    },
+    {
+      "sequence": 378,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 14.755458
+    },
+    {
+      "sequence": 379,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 253.602792
+    },
+    {
+      "sequence": 380,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 158.129
+    },
+    {
+      "sequence": 381,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 21.025042
+    },
+    {
+      "sequence": 382,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 68.968
+    },
+    {
+      "sequence": 383,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.484416
+    },
+    {
+      "sequence": 384,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 150.98625
+    },
+    {
+      "sequence": 385,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 83.902334
+    },
+    {
+      "sequence": 386,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 120.690042
+    },
+    {
+      "sequence": 387,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 12.716416
+    },
+    {
+      "sequence": 388,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.92675
+    },
+    {
+      "sequence": 389,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 104.649416
+    },
+    {
+      "sequence": 390,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.089458
+    },
+    {
+      "sequence": 391,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.158584
+    },
+    {
+      "sequence": 392,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.012125
+    },
+    {
+      "sequence": 393,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 141.817334
+    },
+    {
+      "sequence": 394,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 166.581417
+    },
+    {
+      "sequence": 395,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.436875
+    },
+    {
+      "sequence": 396,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 185.970917
+    },
+    {
+      "sequence": 397,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.188584
+    },
+    {
+      "sequence": 398,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 116.491917
+    },
+    {
+      "sequence": 399,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 88.034417
+    },
+    {
+      "sequence": 400,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 238.825834
+    },
+    {
+      "sequence": 401,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.968875
+    },
+    {
+      "sequence": 402,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 7.691417
+    },
+    {
+      "sequence": 403,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.207
+    },
+    {
+      "sequence": 404,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.587792
+    },
+    {
+      "sequence": 405,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 127.279375
+    },
+    {
+      "sequence": 406,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 68.820166
+    },
+    {
+      "sequence": 407,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.037417
+    },
+    {
+      "sequence": 408,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 78.365417
+    },
+    {
+      "sequence": 409,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 145.799459
+    },
+    {
+      "sequence": 410,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 151.271208
+    },
+    {
+      "sequence": 411,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.241666
+    },
+    {
+      "sequence": 412,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 134.741292
+    },
+    {
+      "sequence": 413,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.627209
+    },
+    {
+      "sequence": 414,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 128.2955
+    },
+    {
+      "sequence": 415,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 86.801583
+    },
+    {
+      "sequence": 416,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 17.959875
+    },
+    {
+      "sequence": 417,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 109.075041
+    },
+    {
+      "sequence": 418,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 111.859083
+    },
+    {
+      "sequence": 419,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 100.237917
+    },
+    {
+      "sequence": 420,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.02825
+    },
+    {
+      "sequence": 421,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.091208
+    },
+    {
+      "sequence": 422,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 63.956625
+    },
+    {
+      "sequence": 423,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 229.279583
+    },
+    {
+      "sequence": 424,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 70.625208
+    },
+    {
+      "sequence": 425,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 85.840708
+    },
+    {
+      "sequence": 426,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 90.922291
+    },
+    {
+      "sequence": 427,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.807875
+    },
+    {
+      "sequence": 428,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 117.028125
+    },
+    {
+      "sequence": 429,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 17.5265
+    },
+    {
+      "sequence": 430,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.991709
+    },
+    {
+      "sequence": 431,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 123.177333
+    },
+    {
+      "sequence": 432,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.127334
+    },
+    {
+      "sequence": 433,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.910041
+    },
+    {
+      "sequence": 434,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 89.129625
+    },
+    {
+      "sequence": 435,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 151.398708
+    },
+    {
+      "sequence": 436,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 83.058042
+    },
+    {
+      "sequence": 437,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 147.048708
+    },
+    {
+      "sequence": 438,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.791333
+    },
+    {
+      "sequence": 439,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 103.689625
+    },
+    {
+      "sequence": 440,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 146.845334
+    },
+    {
+      "sequence": 441,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.204334
+    },
+    {
+      "sequence": 442,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 16.134542
+    },
+    {
+      "sequence": 443,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 17.244208
+    },
+    {
+      "sequence": 444,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 26.774375
+    },
+    {
+      "sequence": 445,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 18.959334
+    },
+    {
+      "sequence": 446,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 137.541625
+    },
+    {
+      "sequence": 447,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 63.272416
+    },
+    {
+      "sequence": 448,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 165.406333
+    },
+    {
+      "sequence": 449,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.124209
+    },
+    {
+      "sequence": 450,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 37.255125
+    },
+    {
+      "sequence": 451,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 124.074167
+    },
+    {
+      "sequence": 452,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 145.392125
+    },
+    {
+      "sequence": 453,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 261.857792
+    },
+    {
+      "sequence": 454,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.887833
+    },
+    {
+      "sequence": 455,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 75.059125
+    },
+    {
+      "sequence": 456,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 29.004208
+    },
+    {
+      "sequence": 457,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.460875
+    },
+    {
+      "sequence": 458,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 134.4965
+    },
+    {
+      "sequence": 459,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 122.87225
+    },
+    {
+      "sequence": 460,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 81.136458
+    },
+    {
+      "sequence": 461,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 131.2875
+    },
+    {
+      "sequence": 462,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.986708
+    },
+    {
+      "sequence": 463,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.676083
+    },
+    {
+      "sequence": 464,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 141.410625
+    },
+    {
+      "sequence": 465,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 243.2825
+    },
+    {
+      "sequence": 466,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.1915
+    },
+    {
+      "sequence": 467,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.691166
+    },
+    {
+      "sequence": 468,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 138.333125
+    },
+    {
+      "sequence": 469,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.3575
+    },
+    {
+      "sequence": 470,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.767959
+    },
+    {
+      "sequence": 471,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.367792
+    },
+    {
+      "sequence": 472,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 214.528625
+    },
+    {
+      "sequence": 473,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 96.096542
+    },
+    {
+      "sequence": 474,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.417791
+    },
+    {
+      "sequence": 475,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.562417
+    },
+    {
+      "sequence": 476,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 111.99525
+    },
+    {
+      "sequence": 477,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 57.980417
+    },
+    {
+      "sequence": 478,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 64.159875
+    },
+    {
+      "sequence": 479,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 82.598083
+    },
+    {
+      "sequence": 480,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.666625
+    },
+    {
+      "sequence": 481,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 24.20025
+    },
+    {
+      "sequence": 482,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 172.675125
+    },
+    {
+      "sequence": 483,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.212917
+    },
+    {
+      "sequence": 484,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 212.060458
+    },
+    {
+      "sequence": 485,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 97.96475
+    },
+    {
+      "sequence": 486,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 62.286875
+    },
+    {
+      "sequence": 487,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 132.962958
+    },
+    {
+      "sequence": 488,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 134.975167
+    },
+    {
+      "sequence": 489,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.304042
+    },
+    {
+      "sequence": 490,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 136.165709
+    },
+    {
+      "sequence": 491,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 69.042584
+    },
+    {
+      "sequence": 492,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 70.006125
+    },
+    {
+      "sequence": 493,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 105.515709
+    },
+    {
+      "sequence": 494,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 62.124416
+    },
+    {
+      "sequence": 495,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.770708
+    },
+    {
+      "sequence": 496,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.08125
+    },
+    {
+      "sequence": 497,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.153708
+    },
+    {
+      "sequence": 498,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 107.099042
+    },
+    {
+      "sequence": 499,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 119.847541
+    },
+    {
+      "sequence": 500,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.862959
+    },
+    {
+      "sequence": 501,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 167.714
+    },
+    {
+      "sequence": 502,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 149.933208
+    },
+    {
+      "sequence": 503,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 77.012375
+    },
+    {
+      "sequence": 504,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.515666
+    },
+    {
+      "sequence": 505,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 80.393125
+    },
+    {
+      "sequence": 506,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.346583
+    },
+    {
+      "sequence": 507,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 193.000958
+    },
+    {
+      "sequence": 508,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.973875
+    },
+    {
+      "sequence": 509,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 286.593791
+    },
+    {
+      "sequence": 510,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.113333
+    },
+    {
+      "sequence": 511,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 113.787542
+    },
+    {
+      "sequence": 512,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.553
+    },
+    {
+      "sequence": 513,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.137458
+    },
+    {
+      "sequence": 514,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 100.291208
+    },
+    {
+      "sequence": 515,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 75.415208
+    },
+    {
+      "sequence": 516,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.685917
+    },
+    {
+      "sequence": 517,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 21.633208
+    },
+    {
+      "sequence": 518,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 132.807208
+    },
+    {
+      "sequence": 519,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 35.306125
+    },
+    {
+      "sequence": 520,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 136.613542
+    },
+    {
+      "sequence": 521,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 70.623375
+    },
+    {
+      "sequence": 522,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.105708
+    },
+    {
+      "sequence": 523,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 181.351125
+    },
+    {
+      "sequence": 524,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.754458
+    },
+    {
+      "sequence": 525,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 155.067375
+    },
+    {
+      "sequence": 526,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.251417
+    },
+    {
+      "sequence": 527,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 170.11275
+    },
+    {
+      "sequence": 528,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 109.958792
+    },
+    {
+      "sequence": 529,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 37.566708
+    },
+    {
+      "sequence": 530,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 29.410667
+    },
+    {
+      "sequence": 531,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.901125
+    },
+    {
+      "sequence": 532,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 123.608916
+    },
+    {
+      "sequence": 533,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 126.146875
+    },
+    {
+      "sequence": 534,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 89.1685
+    },
+    {
+      "sequence": 535,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 75.761042
+    },
+    {
+      "sequence": 536,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 128.453625
+    },
+    {
+      "sequence": 537,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 54.753292
+    },
+    {
+      "sequence": 538,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.575791
+    },
+    {
+      "sequence": 539,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.820041
+    },
+    {
+      "sequence": 540,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 60.913458
+    },
+    {
+      "sequence": 541,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 78.828708
+    },
+    {
+      "sequence": 542,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.584667
+    },
+    {
+      "sequence": 543,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.469166
+    },
+    {
+      "sequence": 544,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 132.837417
+    },
+    {
+      "sequence": 545,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 91.157
+    },
+    {
+      "sequence": 546,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 69.634875
+    },
+    {
+      "sequence": 547,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 29.077208
+    },
+    {
+      "sequence": 548,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.308958
+    },
+    {
+      "sequence": 549,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.346667
+    },
+    {
+      "sequence": 550,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 125.272708
+    },
+    {
+      "sequence": 551,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 114.439875
+    },
+    {
+      "sequence": 552,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.103334
+    },
+    {
+      "sequence": 553,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.663458
+    },
+    {
+      "sequence": 554,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.971167
+    },
+    {
+      "sequence": 555,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 64.649583
+    },
+    {
+      "sequence": 556,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.803917
+    },
+    {
+      "sequence": 557,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.692334
+    },
+    {
+      "sequence": 558,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 94.944125
+    },
+    {
+      "sequence": 559,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 90.976083
+    },
+    {
+      "sequence": 560,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 104.849792
+    },
+    {
+      "sequence": 561,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 102.247625
+    },
+    {
+      "sequence": 562,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 37.472958
+    },
+    {
+      "sequence": 563,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.034292
+    },
+    {
+      "sequence": 564,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.35075
+    },
+    {
+      "sequence": 565,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.385833
+    },
+    {
+      "sequence": 566,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.028834
+    },
+    {
+      "sequence": 567,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.900292
+    },
+    {
+      "sequence": 568,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 233.618625
+    },
+    {
+      "sequence": 569,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.574459
+    },
+    {
+      "sequence": 570,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.50375
+    },
+    {
+      "sequence": 571,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 41.981125
+    },
+    {
+      "sequence": 572,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.486416
+    },
+    {
+      "sequence": 573,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.530708
+    },
+    {
+      "sequence": 574,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 149.036
+    },
+    {
+      "sequence": 575,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.350208
+    },
+    {
+      "sequence": 576,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 79.538708
+    },
+    {
+      "sequence": 577,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.086667
+    },
+    {
+      "sequence": 578,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 99.219917
+    },
+    {
+      "sequence": 579,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.086459
+    },
+    {
+      "sequence": 580,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 26.727875
+    },
+    {
+      "sequence": 581,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 83.063417
+    },
+    {
+      "sequence": 582,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 130.153875
+    },
+    {
+      "sequence": 583,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.261084
+    },
+    {
+      "sequence": 584,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 51.981958
+    },
+    {
+      "sequence": 585,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.594834
+    },
+    {
+      "sequence": 586,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.937125
+    },
+    {
+      "sequence": 587,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 69.663958
+    },
+    {
+      "sequence": 588,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 75.59175
+    },
+    {
+      "sequence": 589,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 104.233333
+    },
+    {
+      "sequence": 590,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.295709
+    },
+    {
+      "sequence": 591,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.089792
+    },
+    {
+      "sequence": 592,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 13.779834
+    },
+    {
+      "sequence": 593,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.947417
+    },
+    {
+      "sequence": 594,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.346667
+    },
+    {
+      "sequence": 595,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 18.902209
+    },
+    {
+      "sequence": 596,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 174.925917
+    },
+    {
+      "sequence": 597,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 24.195583
+    },
+    {
+      "sequence": 598,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 54.380666
+    },
+    {
+      "sequence": 599,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.969958
+    },
+    {
+      "sequence": 600,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 180.737166
+    },
+    {
+      "sequence": 601,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.538667
+    },
+    {
+      "sequence": 602,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.390625
+    },
+    {
+      "sequence": 603,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 124.202166
+    },
+    {
+      "sequence": 604,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 72.145458
+    },
+    {
+      "sequence": 605,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 114.417917
+    },
+    {
+      "sequence": 606,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.772166
+    },
+    {
+      "sequence": 607,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.149458
+    },
+    {
+      "sequence": 608,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 54.909416
+    },
+    {
+      "sequence": 609,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 167.400208
+    },
+    {
+      "sequence": 610,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 17.691917
+    },
+    {
+      "sequence": 611,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.481583
+    },
+    {
+      "sequence": 612,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 83.518916
+    },
+    {
+      "sequence": 613,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 83.547
+    },
+    {
+      "sequence": 614,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 21.632125
+    },
+    {
+      "sequence": 615,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 130.531833
+    },
+    {
+      "sequence": 616,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 35.942417
+    },
+    {
+      "sequence": 617,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 38.013125
+    },
+    {
+      "sequence": 618,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 35.535542
+    },
+    {
+      "sequence": 619,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 13.979542
+    },
+    {
+      "sequence": 620,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 165.103708
+    },
+    {
+      "sequence": 621,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.998792
+    },
+    {
+      "sequence": 622,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 121.013834
+    },
+    {
+      "sequence": 623,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 24.850584
+    },
+    {
+      "sequence": 624,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.302083
+    },
+    {
+      "sequence": 625,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 116.655333
+    },
+    {
+      "sequence": 626,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 84.750166
+    },
+    {
+      "sequence": 627,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 81.232042
+    },
+    {
+      "sequence": 628,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.609917
+    },
+    {
+      "sequence": 629,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.642292
+    },
+    {
+      "sequence": 630,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 117.181541
+    },
+    {
+      "sequence": 631,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 171.028291
+    },
+    {
+      "sequence": 632,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.374958
+    },
+    {
+      "sequence": 633,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.590334
+    },
+    {
+      "sequence": 634,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 197.192334
+    },
+    {
+      "sequence": 635,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 92.131416
+    },
+    {
+      "sequence": 636,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 125.252542
+    },
+    {
+      "sequence": 637,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.76875
+    },
+    {
+      "sequence": 638,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.831208
+    },
+    {
+      "sequence": 639,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.527042
+    },
+    {
+      "sequence": 640,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.523542
+    },
+    {
+      "sequence": 641,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 26.829291
+    },
+    {
+      "sequence": 642,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.154291
+    },
+    {
+      "sequence": 643,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 89.353792
+    },
+    {
+      "sequence": 644,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 13.951292
+    },
+    {
+      "sequence": 645,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.281541
+    },
+    {
+      "sequence": 646,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.81475
+    },
+    {
+      "sequence": 647,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.373791
+    },
+    {
+      "sequence": 648,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 37.947333
+    },
+    {
+      "sequence": 649,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.933292
+    },
+    {
+      "sequence": 650,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 103.827417
+    },
+    {
+      "sequence": 651,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.119708
+    },
+    {
+      "sequence": 652,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 63.345
+    },
+    {
+      "sequence": 653,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 70.517667
+    },
+    {
+      "sequence": 654,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 120.365375
+    },
+    {
+      "sequence": 655,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.841125
+    },
+    {
+      "sequence": 656,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.073625
+    },
+    {
+      "sequence": 657,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 51.385625
+    },
+    {
+      "sequence": 658,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.316583
+    },
+    {
+      "sequence": 659,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 78.814875
+    },
+    {
+      "sequence": 660,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.0155
+    },
+    {
+      "sequence": 661,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 25.186583
+    },
+    {
+      "sequence": 662,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 86.848833
+    },
+    {
+      "sequence": 663,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 115.5705
+    },
+    {
+      "sequence": 664,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 40.373583
+    },
+    {
+      "sequence": 665,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.3235
+    },
+    {
+      "sequence": 666,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 81.973583
+    },
+    {
+      "sequence": 667,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 191.247125
+    },
+    {
+      "sequence": 668,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.793208
+    },
+    {
+      "sequence": 669,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 204.989667
+    },
+    {
+      "sequence": 670,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.393042
+    },
+    {
+      "sequence": 671,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 16.193875
+    },
+    {
+      "sequence": 672,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 82.791083
+    },
+    {
+      "sequence": 673,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 296.026833
+    },
+    {
+      "sequence": 674,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 65.840166
+    },
+    {
+      "sequence": 675,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.2295
+    },
+    {
+      "sequence": 676,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.258541
+    },
+    {
+      "sequence": 677,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.563625
+    },
+    {
+      "sequence": 678,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.946209
+    },
+    {
+      "sequence": 679,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 90.519083
+    },
+    {
+      "sequence": 680,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.830666
+    },
+    {
+      "sequence": 681,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 14.236375
+    },
+    {
+      "sequence": 682,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 106.984166
+    },
+    {
+      "sequence": 683,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 125.505875
+    },
+    {
+      "sequence": 684,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 101.070666
+    },
+    {
+      "sequence": 685,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 112.8115
+    },
+    {
+      "sequence": 686,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.204166
+    },
+    {
+      "sequence": 687,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.379583
+    },
+    {
+      "sequence": 688,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 102.124875
+    },
+    {
+      "sequence": 689,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 106.921958
+    },
+    {
+      "sequence": 690,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 126.599375
+    },
+    {
+      "sequence": 691,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 92.856875
+    },
+    {
+      "sequence": 692,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.536792
+    },
+    {
+      "sequence": 693,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 131.832541
+    },
+    {
+      "sequence": 694,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.780375
+    },
+    {
+      "sequence": 695,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.20375
+    },
+    {
+      "sequence": 696,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.333792
+    },
+    {
+      "sequence": 697,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 34.934459
+    },
+    {
+      "sequence": 698,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 103.810541
+    },
+    {
+      "sequence": 699,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.793208
+    },
+    {
+      "sequence": 700,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 60.447916
+    },
+    {
+      "sequence": 701,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 38.977292
+    },
+    {
+      "sequence": 702,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 15.826125
+    },
+    {
+      "sequence": 703,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.769125
+    },
+    {
+      "sequence": 704,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 29.871084
+    },
+    {
+      "sequence": 705,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.151333
+    },
+    {
+      "sequence": 706,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.504167
+    },
+    {
+      "sequence": 707,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 108.13125
+    },
+    {
+      "sequence": 708,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.613292
+    },
+    {
+      "sequence": 709,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.369417
+    },
+    {
+      "sequence": 710,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.110625
+    },
+    {
+      "sequence": 711,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.996541
+    },
+    {
+      "sequence": 712,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 18.728875
+    },
+    {
+      "sequence": 713,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.247125
+    },
+    {
+      "sequence": 714,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 114.62725
+    },
+    {
+      "sequence": 715,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.023917
+    },
+    {
+      "sequence": 716,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.120459
+    },
+    {
+      "sequence": 717,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.730542
+    },
+    {
+      "sequence": 718,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.879209
+    },
+    {
+      "sequence": 719,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 30.265917
+    },
+    {
+      "sequence": 720,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 118.33425
+    },
+    {
+      "sequence": 721,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 26.51225
+    },
+    {
+      "sequence": 722,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 41.718667
+    },
+    {
+      "sequence": 723,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 18.698583
+    },
+    {
+      "sequence": 724,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 247.394833
+    },
+    {
+      "sequence": 725,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 215.7805
+    },
+    {
+      "sequence": 726,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 145.319917
+    },
+    {
+      "sequence": 727,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.570666
+    },
+    {
+      "sequence": 728,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 107.741834
+    },
+    {
+      "sequence": 729,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 17.607584
+    },
+    {
+      "sequence": 730,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 29.516875
+    },
+    {
+      "sequence": 731,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.9895
+    },
+    {
+      "sequence": 732,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 77.826125
+    },
+    {
+      "sequence": 733,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.203084
+    },
+    {
+      "sequence": 734,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 89.722584
+    },
+    {
+      "sequence": 735,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 51.251666
+    },
+    {
+      "sequence": 736,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 38.469541
+    },
+    {
+      "sequence": 737,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 57.2815
+    },
+    {
+      "sequence": 738,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 66.4195
+    },
+    {
+      "sequence": 739,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 116.117875
+    },
+    {
+      "sequence": 740,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 184.01375
+    },
+    {
+      "sequence": 741,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.104416
+    },
+    {
+      "sequence": 742,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.546709
+    },
+    {
+      "sequence": 743,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.410375
+    },
+    {
+      "sequence": 744,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 115.223208
+    },
+    {
+      "sequence": 745,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 62.750333
+    },
+    {
+      "sequence": 746,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 24.020209
+    },
+    {
+      "sequence": 747,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.331417
+    },
+    {
+      "sequence": 748,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 153.371916
+    },
+    {
+      "sequence": 749,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.710291
+    },
+    {
+      "sequence": 750,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.19925
+    },
+    {
+      "sequence": 751,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 117.919667
+    },
+    {
+      "sequence": 752,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.966459
+    },
+    {
+      "sequence": 753,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 57.042292
+    },
+    {
+      "sequence": 754,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.097166
+    },
+    {
+      "sequence": 755,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 51.915583
+    },
+    {
+      "sequence": 756,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 22.040125
+    },
+    {
+      "sequence": 757,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 82.468333
+    },
+    {
+      "sequence": 758,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 57.901541
+    },
+    {
+      "sequence": 759,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 43.74225
+    },
+    {
+      "sequence": 760,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 84.365417
+    },
+    {
+      "sequence": 761,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 60.908417
+    },
+    {
+      "sequence": 762,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.238
+    },
+    {
+      "sequence": 763,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.119625
+    },
+    {
+      "sequence": 764,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 60.255959
+    },
+    {
+      "sequence": 765,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 131.369708
+    },
+    {
+      "sequence": 766,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 64.140958
+    },
+    {
+      "sequence": 767,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.28375
+    },
+    {
+      "sequence": 768,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.589417
+    },
+    {
+      "sequence": 769,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 228.72
+    },
+    {
+      "sequence": 770,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 124.319375
+    },
+    {
+      "sequence": 771,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.542083
+    },
+    {
+      "sequence": 772,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 41.730709
+    },
+    {
+      "sequence": 773,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 64.916042
+    },
+    {
+      "sequence": 774,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 179.125292
+    },
+    {
+      "sequence": 775,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.936916
+    },
+    {
+      "sequence": 776,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 112.344417
+    },
+    {
+      "sequence": 777,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.94075
+    },
+    {
+      "sequence": 778,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 104.183709
+    },
+    {
+      "sequence": 779,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 119.880334
+    },
+    {
+      "sequence": 780,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.872667
+    },
+    {
+      "sequence": 781,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.750834
+    },
+    {
+      "sequence": 782,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.975958
+    },
+    {
+      "sequence": 783,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 57.868458
+    },
+    {
+      "sequence": 784,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 101.891833
+    },
+    {
+      "sequence": 785,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 52.672042
+    },
+    {
+      "sequence": 786,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 18.042375
+    },
+    {
+      "sequence": 787,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.493542
+    },
+    {
+      "sequence": 788,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 21.900459
+    },
+    {
+      "sequence": 789,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 155.184333
+    },
+    {
+      "sequence": 790,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 102.313458
+    },
+    {
+      "sequence": 791,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.276917
+    },
+    {
+      "sequence": 792,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 104.841125
+    },
+    {
+      "sequence": 793,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 103.035958
+    },
+    {
+      "sequence": 794,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 127.266208
+    },
+    {
+      "sequence": 795,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 180.784166
+    },
+    {
+      "sequence": 796,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 81.928708
+    },
+    {
+      "sequence": 797,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.856166
+    },
+    {
+      "sequence": 798,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 125.608875
+    },
+    {
+      "sequence": 799,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 158.251
+    },
+    {
+      "sequence": 800,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 71.197833
+    },
+    {
+      "sequence": 801,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 65.912709
+    },
+    {
+      "sequence": 802,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 127.940417
+    },
+    {
+      "sequence": 803,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 78.918
+    },
+    {
+      "sequence": 804,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 88.402208
+    },
+    {
+      "sequence": 805,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.126667
+    },
+    {
+      "sequence": 806,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.383042
+    },
+    {
+      "sequence": 807,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 105.187708
+    },
+    {
+      "sequence": 808,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.243792
+    },
+    {
+      "sequence": 809,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 85.64825
+    },
+    {
+      "sequence": 810,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 57.295375
+    },
+    {
+      "sequence": 811,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 103.307166
+    },
+    {
+      "sequence": 812,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 134.092292
+    },
+    {
+      "sequence": 813,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 65.6455
+    },
+    {
+      "sequence": 814,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 180.107708
+    },
+    {
+      "sequence": 815,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 91.9285
+    },
+    {
+      "sequence": 816,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.311417
+    },
+    {
+      "sequence": 817,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.624958
+    },
+    {
+      "sequence": 818,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 25.196542
+    },
+    {
+      "sequence": 819,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 69.096625
+    },
+    {
+      "sequence": 820,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 19.885167
+    },
+    {
+      "sequence": 821,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.347542
+    },
+    {
+      "sequence": 822,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 40.329666
+    },
+    {
+      "sequence": 823,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 67.147583
+    },
+    {
+      "sequence": 824,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 189.322125
+    },
+    {
+      "sequence": 825,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 92.606334
+    },
+    {
+      "sequence": 826,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.755583
+    },
+    {
+      "sequence": 827,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 65.998334
+    },
+    {
+      "sequence": 828,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 98.390334
+    },
+    {
+      "sequence": 829,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 80.57
+    },
+    {
+      "sequence": 830,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 77.6805
+    },
+    {
+      "sequence": 831,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 136.472584
+    },
+    {
+      "sequence": 832,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.350542
+    },
+    {
+      "sequence": 833,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.755875
+    },
+    {
+      "sequence": 834,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 91.274084
+    },
+    {
+      "sequence": 835,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 169.334708
+    },
+    {
+      "sequence": 836,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 68.49475
+    },
+    {
+      "sequence": 837,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 25.351
+    },
+    {
+      "sequence": 838,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.91275
+    },
+    {
+      "sequence": 839,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 40.38575
+    },
+    {
+      "sequence": 840,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 80.685334
+    },
+    {
+      "sequence": 841,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 91.926
+    },
+    {
+      "sequence": 842,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 9.56075
+    },
+    {
+      "sequence": 843,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.933709
+    },
+    {
+      "sequence": 844,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 98.264833
+    },
+    {
+      "sequence": 845,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 164.161042
+    },
+    {
+      "sequence": 846,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 118.1665
+    },
+    {
+      "sequence": 847,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 145.066166
+    },
+    {
+      "sequence": 848,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 99.275625
+    },
+    {
+      "sequence": 849,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.608625
+    },
+    {
+      "sequence": 850,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 69.341375
+    },
+    {
+      "sequence": 851,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.524042
+    },
+    {
+      "sequence": 852,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 159.976875
+    },
+    {
+      "sequence": 853,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.437708
+    },
+    {
+      "sequence": 854,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.446458
+    },
+    {
+      "sequence": 855,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 86.455333
+    },
+    {
+      "sequence": 856,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.846166
+    },
+    {
+      "sequence": 857,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 40.068959
+    },
+    {
+      "sequence": 858,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 35.418959
+    },
+    {
+      "sequence": 859,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.171375
+    },
+    {
+      "sequence": 860,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.249458
+    },
+    {
+      "sequence": 861,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.352042
+    },
+    {
+      "sequence": 862,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 99.549041
+    },
+    {
+      "sequence": 863,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.181125
+    },
+    {
+      "sequence": 864,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 77.073375
+    },
+    {
+      "sequence": 865,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 62.240333
+    },
+    {
+      "sequence": 866,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 140.498083
+    },
+    {
+      "sequence": 867,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.958083
+    },
+    {
+      "sequence": 868,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.343875
+    },
+    {
+      "sequence": 869,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 65.259375
+    },
+    {
+      "sequence": 870,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 63.414417
+    },
+    {
+      "sequence": 871,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.066958
+    },
+    {
+      "sequence": 872,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 94.617167
+    },
+    {
+      "sequence": 873,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.827042
+    },
+    {
+      "sequence": 874,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 83.221916
+    },
+    {
+      "sequence": 875,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 81.661625
+    },
+    {
+      "sequence": 876,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 64.559333
+    },
+    {
+      "sequence": 877,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.486916
+    },
+    {
+      "sequence": 878,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.052917
+    },
+    {
+      "sequence": 879,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.7835
+    },
+    {
+      "sequence": 880,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.179125
+    },
+    {
+      "sequence": 881,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.473208
+    },
+    {
+      "sequence": 882,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.197334
+    },
+    {
+      "sequence": 883,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 129.671917
+    },
+    {
+      "sequence": 884,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 140.297292
+    },
+    {
+      "sequence": 885,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.5145
+    },
+    {
+      "sequence": 886,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 78.108208
+    },
+    {
+      "sequence": 887,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 98.171542
+    },
+    {
+      "sequence": 888,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.33025
+    },
+    {
+      "sequence": 889,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 36.783709
+    },
+    {
+      "sequence": 890,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 140.007292
+    },
+    {
+      "sequence": 891,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.047417
+    },
+    {
+      "sequence": 892,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.920917
+    },
+    {
+      "sequence": 893,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.069125
+    },
+    {
+      "sequence": 894,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 70.788209
+    },
+    {
+      "sequence": 895,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 41.790167
+    },
+    {
+      "sequence": 896,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.901334
+    },
+    {
+      "sequence": 897,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 99.78925
+    },
+    {
+      "sequence": 898,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 27.672959
+    },
+    {
+      "sequence": 899,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.21225
+    },
+    {
+      "sequence": 900,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.557083
+    },
+    {
+      "sequence": 901,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.483292
+    },
+    {
+      "sequence": 902,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 79.866458
+    },
+    {
+      "sequence": 903,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.012792
+    },
+    {
+      "sequence": 904,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 100.102667
+    },
+    {
+      "sequence": 905,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 47.941625
+    },
+    {
+      "sequence": 906,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.312833
+    },
+    {
+      "sequence": 907,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 106.785917
+    },
+    {
+      "sequence": 908,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.570125
+    },
+    {
+      "sequence": 909,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 106.458542
+    },
+    {
+      "sequence": 910,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 48.920792
+    },
+    {
+      "sequence": 911,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 38.494
+    },
+    {
+      "sequence": 912,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 82.873083
+    },
+    {
+      "sequence": 913,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 54.227333
+    },
+    {
+      "sequence": 914,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.418709
+    },
+    {
+      "sequence": 915,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 84.309458
+    },
+    {
+      "sequence": 916,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 106.765458
+    },
+    {
+      "sequence": 917,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.779209
+    },
+    {
+      "sequence": 918,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.714084
+    },
+    {
+      "sequence": 919,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 57.541375
+    },
+    {
+      "sequence": 920,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 77.597375
+    },
+    {
+      "sequence": 921,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 104.436125
+    },
+    {
+      "sequence": 922,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 95.027
+    },
+    {
+      "sequence": 923,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 66.702292
+    },
+    {
+      "sequence": 924,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 20.442791
+    },
+    {
+      "sequence": 925,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 93.566375
+    },
+    {
+      "sequence": 926,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 107.819209
+    },
+    {
+      "sequence": 927,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 109.323417
+    },
+    {
+      "sequence": 928,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 11.263833
+    },
+    {
+      "sequence": 929,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 84.289459
+    },
+    {
+      "sequence": 930,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 28.141416
+    },
+    {
+      "sequence": 931,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 12.695833
+    },
+    {
+      "sequence": 932,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 100.046625
+    },
+    {
+      "sequence": 933,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.981959
+    },
+    {
+      "sequence": 934,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 21.079916
+    },
+    {
+      "sequence": 935,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 85.92
+    },
+    {
+      "sequence": 936,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.031708
+    },
+    {
+      "sequence": 937,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 87.396875
+    },
+    {
+      "sequence": 938,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 89.009791
+    },
+    {
+      "sequence": 939,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 71.282875
+    },
+    {
+      "sequence": 940,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.376
+    },
+    {
+      "sequence": 941,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.18425
+    },
+    {
+      "sequence": 942,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 16.525375
+    },
+    {
+      "sequence": 943,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.545375
+    },
+    {
+      "sequence": 944,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 77.231125
+    },
+    {
+      "sequence": 945,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.703459
+    },
+    {
+      "sequence": 946,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 43.452083
+    },
+    {
+      "sequence": 947,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.383458
+    },
+    {
+      "sequence": 948,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.410959
+    },
+    {
+      "sequence": 949,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 38.939667
+    },
+    {
+      "sequence": 950,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 46.936334
+    },
+    {
+      "sequence": 951,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.928917
+    },
+    {
+      "sequence": 952,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 18.403541
+    },
+    {
+      "sequence": 953,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 72.113334
+    },
+    {
+      "sequence": 954,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 49.838625
+    },
+    {
+      "sequence": 955,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 94.682917
+    },
+    {
+      "sequence": 956,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.304084
+    },
+    {
+      "sequence": 957,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 33.996833
+    },
+    {
+      "sequence": 958,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.914916
+    },
+    {
+      "sequence": 959,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 95.382041
+    },
+    {
+      "sequence": 960,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 59.796917
+    },
+    {
+      "sequence": 961,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.278291
+    },
+    {
+      "sequence": 962,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 85.875375
+    },
+    {
+      "sequence": 963,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 73.455916
+    },
+    {
+      "sequence": 964,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 66.260167
+    },
+    {
+      "sequence": 965,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 60.130417
+    },
+    {
+      "sequence": 966,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 77.127667
+    },
+    {
+      "sequence": 967,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 60.8185
+    },
+    {
+      "sequence": 968,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 32.520625
+    },
+    {
+      "sequence": 969,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 85.208042
+    },
+    {
+      "sequence": 970,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 44.633417
+    },
+    {
+      "sequence": 971,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 88.539042
+    },
+    {
+      "sequence": 972,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.149459
+    },
+    {
+      "sequence": 973,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.3785
+    },
+    {
+      "sequence": 974,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.372333
+    },
+    {
+      "sequence": 975,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 84.300542
+    },
+    {
+      "sequence": 976,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 76.949209
+    },
+    {
+      "sequence": 977,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 78.644875
+    },
+    {
+      "sequence": 978,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 75.668292
+    },
+    {
+      "sequence": 979,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.213958
+    },
+    {
+      "sequence": 980,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 39.749
+    },
+    {
+      "sequence": 981,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 31.605875
+    },
+    {
+      "sequence": 982,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 45.21225
+    },
+    {
+      "sequence": 983,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 56.147709
+    },
+    {
+      "sequence": 984,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 75.207125
+    },
+    {
+      "sequence": 985,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 61.414584
+    },
+    {
+      "sequence": 986,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 72.981167
+    },
+    {
+      "sequence": 987,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 74.749417
+    },
+    {
+      "sequence": 988,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.716709
+    },
+    {
+      "sequence": 989,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 23.799
+    },
+    {
+      "sequence": 990,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 41.210916
+    },
+    {
+      "sequence": 991,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 58.839083
+    },
+    {
+      "sequence": 992,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 53.284292
+    },
+    {
+      "sequence": 993,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 16.689125
+    },
+    {
+      "sequence": 994,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 42.330541
+    },
+    {
+      "sequence": 995,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 69.388709
+    },
+    {
+      "sequence": 996,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 62.50725
+    },
+    {
+      "sequence": 997,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 50.7955
+    },
+    {
+      "sequence": 998,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 55.013209
+    },
+    {
+      "sequence": 999,
+      "http_status": 409,
+      "business_code": "OUT_OF_STOCK",
+      "replayed": false,
+      "latency_ms": 35.664375
+    }
+  ]
+}
