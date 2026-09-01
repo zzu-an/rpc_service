@@ -1,0 +1,20 @@
+Redis:
+  Address: 127.0.0.1:6380
+  Username: ""
+  Password: ""
+  DB: 0
+  DialTimeoutMilliseconds: 1000
+  ReadTimeoutMilliseconds: 1000
+  WriteTimeoutMilliseconds: 1000
+  OperationTimeoutMilliseconds: 500
+Kafka:
+  Brokers: [127.0.0.1:9092]
+  ClientID: seckill-result-projector
+  GroupID: service-rpc-seckill-result-projector-v1
+  Topics: [order-created-v1, order-created-v1-projector-retry]
+  RetryTopic: order-created-v1-projector-retry
+  DLQTopic: order-created-v1-projector-dlq
+  MaxAttempts: 3
+  OperationTimeoutMilliseconds: 3000
+Projection:
+  RetentionSeconds: 86400

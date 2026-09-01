@@ -1,0 +1,11 @@
+Brokers: [127.0.0.1:9092]
+ClientID: service-rpc-v05
+OperationTimeoutMilliseconds: 3000
+Topics:
+  OrderCreated: order-created-v1
+  OrderCreatedRetry: order-created-v1-retry
+  OrderCreatedDLQ: order-created-v1-dlq
+Consumers:
+  ProjectorGroup: seckill-result-projector-v1
+  NotificationGroup: notification-service-v1
+  MaxAttempts: 5

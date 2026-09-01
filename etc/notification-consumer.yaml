@@ -1,0 +1,14 @@
+MySQL:
+  DataSource: service_rpc:service_rpc@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC
+  MaxOpenConns: 16
+  MaxIdleConns: 8
+  ConnMaxLifetimeSeconds: 300
+Kafka:
+  Brokers: [127.0.0.1:9092]
+  ClientID: notification-consumer
+  GroupID: service-rpc-notification-v1
+  Topics: [order-created-v1, order-created-v1-notification-retry]
+  RetryTopic: order-created-v1-notification-retry
+  DLQTopic: order-created-v1-notification-dlq
+  MaxAttempts: 3
+  OperationTimeoutMilliseconds: 3000

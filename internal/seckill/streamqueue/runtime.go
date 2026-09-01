@@ -60,7 +60,7 @@ type ItemSource interface {
 }
 
 type TaskProcessor interface {
-	ProcessStreamTask(context.Context, uint64, uint64, string, time.Time) (seckill.PurchaseResult, error)
+	ProcessStreamTask(context.Context, uint64, uint64, uint64, string, time.Time) (seckill.PurchaseResult, error)
 }
 
 type RuntimeConfig struct {
@@ -258,7 +258,7 @@ func (r *Runtime) processOne(ctx context.Context, itemID uint64, message redis.X
 		_ = r.recordFailure(ctx, itemID, task, stableErrorCode(decodeErr), true)
 		return
 	}
-	_, err := r.processor.ProcessStreamTask(ctx, task.UserID, task.ItemID, task.OrderNo, task.ReservedAt)
+	_, err := r.processor.ProcessStreamTask(ctx, task.UserID, task.ActivityID, task.ItemID, task.OrderNo, task.ReservedAt)
 	if err == nil {
 		_ = r.complete(ctx, itemID, task.MessageID)
 		return
@@ -294,7 +294,8 @@ func (r *Runtime) trackActive(delta int64) {
 func isTerminal(err error) bool {
 	return errors.Is(err, seckill.ErrInvalidArgument) || errors.Is(err, seckill.ErrItemNotFound) ||
 		errors.Is(err, seckill.ErrUnavailable) || errors.Is(err, seckill.ErrOutOfStock) ||
-		errors.Is(err, ErrInvalidStreamMessage) || errors.Is(err, ErrUnsupportedStreamMessage)
+		errors.Is(err, ErrInvalidStreamMessage) || errors.Is(err, ErrUnsupportedStreamMessage) ||
+		errors.Is(err, ErrRPCRequestRejected)
 }
 
 func stableErrorCode(err error) string {
@@ -311,6 +312,12 @@ func stableErrorCode(err error) string {
 		return "mysql_out_of_stock"
 	case errors.Is(err, context.DeadlineExceeded):
 		return "dependency_timeout"
+	case errors.Is(err, ErrReservedWithoutOrder):
+		return "reserved_without_order"
+	case errors.Is(err, ErrRPCDependencyUnavailable):
+		return "dependency_unavailable"
+	case errors.Is(err, ErrRPCRequestRejected):
+		return "rpc_request_rejected"
 	default:
 		return "temporary_failure"
 	}

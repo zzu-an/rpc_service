@@ -110,12 +110,16 @@ func (r *Repository) AddItem(ctx context.Context, input seckill.AddItemInput) (s
 	}
 
 	var skuID uint64
+	var productName, skuCode, skuName string
+	var unitPriceCent int64
 	err := r.db.QueryRowContext(ctx, `
-		SELECT s.id
+		SELECT s.id, p.name, s.code, s.name, s.price_cent
 		FROM product_skus s
 		JOIN products p ON p.id = s.product_id
 		WHERE s.id = ? AND s.status = ? AND p.status = ?
-	`, input.SKUID, product.StatusActive, product.StatusActive).Scan(&skuID)
+	`, input.SKUID, product.StatusActive, product.StatusActive).Scan(
+		&skuID, &productName, &skuCode, &skuName, &unitPriceCent,
+	)
 	if errors.Is(err, sql.ErrNoRows) {
 		return seckill.Item{}, seckill.ErrInvalidArgument
 	}
@@ -123,10 +127,16 @@ func (r *Repository) AddItem(ctx context.Context, input seckill.AddItemInput) (s
 		return seckill.Item{}, fmt.Errorf("find active SKU for seckill: %w", err)
 	}
 
+	// 这是 v0.2/v0.3 测试与回溯工具保留的兼容入口，不是 v0.5 在线写路径。
+	// v0.5 的 gateway 必须先经 product-rpc 取得快照，再调用 inventory-rpc；这里补齐快照仅用于保证
+	// 历史版本在最新 schema 上仍可回归。面试/设计重点：不能因为兼容代码还能 JOIN，就让新服务绕过 RPC。
 	result, err := r.db.ExecContext(ctx, `
-		INSERT INTO seckill_items (activity_id, sku_id, initial_stock, available_stock)
-		VALUES (?, ?, ?, ?)
-	`, input.ActivityID, input.SKUID, input.Stock, input.Stock)
+		INSERT INTO seckill_items (
+			activity_id, sku_id, product_name, sku_code, sku_name, unit_price_cent,
+			initial_stock, available_stock
+		)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	`, input.ActivityID, input.SKUID, productName, skuCode, skuName, unitPriceCent, input.Stock, input.Stock)
 	if err != nil {
 		return seckill.Item{}, mapConflict("insert seckill item", err)
 	}

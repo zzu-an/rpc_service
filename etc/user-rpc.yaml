@@ -1,0 +1,18 @@
+Name: user.rpc
+ListenOn: 127.0.0.1:18001
+Mode: dev
+Timeout: 800
+Middlewares:
+  StatConf:
+    # 注册/认证请求含明文密码。保留耗时和状态统计，但绝不能记录请求内容。
+    IgnoreContentMethods:
+      - /user.v1.UserService/Register
+      - /user.v1.UserService/Authenticate
+Etcd:
+  Hosts: [127.0.0.1:2379]
+  Key: service-rpc/user.v1
+MySQL:
+  DataSource: service_rpc:service_rpc@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC
+  MaxOpenConns: 10
+  MaxIdleConns: 5
+  ConnMaxLifetimeSeconds: 300

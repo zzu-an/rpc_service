@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package product.v1;
+
+import "common/v1/common.proto";
+
+option go_package = "service_rpc/api/gen/product/v1;productv1";
+
+service ProductService {
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  rpc UpdateProductStatus(UpdateProductStatusRequest) returns (UpdateProductStatusResponse);
+  rpc GetSkuSnapshot(GetSkuSnapshotRequest) returns (GetSkuSnapshotResponse);
+}
+
+enum ProductStatus {
+  PRODUCT_STATUS_UNSPECIFIED = 0;
+  PRODUCT_STATUS_ENABLED = 1;
+  PRODUCT_STATUS_DISABLED = 2;
+}
+
+message Product {
+  uint64 id = 1;
+  string name = 2;
+  ProductStatus status = 3;
+  int64 created_at_ms = 4;
+  int64 updated_at_ms = 5;
+  string description = 6;
+  repeated SkuSnapshot skus = 7;
+}
+
+message SkuSnapshot {
+  uint64 sku_id = 1;
+  uint64 product_id = 2;
+  string product_name = 3;
+  string sku_code = 4;
+  string sku_name = 5;
+  // 金额只用整数分，禁止 float/double；这是避免跨语言舍入差异的契约，不是展示格式。
+  int64 unit_price_cent = 6;
+  ProductStatus status = 7;
+}
+
+message SkuInput {
+  string code = 1;
+  string name = 2;
+  int64 unit_price_cent = 3;
+}
+
+message ListProductsRequest {
+  common.v1.PageRequest page = 1;
+}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+  common.v1.PageResponse page = 2;
+}
+
+message GetProductRequest {
+  uint64 product_id = 1;
+}
+
+message GetProductResponse {
+  Product product = 1;
+}
+
+message CreateProductRequest {
+  string name = 1;
+  // 创建后固定为未启用，调用方不应越过审核直接决定状态；保留字段号只为 v1 wire 兼容。
+  ProductStatus status = 2 [deprecated = true];
+  string description = 3;
+  repeated SkuInput skus = 4;
+}
+
+message CreateProductResponse {
+  Product product = 1;
+}
+
+message UpdateProductRequest {
+  uint64 product_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message UpdateProductResponse {
+  Product product = 1;
+}
+
+message UpdateProductStatusRequest {
+  uint64 product_id = 1;
+  ProductStatus status = 2;
+}
+
+message UpdateProductStatusResponse {}
+
+message GetSkuSnapshotRequest {
+  uint64 sku_id = 1;
+}
+
+message GetSkuSnapshotResponse {
+  SkuSnapshot snapshot = 1;
+}

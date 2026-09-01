@@ -337,8 +337,8 @@ func (s *Service) enqueueStream(ctx context.Context, userID, itemID uint64) (Asy
 // ProcessStreamTask 只执行正式订单事务。Stream runtime 只有在
 // 此方法成功后才 ACK；若 MySQL 已提交而 ACK 前宕机，重投会由 order_no 与 claim 唯一索引
 // 读回原订单，所以数据库约束仍是最终幂等防线。
-func (s *Service) ProcessStreamTask(ctx context.Context, userID, itemID uint64, orderNo string, reservedAt time.Time) (PurchaseResult, error) {
-	if s == nil || s.repository == nil || userID == 0 || itemID == 0 || strings.TrimSpace(orderNo) == "" || reservedAt.IsZero() {
+func (s *Service) ProcessStreamTask(ctx context.Context, userID, activityID, itemID uint64, orderNo string, reservedAt time.Time) (PurchaseResult, error) {
+	if s == nil || s.repository == nil || userID == 0 || activityID == 0 || itemID == 0 || strings.TrimSpace(orderNo) == "" || reservedAt.IsZero() {
 		return PurchaseResult{}, ErrInvalidArgument
 	}
 	return s.repository.Purchase(ctx, userID, itemID, strings.TrimSpace(orderNo), reservedAt.UTC())

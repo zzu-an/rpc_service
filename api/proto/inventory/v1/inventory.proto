@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package inventory.v1;
+
+option go_package = "service_rpc/api/gen/inventory/v1;inventoryv1";
+
+service InventoryService {
+  rpc CreateSeckillItem(CreateSeckillItemRequest) returns (CreateSeckillItemResponse);
+  // seckill-rpc 预热只能通过此只读契约取得 item，禁止回退跨服务 SQL。
+  rpc ListActivityItems(ListActivityItemsRequest) returns (ListActivityItemsResponse);
+  rpc ReserveSeckillStock(ReserveSeckillStockRequest) returns (ReserveSeckillStockResponse);
+}
+
+message FrozenSkuSnapshot {
+  uint64 sku_id = 1;
+  string product_name = 2;
+  string sku_code = 3;
+  string sku_name = 4;
+  int64 unit_price_cent = 5;
+}
+
+message SeckillItem {
+  uint64 id = 1;
+  uint64 activity_id = 2;
+  FrozenSkuSnapshot sku = 3;
+  int64 initial_stock = 4;
+  int64 available_stock = 5;
+  uint64 version = 6;
+  int64 created_at_ms = 7;
+}
+
+message CreateSeckillItemRequest {
+  uint64 activity_id = 1;
+  uint64 sku_id = 2;
+  int64 stock = 3;
+}
+
+message CreateSeckillItemResponse {
+  SeckillItem item = 1;
+}
+
+message ListActivityItemsRequest {
+  uint64 activity_id = 1;
+}
+
+message ListActivityItemsResponse {
+  repeated SeckillItem items = 1;
+}
+
+message ReserveSeckillStockRequest {
+  // order_no 是跨重试幂等键。同 key 同载荷返回首次结果；同 key 不同载荷必须返回冲突。
+  // 这使“客户端超时但服务端可能已提交”能够安全重试，而不是再次扣减库存。
+  string order_no = 1;
+  uint64 activity_id = 2;
+  uint64 item_id = 3;
+  uint64 user_id = 4;
+  int64 reserved_at_ms = 5;
+}
+
+message ReserveSeckillStockResponse {
+  uint64 reservation_id = 1;
+  string order_no = 2;
+  FrozenSkuSnapshot sku = 3;
+  bool replayed = 4;
+}

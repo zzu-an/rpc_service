@@ -1,0 +1,17 @@
+MySQL:
+  DataSource: service_rpc:service_rpc@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC
+  MaxOpenConns: 8
+  MaxIdleConns: 4
+  ConnMaxLifetimeSeconds: 300
+Kafka:
+  Brokers: [127.0.0.1:9092]
+  ClientID: order-outbox-relay
+  OperationTimeoutMilliseconds: 3000
+Relay:
+  WorkerID: relay-local-1
+  Topic: order-created-v1
+  BatchSize: 100
+  LeaseMilliseconds: 30000
+  PollMilliseconds: 500
+  RetryBaseMilliseconds: 1000
+  RetryMaxMilliseconds: 60000

@@ -19,6 +19,7 @@ const (
 var (
 	ErrInvalidProduct  = errors.New("invalid product")
 	ErrProductNotFound = errors.New("product not found")
+	ErrSKUNotFound     = errors.New("product SKU not found")
 	ErrProductConflict = errors.New("product conflict")
 )
 
@@ -37,6 +38,19 @@ type Product struct {
 	Status      uint8
 	SKUs        []SKU
 	CreatedAt   time.Time
+}
+
+// SKUSnapshot 是跨服务复制的订单值对象，不是让 inventory/order 持有 product 表实体。
+// 一旦秒杀 item 创建成功，名称与整数分价格会被冻结；后续商品改名/变价不能改写历史订单语义。
+type SKUSnapshot struct {
+	SKUID         uint64
+	ProductID     uint64
+	ProductName   string
+	SKUCode       string
+	SKUName       string
+	PriceCent     int64
+	ProductStatus uint8
+	SKUStatus     uint8
 }
 
 type CreateInput struct {
@@ -58,6 +72,7 @@ type Repository interface {
 	SetStatus(ctx context.Context, id uint64, status uint8) error
 	ListActive(ctx context.Context, offset, limit int) ([]Product, int64, error)
 	FindActive(ctx context.Context, id uint64) (Product, error)
+	FindActiveSKU(ctx context.Context, skuID uint64) (SKUSnapshot, error)
 }
 
 type Service struct {
@@ -126,4 +141,11 @@ func (s *Service) GetPublic(ctx context.Context, id uint64) (Product, error) {
 		return Product{}, ErrProductNotFound
 	}
 	return s.repository.FindActive(ctx, id)
+}
+
+func (s *Service) GetActiveSKUSnapshot(ctx context.Context, skuID uint64) (SKUSnapshot, error) {
+	if skuID == 0 {
+		return SKUSnapshot{}, ErrSKUNotFound
+	}
+	return s.repository.FindActiveSKU(ctx, skuID)
 }

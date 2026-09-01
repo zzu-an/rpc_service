@@ -24,6 +24,7 @@ type Task struct {
 	MessageID  string
 	OrderNo    string
 	UserID     uint64
+	ActivityID uint64
 	ItemID     uint64
 	ReservedAt time.Time
 }
@@ -39,12 +40,14 @@ func decodeTask(expectedItemID uint64, message redis.XMessage) (Task, error) {
 	}
 	orderNo, orderOK := valueString(message.Values["order_no"])
 	userText, userOK := valueString(message.Values["user_id"])
+	activityText, activityOK := valueString(message.Values["activity_id"])
 	itemText, itemOK := valueString(message.Values["item_id"])
 	reservedText, reservedOK := valueString(message.Values["reserved_at_ms"])
 	userID, userErr := strconv.ParseUint(userText, 10, 64)
+	activityID, activityErr := strconv.ParseUint(activityText, 10, 64)
 	itemID, itemErr := strconv.ParseUint(itemText, 10, 64)
 	reservedMS, reservedErr := strconv.ParseInt(reservedText, 10, 64)
-	if message.ID == "" || !orderOK || !userOK || !itemOK || !reservedOK || strings.TrimSpace(orderNo) == "" || userErr != nil || itemErr != nil || reservedErr != nil || userID == 0 || itemID == 0 || reservedMS <= 0 {
+	if message.ID == "" || !orderOK || !userOK || !activityOK || !itemOK || !reservedOK || strings.TrimSpace(orderNo) == "" || userErr != nil || activityErr != nil || itemErr != nil || reservedErr != nil || userID == 0 || activityID == 0 || itemID == 0 || reservedMS <= 0 {
 		return Task{MessageID: message.ID, OrderNo: strings.TrimSpace(orderNo), UserID: userID}, ErrInvalidStreamMessage
 	}
 	if itemID != expectedItemID {
@@ -54,7 +57,7 @@ func decodeTask(expectedItemID uint64, message redis.XMessage) (Task, error) {
 	}
 	return Task{
 		MessageID: message.ID, OrderNo: strings.TrimSpace(orderNo), UserID: userID,
-		ItemID: itemID, ReservedAt: time.UnixMilli(reservedMS).UTC(),
+		ActivityID: activityID, ItemID: itemID, ReservedAt: time.UnixMilli(reservedMS).UTC(),
 	}, nil
 }
 

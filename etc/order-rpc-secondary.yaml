@@ -1,0 +1,17 @@
+Name: order.rpc.secondary
+ListenOn: 127.0.0.1:18105
+Mode: dev
+Timeout: 800
+Etcd:
+  Hosts: [127.0.0.1:2379]
+  Key: service-rpc/order.v1
+MySQL:
+  DataSource: service_rpc:service_rpc@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC
+  MaxOpenConns: 16
+  MaxIdleConns: 8
+  ConnMaxLifetimeSeconds: 300
+ProductRPC:
+  Timeout: 300
+  Etcd:
+    Hosts: [127.0.0.1:2379]
+    Key: service-rpc/product.v1

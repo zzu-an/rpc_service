@@ -95,7 +95,20 @@ Stream worker 直接调用既有 MySQL Purchase 事务。当前工作树只包�
 job migration 和配置被隔离在另一分支，避免两套队列语义互相干扰。
 
 ### v0.5
-拆微服务，引入 RPC、服务发现、超时、熔断。
+从 `codex/v0.4.2-redis-stream` 进入“微服务治理”主线，拆出
+user/product/seckill/inventory/order/notification RPC，引入 Protobuf、zRPC、etcd、deadline、
+幂等重试与熔断。Redis Lua+Stream 保持为秒杀服务内部队列，orchestrator 通过 RPC 落单。
+
+Kafka 不插入 Stream 与 RPC 之间；order-rpc 使用本地 Outbox 发布 `order.created`，秒杀结果投影和
+notification-service 用不同 consumer group 消费，验证跨服务 fan-out、幂等和故障隔离。
+
+v0.5 先建立逻辑表所有权，禁止跨服务 repository/SQL。inventory reservation 与 order create
+各自只有本地事务；若前者成功、后者最终失败，必须保留可诊断状态，不在本阶段自动补偿。
+具体决策见 ADR-005、ADR-006。只有后续指标证明 Stream 积压、保留期或故障域不足时才重新评估
+Stream→Kafka Bridge。
+
+v0.5 日常以每进程单实例运行；治理验收仅将 order-rpc 与 notification-consumer 扩为双实例，
+分别验证 etcd 负载均衡/实例摘除和 Kafka rebalance。完整容器化与基础设施集群仍属于 v1.0。
 
 ### v0.6
 处理分布式一致性。

@@ -1,0 +1,26 @@
+Name: gateway-api
+Host: 127.0.0.1
+Port: 18080
+Mode: dev
+Timeout: 1000
+Auth:
+  AccessSecret: replace-this-development-secret-with-at-least-32-bytes
+  AccessTTLSeconds: 900
+UserRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/user.v1}
+ProductRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/product.v1}
+InventoryRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/inventory.v1}
+SeckillRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/seckill.v1}
+OrderRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/order.v1}
+NotificationRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/notification.v1}

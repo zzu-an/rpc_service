@@ -1,0 +1,12 @@
+Name: product.rpc
+ListenOn: 127.0.0.1:18002
+Mode: dev
+Timeout: 800
+Etcd:
+  Hosts: [127.0.0.1:2379]
+  Key: service-rpc/product.v1
+MySQL:
+  DataSource: service_rpc:service_rpc@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC
+  MaxOpenConns: 10
+  MaxIdleConns: 5
+  ConnMaxLifetimeSeconds: 300

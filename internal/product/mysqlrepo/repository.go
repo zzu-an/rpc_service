@@ -139,3 +139,25 @@ func (r *Repository) FindActive(ctx context.Context, id uint64) (product.Product
 	}
 	return item, nil
 }
+
+func (r *Repository) FindActiveSKU(ctx context.Context, skuID uint64) (product.SKUSnapshot, error) {
+	var snapshot product.SKUSnapshot
+	err := r.db.QueryRowContext(ctx, `
+		SELECT s.id, p.id, p.name, s.code, s.name, s.price_cent, p.status, s.status
+		FROM product_skus s
+		JOIN products p ON p.id = s.product_id
+		WHERE s.id = ? AND s.status = ? AND p.status = ?
+	`, skuID, product.StatusActive, product.StatusActive).Scan(
+		&snapshot.SKUID, &snapshot.ProductID, &snapshot.ProductName,
+		&snapshot.SKUCode, &snapshot.SKUName, &snapshot.PriceCent,
+		&snapshot.ProductStatus, &snapshot.SKUStatus,
+	)
+	if errors.Is(err, sql.ErrNoRows) {
+		// 对调用方统一表现为不可用于新业务；不泄漏是 SKU 停用、商品停用还是 ID 不存在。
+		return product.SKUSnapshot{}, product.ErrSKUNotFound
+	}
+	if err != nil {
+		return product.SKUSnapshot{}, fmt.Errorf("find active SKU snapshot: %w", err)
+	}
+	return snapshot, nil
+}

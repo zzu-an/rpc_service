@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package common.v1;
+
+option go_package = "service_rpc/api/gen/common/v1;commonv1";
+
+// ErrorCode 是跨服务稳定的业务错误码；gRPC status 表达传输类别，二者不能混为一谈。
+// 面试要点：status=Unavailable 可进入熔断统计，而库存不足属于业务拒绝，不能误伤健康实例。
+enum ErrorCode {
+  ERROR_CODE_UNSPECIFIED = 0;
+  ERROR_CODE_INVALID_ARGUMENT = 1;
+  ERROR_CODE_NOT_FOUND = 2;
+  ERROR_CODE_CONFLICT = 3;
+  ERROR_CODE_UNAUTHENTICATED = 4;
+  ERROR_CODE_PERMISSION_DENIED = 5;
+  ERROR_CODE_OUT_OF_STOCK = 6;
+  ERROR_CODE_TEMPORARILY_UNAVAILABLE = 7;
+  ERROR_CODE_INTERNAL = 8;
+}
+
+// ErrorDetail 可作为 google.rpc.Status 的 detail 返回；message 必须是可公开文本，禁止放入 SQL、DSN、
+// token、密码或堆栈。retryable 是服务端建议，调用方仍需同时检查本地剩余 deadline 和操作幂等性。
+message ErrorDetail {
+  ErrorCode code = 1;
+  string message = 2;
+  bool retryable = 3;
+}
+
+// PageRequest 使用从 1 开始的页码；page_size 必须在 1..100。统一规则避免各 RPC 自行解释 0。
+message PageRequest {
+  uint32 page = 1;
+  uint32 page_size = 2;
+}
+
+message PageResponse {
+  uint64 total = 1;
+  uint32 page = 2;
+  uint32 page_size = 3;
+}

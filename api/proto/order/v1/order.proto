@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package order.v1;
+
+option go_package = "service_rpc/api/gen/order/v1;orderv1";
+
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  rpc CreateSeckillOrder(CreateSeckillOrderRequest) returns (CreateSeckillOrderResponse);
+  rpc FindSeckillOrder(FindSeckillOrderRequest) returns (FindSeckillOrderResponse);
+}
+
+enum OrderSource {
+  ORDER_SOURCE_UNSPECIFIED = 0;
+  ORDER_SOURCE_NORMAL = 1;
+  ORDER_SOURCE_SECKILL = 2;
+}
+
+enum OrderStatus {
+  ORDER_STATUS_UNSPECIFIED = 0;
+  ORDER_STATUS_CREATED = 1;
+}
+
+message OrderItemInput {
+  uint64 sku_id = 1;
+  int64 quantity = 2;
+}
+
+message FrozenOrderItem {
+  uint64 sku_id = 1;
+  string product_name = 2;
+  string sku_code = 3;
+  string sku_name = 4;
+  int64 unit_price_cent = 5;
+  int64 quantity = 6;
+}
+
+message OrderItem {
+  uint64 id = 1;
+  FrozenOrderItem snapshot = 2;
+  int64 subtotal_cent = 3;
+}
+
+message Order {
+  uint64 id = 1;
+  string order_no = 2;
+  uint64 user_id = 3;
+  OrderStatus status = 4;
+  OrderSource source = 5;
+  int64 total_amount_cent = 6;
+  repeated OrderItem items = 7;
+  int64 created_at_ms = 8;
+}
+
+message CreateOrderRequest {
+  uint64 user_id = 1;
+  repeated OrderItemInput items = 2;
+}
+
+message CreateOrderResponse {
+  Order order = 1;
+}
+
+message GetOrderRequest {
+  uint64 user_id = 1;
+  uint64 order_id = 2;
+}
+
+message GetOrderResponse {
+  Order order = 1;
+}
+
+message CreateSeckillOrderRequest {
+  // order_no 同时是 inventory/order 两个本地事务的业务幂等键。请求重试必须复用它，
+  // 并对全部快照字段做冲突校验，防止同号订单在变价后被静默改写。
+  string order_no = 1;
+  uint64 user_id = 2;
+  uint64 activity_id = 3;
+  uint64 item_id = 4;
+  FrozenOrderItem item = 5;
+  int64 reserved_at_ms = 6;
+}
+
+message CreateSeckillOrderResponse {
+  Order order = 1;
+  bool replayed = 2;
+}
+
+message FindSeckillOrderRequest {
+  uint64 user_id = 1;
+  string order_no = 2;
+}
+
+message FindSeckillOrderResponse {
+  Order order = 1;
+}

@@ -89,7 +89,8 @@ end
 
 local stock = tonumber(redis.call('HGET', KEYS[1], 'stock'))
 local expire_at = tonumber(redis.call('HGET', KEYS[1], 'expire_at_ms'))
-if stock == nil or expire_at == nil then
+local activity_id = redis.call('HGET', KEYS[1], 'activity_id')
+if stock == nil or expire_at == nil or activity_id == false then
   return {-1, ''}
 end
 if stock <= 0 then
@@ -104,6 +105,7 @@ redis.call('XADD', KEYS[3], '*',
   'event_type', 'seckill.order.requested',
   'order_no', ARGV[3],
   'user_id', ARGV[1],
+  'activity_id', activity_id,
   'item_id', ARGV[4],
   'reserved_at_ms', ARGV[2])
 
@@ -315,7 +317,9 @@ func (g *Gate) FindStreamResult(ctx context.Context, userID uint64, orderNo stri
 		return "", seckill.ErrAsyncResultNotFound
 	}
 	status := seckill.AsyncResultStatus(parts[1])
-	if status != seckill.AsyncResultQueued && status != seckill.AsyncResultFailed {
+	// TASK-067B 的 projector 会把同一个 field 从 QUEUED 更新为 SUCCEEDED/FAILED。
+	// seckill-rpc 只读投影，不据此断言订单事实；gateway 仍需先查 order-rpc。
+	if status != seckill.AsyncResultQueued && status != seckill.AsyncResultSucceeded && status != seckill.AsyncResultFailed {
 		return "", admissionFailure("parse stream result", fmt.Errorf("unknown status %q", parts[1]))
 	}
 	return status, nil

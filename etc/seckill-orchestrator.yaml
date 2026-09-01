@@ -1,0 +1,38 @@
+Redis:
+  Address: 127.0.0.1:6380
+  Username: ""
+  Password: ""
+  DB: 0
+  DialTimeoutMilliseconds: 200
+  OperationTimeoutMilliseconds: 1000
+RedisStream:
+  ConsumerGroup: seckill-order-orchestrator-v1
+  ConsumerPrefix: orchestrator
+  ConsumerConcurrency: 4
+  BatchSize: 16
+  BlockMilliseconds: 1000
+  ClaimIdleMilliseconds: 30000
+  DiscoveryIntervalMilliseconds: 1000
+  ShutdownTimeoutMilliseconds: 10000
+  MaxDeliveries: 8
+  RetentionSeconds: 86400
+SeckillRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/seckill.v1}
+InventoryRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/inventory.v1}
+OrderRPC:
+  Timeout: 300
+  Etcd: {Hosts: [127.0.0.1:2379], Key: service-rpc/order.v1}
+Budget:
+  TaskMilliseconds: 700
+  InventoryMilliseconds: 250
+  OrderMilliseconds: 350
+Retry:
+  MaxAttempts: 2
+  BackoffBaseMilliseconds: 20
+  BackoffMaxMilliseconds: 50
+  JitterRatio: 0.2
+  BreakerFailures: 5
+  BreakerOpenMilliseconds: 1000

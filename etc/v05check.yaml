@@ -1,0 +1,27 @@
+MySQL:
+  DataSource: service_rpc:service_rpc@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC
+  MaxOpenConns: 4
+  MaxIdleConns: 2
+  ConnMaxLifetimeSeconds: 60
+Redis:
+  Address: 127.0.0.1:6380
+  Username: ""
+  Password: ""
+  DB: 0
+  DialTimeoutMilliseconds: 500
+  OperationTimeoutMilliseconds: 500
+StreamGroup: seckill-order-orchestrator-v1
+Kafka:
+  Brokers: [127.0.0.1:9092]
+  Topic: order-created-v1
+  Groups: [service-rpc-seckill-result-projector-v1, service-rpc-notification-v1]
+Etcd:
+  Hosts: [127.0.0.1:2379]
+  ServiceKeys:
+    - service-rpc/user.v1
+    - service-rpc/product.v1
+    - service-rpc/seckill.v1
+    - service-rpc/inventory.v1
+    - service-rpc/order.v1
+    - service-rpc/notification.v1
+TimeoutMilliseconds: 5000

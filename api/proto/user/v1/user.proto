@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "service_rpc/api/gen/user/v1;userv1";
+
+service UserService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc GetUserRoles(GetUserRolesRequest) returns (GetUserRolesResponse);
+  rpc HasPermission(HasPermissionRequest) returns (HasPermissionResponse);
+  rpc ReplaceUserRoles(ReplaceUserRolesRequest) returns (ReplaceUserRolesResponse);
+}
+
+message User {
+  uint64 id = 1;
+  string email = 2;
+  // 所有跨服务时间统一为 Unix 毫秒 UTC；字段名携带单位，避免秒/毫秒混用造成过期时间错判。
+  int64 created_at_ms = 3;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  User user = 1;
+}
+
+message AuthenticateRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthenticateResponse {
+  User user = 1;
+  repeated string role_codes = 2;
+}
+
+message GetUserRequest {
+  uint64 user_id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message GetUserRolesRequest {
+  uint64 user_id = 1;
+}
+
+message GetUserRolesResponse {
+  repeated string role_codes = 1;
+}
+
+message HasPermissionRequest {
+  uint64 user_id = 1;
+  string permission_code = 2;
+}
+
+message HasPermissionResponse {
+  bool allowed = 1;
+}
+
+message ReplaceUserRolesRequest {
+  uint64 user_id = 1;
+  repeated string role_codes = 2;
+}
+
+message ReplaceUserRolesResponse {}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package notification.v1;
+
+import "common/v1/common.proto";
+
+option go_package = "service_rpc/api/gen/notification/v1;notificationv1";
+
+service NotificationService {
+  rpc ListNotifications(ListNotificationsRequest) returns (ListNotificationsResponse);
+  rpc MarkRead(MarkReadRequest) returns (MarkReadResponse);
+}
+
+message Notification {
+  uint64 id = 1;
+  uint64 user_id = 2;
+  string business_type = 3;
+  string title = 4;
+  string body = 5;
+  string order_no = 6;
+  int64 created_at_ms = 7;
+  int64 read_at_ms = 8;
+}
+
+message ListNotificationsRequest {
+  // user_id 必须来自 gateway 已认证身份，不能接受客户端替换为任意用户。
+  uint64 user_id = 1;
+  common.v1.PageRequest page = 2;
+}
+
+message ListNotificationsResponse {
+  repeated Notification notifications = 1;
+  common.v1.PageResponse page = 2;
+}
+
+message MarkReadRequest {
+  uint64 user_id = 1;
+  uint64 notification_id = 2;
+}
+
+message MarkReadResponse {}

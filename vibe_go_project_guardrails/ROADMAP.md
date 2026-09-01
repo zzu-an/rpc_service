@@ -10,7 +10,7 @@
 | 3 | v0.3 Redis 秒杀 | 缓存、Lua、分布式锁、热点问题 | 2～3 周 | 禁止 MQ/RPC |
 | 4.1 | v0.4.1 Kafka 异步版 | Outbox、Kafka、重试、DLQ | 2～3 周 | 独立分支，不与 Stream 混装 |
 | 4.2 | v0.4.2 Redis Stream 异步版 | Lua 原子入队、消费组、PEL 恢复 | 1～2 周 | 独立分支，不包含 Kafka 代码 |
-| 5 | v0.5 RPC 微服务 | gRPC、Protobuf、etcd、超时与熔断 | 3 周 | 服务边界先于技术堆叠 |
+| 5 | v0.5 微服务治理 | gRPC、Protobuf、etcd、Order Outbox/Kafka、通知下游、超时与熔断 | 3 周 | 从 v0.4.2 演进；秒杀是验证场景而非架构中心 |
 | 6 | v0.6 一致性治理 | 补偿、最终一致性、对账、状态机 | 2 周 | 不隐藏失败 |
 | 7 | v0.7 高可用 | 限流、降级、隔离、热点治理 | 2 周 | 必须有故障场景 |
 | 8 | v1.0 工程化 | 监控、追踪、容器、压测、故障演练 | 2～3 周 | 以可观测和验证为主 |
@@ -39,10 +39,14 @@
 问题：请求峰值仍然压垮下游怎么办？分别学习 Kafka 与 Redis Stream 两种异步方案。
 
 ### v0.4 → v0.5
-问题：单体边界太大，如何拆分并控制调用失败？
+问题：单体边界太大，如何拆分并控制调用失败？如何保留 Redis 原子入队，同时让订单成功事件通过
+Kafka 解耦秒杀结果投影和 notification-service？
 
 两个版本是并列分支：`codex/v0.4.1-kafka` 学习 Outbox 和通用业务消息，
 `codex/v0.4.2-redis-stream` 学习同 Redis shard 的原子资格与任务入队。
+v0.5 以 `codex/v0.4.2-redis-stream` 为基线，不整分支合并 Kafka 版。Redis Stream 保持秒杀内部
+队列，worker 改为调用 RPC；Kafka 用于 order.created 领域事件、独立 consumer group、retry/DLQ。
+没有容量或组织边界证据时不增加 Stream→Kafka Bridge。
 
 ### v0.5 → v0.6
 问题：跨服务后没有本地事务，如何保证业务最终正确？

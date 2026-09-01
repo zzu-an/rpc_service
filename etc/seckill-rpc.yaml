@@ -1,0 +1,36 @@
+Name: seckill.rpc
+ListenOn: 127.0.0.1:18003
+Mode: dev
+Timeout: 800
+Etcd:
+  Hosts: [127.0.0.1:2379]
+  Key: service-rpc/seckill.v1
+MySQL:
+  # seckill-rpc 的账号只应拥有 seckill_activities 权限；示例共库不代表生产共账号。
+  DataSource: service_rpc:service_rpc@tcp(127.0.0.1:3307)/service_rpc?charset=utf8mb4&parseTime=true&loc=UTC
+  MaxOpenConns: 8
+  MaxIdleConns: 4
+  ConnMaxLifetimeSeconds: 300
+QueueRedis:
+  Address: 127.0.0.1:6380
+  Username: ""
+  Password: ""
+  DB: 0
+  DialTimeoutMilliseconds: 200
+  OperationTimeoutMilliseconds: 80
+RedisStream:
+  ConsumerGroup: seckill-order-orchestrator
+  ConsumerPrefix: orchestrator
+  ConsumerConcurrency: 4
+  BatchSize: 16
+  BlockMilliseconds: 1000
+  ClaimIdleMilliseconds: 30000
+  DiscoveryIntervalMilliseconds: 1000
+  ShutdownTimeoutMilliseconds: 10000
+  MaxDeliveries: 8
+  RetentionSeconds: 86400
+InventoryRPC:
+  Timeout: 300
+  Etcd:
+    Hosts: [127.0.0.1:2379]
+    Key: service-rpc/inventory.v1
